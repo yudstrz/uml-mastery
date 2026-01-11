@@ -105,47 +105,20 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                     <div key={colIndex} className={styles.swimlaneCol}>
                                         <div className={styles.swimlaneHeader}>{header}</div>
                                         <div className={styles.swimlaneContent}>
-                                            {/* Simple mapping: if headers are [User, System], 
-                                            we put even items in col 0, odd in col 1? 
-                                            OR we just iterate sequence and guess. 
-                                            BETTER: Let's assume sequential filling for now:
-                                            col 0 gets item 0, col 1 gets item 1, etc? 
-                                            
-                                            For this demo, let's distribute specific indices.
-                                            Index 0 -> Col 0
-                                            Index 1 -> Col 0 (arrow?)
-                                            Index 2 -> Col 1
-                                            
-                                            A generic way: Loop all sequence items, print them if they 'belong' to this column.
-                                            But we don't have 'belonging' data here.
-                                            
-                                            Let's blindly fill slots into columns for demo purpose.
-                                            Col 0: Item 0
-                                            Col 1: Item 2 (Item 1 is arrow)
-                                            Col 2: Item 4
-                                            
-                                            Actually, let's just render specific slots in specific columns based on predefined assumption for specific Qs
-                                            or just render ALL slots belonging to "this turn".
-                                            
-                                            Implementation Simplified:
-                                            We just split the slots equally? No.
-                                            Let's hardcode for the demo scenarios:
-                                            If 2 columns (User, System):
-                                              Item 0 -> User
-                                              Item 1 (Flow) -> Across? No, just hidden or placed in between?
-                                              Item 2 -> System
-                                        */}
-
-                                            {/* Render items that map to this column modulo or simple logic */}
+                                            {/* Render items based on slotMapping if available, else simple distribution */}
                                             {userSequence.map((item, i) => {
-                                                // Quick hack logic for visual distribution:
-                                                // Even indices (nodes) go to respective columns. 
-                                                // Odd indices (flows) are tricky.
-                                                // Let's just put Node 1 (index 0) in Col 0, Node 2 (index 2) in Col 1...
-
-                                                // If this is an 'Arrow' (odd index usually), maybe exclude from swimlane or put in previous?
                                                 const isArrow = i % 2 !== 0;
-                                                const targetCol = Math.floor(i / 2) % currentQuestion.swimlaneHeaders!.length;
+
+                                                // Determine target column
+                                                // 1. Explicit mapping
+                                                let targetCol = 0;
+                                                if (currentQuestion.slotMapping && currentQuestion.slotMapping[i] !== undefined) {
+                                                    targetCol = currentQuestion.slotMapping[i];
+                                                } else {
+                                                    // 2. Fallback: Distribute evenly? Or just all in first?
+                                                    // Let's default to Math.floor(i/2) % cols logic IF explicit mapping is missing
+                                                    targetCol = Math.floor(i / 2) % currentQuestion.swimlaneHeaders!.length;
+                                                }
 
                                                 if (targetCol === colIndex) {
                                                     return (

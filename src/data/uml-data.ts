@@ -79,7 +79,8 @@ export const useCaseQuestions: QuizQuestion[] = [
         scenario: 'Hardware Sensor',
         instruction: 'Sistem menerima data dari Sensor Suhu (Hardware Actor).',
         targetSequence: ['actor_hardware', 'assoc_arrow', 'usecase'],
-        explanation: 'Sensor adalah aktor perangkat keras.'
+        explanation: 'Sensor adalah aktor perangkat keras.',
+        layoutMode: 'boundary'
     },
     {
         scenario: 'Pewarisan Actor',
@@ -115,7 +116,13 @@ export const activityQuestions: QuizQuestion[] = [
         targetSequence: ['initial', 'control_flow', 'action', 'control_flow', 'final'],
         explanation: 'Alur dasar Activity Diagram.',
         layoutMode: 'swimlane',
-        swimlaneHeaders: ['User', 'System']
+        swimlaneHeaders: ['User', 'System'],
+        slotMapping: [0, 0, 1, 1, 0]
+        // 0: Initial (User)
+        // 1: Flow (User -> System visual)
+        // 2: Action (System)
+        // 3: Flow (System -> User visual)
+        // 4: Final (User)
     },
     {
         scenario: 'Percabangan (Decision)',
@@ -123,7 +130,8 @@ export const activityQuestions: QuizQuestion[] = [
         targetSequence: ['action', 'control_flow', 'decision'],
         explanation: 'Decision Node memecah alur berdasarkan kondisi.',
         layoutMode: 'swimlane',
-        swimlaneHeaders: ['System']
+        swimlaneHeaders: ['System'],
+        slotMapping: [0, 0, 0]
     },
     {
         scenario: 'Paralelisme (Fork)',
@@ -167,7 +175,8 @@ export const activityQuestions: QuizQuestion[] = [
         targetSequence: ['action', 'exception_handler', 'action'],
         explanation: 'Exception Handler (Zigzag) menangkap kesalahan proses.',
         layoutMode: 'swimlane',
-        swimlaneHeaders: ['Trans.', 'Error Log']
+        swimlaneHeaders: ['Trans.', 'Error Log'],
+        slotMapping: [0, 0, 1] // Action(Trans) -> Exc -> Action(Log)
     },
     {
         scenario: 'Swimlane (Partition)',

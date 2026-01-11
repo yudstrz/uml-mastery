@@ -14,5 +14,6 @@ export interface QuizQuestion {
     override?: boolean;
     layoutMode?: 'linear' | 'boundary' | 'swimlane';
     swimlaneHeaders?: string[]; // e.g. ['User', 'System']
+    slotMapping?: number[]; // [0, 0, 1] -> Item 0 to Col 0, Item 1 to Col 0, Item 2 to Col 1
     slotConfig?: { gridArea?: string; label?: string }[];
 }
