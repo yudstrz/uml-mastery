@@ -11,17 +11,16 @@ export const Toolbox: React.FC<ToolboxProps> = ({ quizType, onDragStart }) => {
     const groups = useMemo(() => {
         if (quizType === 'usecase') {
             return {
-                'Actors': ['actor', 'actor_system', 'actor_db', 'actor_service', 'actor_hardware'],
-                'Nodes': ['usecase', 'usecase_abstract', 'boundary', 'note'],
-                'Relations': ['assoc_solid', 'assoc_arrow', 'include', 'extend', 'generalization', 'dependency', 'note_link']
+                'Actors': ['actor', 'actor_system'],
+                'Nodes': ['usecase', 'boundary'],
+                'Relations': ['assoc_solid', 'include', 'extend', 'generalization']
             };
         } else {
             return {
-                'Nodes': ['initial', 'final', 'flow_final', 'action', 'decision', 'merge', 'loop_node', 'call_behavior'],
-                'Flows': ['control_flow', 'object_flow', 'exception_handler'],
-                'Events': ['send_signal', 'time_event'],
-                'Data': ['object_node', 'expansion_region', 'partition_v'],
-                'Forks': ['fork_h', 'join_h', 'fork_v', 'join_v']
+                'Nodes': ['initial', 'final', 'action', 'decision'],
+                'Flows': ['control_flow'],
+                'Parallel': ['fork_h'],
+                'Layout': ['partition_v']
             };
         }
     }, [quizType]);
