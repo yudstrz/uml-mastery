@@ -1,0 +1,328 @@
+.quizMenuContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 2rem auto;
+}
+
+.quizMenuCard {
+    background: white;
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quizMenuCard:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.menuIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.menuTitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.menuDesc {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+.btnCheck {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.2s;
+}
+
+.btnCheck:hover {
+    background: var(--primary-hover);
+}
+
+/* Quiz Interface Layout */
+.quizInterface {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    align-items: start;
+}
+
+.canvasArea {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+}
+
+.toolboxArea {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    position: sticky;
+    top: 100px;
+    max-height: calc(100vh - 140px);
+    display: flex;
+    flex-direction: column;
+}
+
+.toolboxHeader {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 700;
+    background: var(--bg-color);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.toolboxContent {
+    padding: 1rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.toolboxSectionTitle {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--secondary-color);
+    margin: 1rem 0 0.5rem;
+    font-weight: 700;
+}
+
+.toolboxGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+.toolItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    cursor: grab;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.toolItem:hover {
+    border-color: var(--primary-color);
+    background: var(--primary-light);
+    transform: scale(1.05);
+}
+
+.toolItem svg {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+}
+
+.toolItem span {
+    font-size: 0.65rem;
+    line-height: 1.1;
+}
+
+/* Builder Zones */
+.builderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    min-height: 300px;
+    justify-content: center;
+    background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+    background-size: 20px 20px;
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+
+.builderRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.arrowConnector {
+    font-size: 1.5rem;
+    color: #94a3b8;
+}
+
+/* Drop Zone */
+.dropZone {
+    width: 140px;
+    height: 100px;
+    background: white;
+    border: 2px dashed #94a3b8;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.dropZoneActive {
+    border-color: var(--primary-color);
+    background: var(--primary-light);
+    transform: scale(1.02);
+}
+
+.dropZoneFilled {
+    border-style: solid;
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.dropZoneContent {
+    text-align: center;
+    pointer-events: none;
+}
+
+.dropZoneContent svg {
+    width: 48px;
+    height: 48px;
+}
+
+.dropZoneContent span {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.removeBtn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background: var(--error-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    /* Changed via CSS hover or state */
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Logic to show remove button will be handled by React state or simpler CSS if class is present */
+.dropZoneFilled:hover .removeBtn {
+    display: flex;
+}
+
+.quizDesc {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.progressContainer {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.progressBar {
+    height: 100%;
+    background: var(--success-color);
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.btnBack {
+    background: none;
+    border: none;
+    color: var(--secondary-color);
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalBox {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUp {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 900px) {
+    .quizInterface {
+        grid-template-columns: 1fr;
+    }
+
+    .toolboxArea {
+        position: static;
+        max-height: 300px;
+        margin-bottom: 2rem;
+    }
+
+    .toolboxGrid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}
