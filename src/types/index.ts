@@ -12,4 +12,7 @@ export interface QuizQuestion {
     targetSequence: string[]; // IDs of the components
     explanation: string;
     override?: boolean;
+    layoutMode?: 'linear' | 'boundary' | 'swimlane';
+    swimlaneHeaders?: string[]; // e.g. ['User', 'System']
+    slotConfig?: { gridArea?: string; label?: string }[];
 }

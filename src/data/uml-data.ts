@@ -47,13 +47,15 @@ export const useCaseQuestions: QuizQuestion[] = [
         scenario: 'Akses API Eksternal',
         instruction: 'Sistem harus mengambil data dari layanan pembayaran (Service Actor).',
         targetSequence: ['usecase', 'assoc_solid', 'actor_service'],
-        explanation: 'Actor Service digunakan untuk sistem eksternal non-manusia.'
+        explanation: 'Actor Service digunakan untuk sistem eksternal non-manusia.',
+        layoutMode: 'boundary'
     },
     {
         scenario: 'Interaksi Database',
         instruction: 'Use Case "Simpan Data" menyimpan ke Database eksternal.',
         targetSequence: ['usecase', 'assoc_arrow', 'actor_db'],
-        explanation: 'Panah mengarah ke DB karena Use Case yang mengirim data.'
+        explanation: 'Panah mengarah ke DB karena Use Case yang mengirim data.',
+        layoutMode: 'boundary'
     },
     {
         scenario: 'Pewarisan Use Case',
@@ -111,13 +113,17 @@ export const activityQuestions: QuizQuestion[] = [
         scenario: 'Proses Bisnis Sederhana',
         instruction: 'Mulai -> Terima Pesanan -> Selesai.',
         targetSequence: ['initial', 'control_flow', 'action', 'control_flow', 'final'],
-        explanation: 'Alur dasar Activity Diagram.'
+        explanation: 'Alur dasar Activity Diagram.',
+        layoutMode: 'swimlane',
+        swimlaneHeaders: ['User', 'System']
     },
     {
         scenario: 'Percabangan (Decision)',
         instruction: 'Cek Stok -> (Ada/Tidak) -> Proses Selanjutnya.',
         targetSequence: ['action', 'control_flow', 'decision'],
-        explanation: 'Decision Node memecah alur berdasarkan kondisi.'
+        explanation: 'Decision Node memecah alur berdasarkan kondisi.',
+        layoutMode: 'swimlane',
+        swimlaneHeaders: ['System']
     },
     {
         scenario: 'Paralelisme (Fork)',
@@ -159,7 +165,9 @@ export const activityQuestions: QuizQuestion[] = [
         scenario: 'Penanganan Error',
         instruction: 'Proses Transaksi -> Error -> Rollback.',
         targetSequence: ['action', 'exception_handler', 'action'],
-        explanation: 'Exception Handler (Zigzag) menangkap kesalahan proses.'
+        explanation: 'Exception Handler (Zigzag) menangkap kesalahan proses.',
+        layoutMode: 'swimlane',
+        swimlaneHeaders: ['Trans.', 'Error Log']
     },
     {
         scenario: 'Swimlane (Partition)',

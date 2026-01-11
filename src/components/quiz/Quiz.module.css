@@ -147,26 +147,106 @@
     line-height: 1.1;
 }
 
-/* Builder Zones */
+/* Builder Zones & Layouts */
 .builderContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    min-height: 300px;
+    min-height: 350px;
     justify-content: center;
     background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
     background-size: 20px 20px;
     border-radius: 0.5rem;
     padding: 2rem;
+    overflow-x: auto;
 }
 
+/* Linear Layout (Default) */
 .builderRow {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 1rem;
+}
+
+/* Boundary Layout (Use Case) */
+.boundaryContainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.actorZone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.systemBox {
+    border: 2px solid #0f172a;
+    padding: 2rem 1rem;
+    border-radius: 4px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.5);
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+}
+
+.systemLabel {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background: white;
+    padding: 0 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+/* Swimlane Layout (Activity) */
+.swimlaneContainer {
+    display: flex;
+    border: 2px solid #0f172a;
+    background: white;
+    width: 100%;
+    max-width: 600px;
+}
+
+.swimlaneCol {
+    flex: 1;
+    border-right: 1px solid #0f172a;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.swimlaneCol:last-child {
+    border-right: none;
+}
+
+.swimlaneHeader {
+    background: #f1f5f9;
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #0f172a;
+    font-size: 0.8rem;
+}
+
+.swimlaneContent {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+    background-size: 10px 10px;
 }
 
 .arrowConnector {
@@ -176,8 +256,8 @@
 
 /* Drop Zone */
 .dropZone {
-    width: 140px;
-    height: 100px;
+    width: 120px;
+    height: 90px;
     background: white;
     border: 2px dashed #94a3b8;
     border-radius: 0.75rem;
@@ -187,6 +267,7 @@
     justify-content: center;
     transition: all 0.2s;
     position: relative;
+    z-index: 10;
 }
 
 .dropZoneActive {
@@ -208,13 +289,13 @@
 }
 
 .dropZoneContent svg {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
 }
 
 .dropZoneContent span {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 600;
     margin-top: 5px;
 }
@@ -231,13 +312,11 @@
     border-radius: 50%;
     cursor: pointer;
     display: none;
-    /* Changed via CSS hover or state */
     align-items: center;
     justify-content: center;
     font-weight: bold;
 }
 
-/* Logic to show remove button will be handled by React state or simpler CSS if class is present */
 .dropZoneFilled:hover .removeBtn {
     display: flex;
 }
