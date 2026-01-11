@@ -98,6 +98,7 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                         </div>
                     ) :
 
+
                         /* 2. SWIMLANE LAYOUT (Activity) */
                         currentQuestion.layoutMode === 'swimlane' && currentQuestion.swimlaneHeaders ? (
                             <div className={styles.swimlaneContainer}>
@@ -107,27 +108,27 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                         <div className={styles.swimlaneContent}>
                                             {/* Render items based on slotMapping if available, else simple distribution */}
                                             {userSequence.map((item, i) => {
-                                                const isArrow = i % 2 !== 0;
-
                                                 // Determine target column
                                                 // 1. Explicit mapping
                                                 let targetCol = 0;
                                                 if (currentQuestion.slotMapping && currentQuestion.slotMapping[i] !== undefined) {
                                                     targetCol = currentQuestion.slotMapping[i];
                                                 } else {
-                                                    // 2. Fallback: Distribute evenly? Or just all in first?
-                                                    // Let's default to Math.floor(i/2) % cols logic IF explicit mapping is missing
-                                                    targetCol = Math.floor(i / 2) % currentQuestion.swimlaneHeaders!.length;
+                                                    // 2. Fallback: all in first column if mapping missing to be safe
+                                                    targetCol = 0;
                                                 }
 
                                                 if (targetCol === colIndex) {
                                                     return (
                                                         <React.Fragment key={i}>
-                                                            {isArrow ? (
-                                                                <div className={styles.arrowConnector} style={{ margin: '1rem 0' }}>↓</div>
-                                                            ) : (
-                                                                <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
+                                                            {/* Add visual arrow separator if not the first item in this column/sequence? 
+                                                                Actually, we check if there was a previous item in this column.
+                                                                But simpler: just add arrow above item if i > 0.
+                                                            */}
+                                                            {i > 0 && (
+                                                                <div className={styles.arrowConnector} style={{ margin: '0.5rem 0' }}>↓</div>
                                                             )}
+                                                            <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
                                                         </React.Fragment>
                                                     )
                                                 }

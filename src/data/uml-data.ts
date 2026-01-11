@@ -163,20 +163,20 @@ export const activityQuestions: QuizQuestion[] = [
     {
         scenario: 'Alur Dasar',
         instruction: 'Mulai -> Isi Form -> Selesai.',
-        targetSequence: ['initial', 'control_flow', 'action', 'control_flow', 'final'],
+        targetSequence: ['initial', 'action', 'final'],
         explanation: 'Setiap activity diagram dimulai dengan Initial Node dan diakhiri Activity Final.',
         layoutMode: 'swimlane',
         swimlaneHeaders: ['User'],
-        slotMapping: [0, 0, 0, 0, 0]
+        slotMapping: [0, 0, 0]
     },
     {
         scenario: 'Percabangan (Login)',
         instruction: 'Input Password -> Cek Valid? -> (Ya/Tidak).',
-        targetSequence: ['action', 'control_flow', 'decision'],
+        targetSequence: ['action', 'decision'],
         explanation: 'Gunakan Decision (belah ketupat) untuk memecah alur berdasarkan kondisi benar/salah.',
         layoutMode: 'swimlane',
         swimlaneHeaders: ['System'],
-        slotMapping: [0, 0, 0]
+        slotMapping: [0, 0]
     },
     {
         scenario: 'Proses Paralel',
