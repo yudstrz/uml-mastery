@@ -34,7 +34,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({ quizType, onDragStart }) => {
                     <div key={groupName}>
                         <div className={styles.toolboxSectionTitle}>{groupName}</div>
                         <div className={styles.toolboxGrid}>
-                            {ids.map(id => {
+                            {ids.map((id: string) => {
                                 const item = umlData.find(d => d.id === id);
                                 if (!item) return null;
                                 return (
