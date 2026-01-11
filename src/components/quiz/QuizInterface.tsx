@@ -16,6 +16,8 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
         userSequence,
         feedbackData,
         showFeedback,
+        score,
+        showResult,
         handleDrop,
         handleRemove,
         checkAnswer,
@@ -23,7 +25,12 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
         exitQuiz
     } = quizHook;
 
-    if (!activeQuizType || !currentQuestion) return null;
+    if (!activeQuizType) return null;
+
+    // Handle Quiz Start / Loading
+    if (!currentQuestion && !showResult) {
+        return <div style={{ padding: '2rem', textAlign: 'center' }}>Memuat Soal...</div>;
+    }
 
     const onDragOver = (e: React.DragEvent) => {
         e.preventDefault();
@@ -57,8 +64,12 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                             style={{ width: `${(currentIndex / totalQuestions) * 100}%` }}
                         ></div>
                     </div>
-                    <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>{currentQuestion.scenario}</h3>
-                    <p className={styles.quizDesc}>{currentQuestion.instruction}</p>
+                    {currentQuestion && (
+                        <>
+                            <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>{currentQuestion.scenario}</h3>
+                            <p className={styles.quizDesc}>{currentQuestion.instruction}</p>
+                        </>
+                    )}
                 </div>
 
                 <div className={styles.builderContainer}>
@@ -105,9 +116,48 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                             {feedbackData.isCorrect ? '🎉' : '❌'}
                         </div>
                         <h2 style={{ marginBottom: '0.5rem' }}>{feedbackData.title}</h2>
-                        <p style={{ color: 'var(--secondary-color)', marginBottom: '1.5rem' }}>{feedbackData.desc}</p>
+                        <p style={{ color: 'var(--secondary-color)', marginBottom: '1rem' }}>{feedbackData.desc}</p>
+
+                        {!feedbackData.isCorrect && feedbackData.correctAnswer && (
+                            <div style={{
+                                padding: '1rem',
+                                background: '#f0f9ff',
+                                borderRadius: '0.5rem',
+                                border: '1px solid #bae6fd',
+                                marginBottom: '1.5rem',
+                                fontSize: '0.9rem'
+                            }}>
+                                <strong>Jawaban Benar:</strong><br />
+                                {feedbackData.correctAnswer}
+                            </div>
+                        )}
+
                         <button className={styles.btnCheck} onClick={nextQuestion}>
-                            {feedbackData.isCorrect ? 'LANJUT' : 'COBA LAGI / LANJUT'}
+                            {feedbackData.isCorrect ? 'LANJUT' : 'LANJUT KE SOAL BERIKUTNYA'}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Result Modal */}
+            {showResult && (
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalBox}>
+                        <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🏆</div>
+                        <h2 style={{ marginBottom: '0.5rem' }}>Kuis Selesai!</h2>
+                        <p style={{ color: 'var(--secondary-color)', marginBottom: '2rem' }}>
+                            Anda berhasil menyelesaikan kuis ini.
+                        </p>
+                        <div style={{
+                            fontSize: '2rem',
+                            fontWeight: 'bold',
+                            color: 'var(--primary-color)',
+                            marginBottom: '2rem'
+                        }}>
+                            Skor: {score} / {totalQuestions}
+                        </div>
+                        <button className={styles.btnCheck} onClick={exitQuiz}>
+                            KEMBALI KE MENU
                         </button>
                     </div>
                 </div>
