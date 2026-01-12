@@ -256,7 +256,7 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                 fontSize: '0.9rem'
                             }}>
                                 <strong>Jawaban Benar:</strong><br />
-                                {feedbackData.correctAnswer}
+                                <div dangerouslySetInnerHTML={{ __html: feedbackData.correctAnswer }} />
                             </div>
                         )}
 

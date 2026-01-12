@@ -76,16 +76,45 @@ export const useQuiz = () => {
             setShowFeedback(true);
         } else {
             // Generate correct answer string
-            const correctNames = targetIds.map(id => {
-                const comp = umlData.find(c => c.id === id);
-                return comp ? comp.name : id;
-            }).join(' → ');
+            let correctAnswerDesc = '';
+
+            // For complex layouts (GoFood UseCase & Activity), show a list of expected components
+            if ((currentQuestion.layoutMode === 'gofood' || currentQuestion.layoutMode === 'activity_gofood') && currentQuestion.slotConfig) {
+                const incorrectSlots = targetIds.map((targetId, index) => {
+                    const currentId = currentIds[index];
+                    if (targetId !== currentId) {
+                        const targetComp = umlData.find(c => c.id === targetId);
+                        const label = currentQuestion.slotConfig?.[index]?.label || `Slot ${index + 1}`;
+                        // We will return a formatted string for each incorrect item
+                        return `• ${label}: Seharusnya "${targetComp?.name}"`;
+                    }
+                    return null;
+                }).filter(Boolean);
+
+                // If many wrong, maybe just show list of all slots?
+                // Let's settle on showing the errors if < 5, else show "Check Reference".
+                // But user asked for "What is the correct answer".
+                // Let's list ALL expected mappings in a clean HTML-friendly format?
+                // Actually, let's just create a string list of "Label: Component Name"
+                correctAnswerDesc = currentQuestion.slotConfig.map((conf, idx) => {
+                    const targetComp = umlData.find(c => c.id === targetIds[idx]);
+                    return `<div style="margin-bottom:4px"><strong>${conf.label}</strong>: ${targetComp?.name}</div>`; // Using HTML string for rendering in modal
+                }).join('');
+
+            } else {
+                // Fallback for linear
+                const correctNames = targetIds.map(id => {
+                    const comp = umlData.find(c => c.id === id);
+                    return comp ? comp.name : id;
+                }).join(' → ');
+                correctAnswerDesc = correctNames;
+            }
 
             setFeedbackData({
                 title: 'Kurang Tepat',
-                desc: 'Coba periksa kembali urutan atau komponen yang digunakan.',
+                desc: 'Susunan belum sesuai kunci jawaban. Cek daftar di bawah:',
                 isCorrect: false,
-                correctAnswer: correctNames
+                correctAnswer: correctAnswerDesc
             });
             setShowFeedback(true);
         }

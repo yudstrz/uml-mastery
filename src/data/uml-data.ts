@@ -111,52 +111,8 @@ export const umlData: UmlComponent[] = [
     }
 ];
 
+// === USE CASE COMPONENTS (Only Final Challenge) ===
 export const useCaseQuestions: QuizQuestion[] = [
-    {
-        scenario: 'Login Sistem',
-        instruction: 'User (Aktor) melakukan Login (Use Case). Hubungkan keduanya.',
-        targetSequence: ['actor', 'assoc_solid', 'usecase'],
-        explanation: 'Gunakan garis Asosiasi biasa untuk menghubungkan Aktor manusia dan Use Case.',
-        layoutMode: 'boundary'
-    },
-    {
-        scenario: 'Sistem Pembayaran',
-        instruction: 'Sistem harus menghubungi Payment Gateway (System Actor) untuk memproses pembayaran.',
-        targetSequence: ['usecase', 'assoc_solid', 'actor_system'],
-        explanation: 'Aktor Sistem digambarkan kotak dengan stereotype <<system>>.',
-        layoutMode: 'boundary'
-    },
-    {
-        scenario: 'Pewarisan Use Case',
-        instruction: '"Bayar Kredit" adalah jenis khusus dari "Bayar". Gambarkan pewarisannya.',
-        targetSequence: ['usecase', 'generalization', 'usecase'],
-        explanation: 'Panah Generalization menunjuk dari Anak (Bayar Kredit) ke Induk (Bayar).'
-    },
-    {
-        scenario: 'Include Wajib',
-        instruction: 'Saat "Login", sistem wajib melakukan "Verifikasi Password".',
-        targetSequence: ['usecase', 'include', 'usecase'],
-        explanation: 'Relasi Include menandakan fungsi yang PASTI dijalankan (wajib) oleh use case pemanggil.'
-    },
-    {
-        scenario: 'Extend Opsional',
-        instruction: 'Saat "Checkout", user BISA (tidak wajib) memilih "Asuransi Tambahan".',
-        targetSequence: ['usecase', 'extend', 'usecase'],
-        explanation: 'Relasi Extend digunakan untuk fitur tambahan yang bersifat opsional/kondisional.'
-    },
-    {
-        scenario: 'Pewarisan Actor',
-        instruction: 'Admin memiliki semua kemampuan User biasa, plus fitur tambahan.',
-        targetSequence: ['actor', 'generalization', 'actor'],
-        explanation: 'Admin adalah turunan (anak) dari User (induk) menggunakan Generalization.'
-    },
-    {
-        scenario: 'System Boundary',
-        instruction: 'Tempatkan Use Case "Register" di dalam lingkup sistem.',
-        targetSequence: ['boundary', 'usecase'],
-        explanation: 'System Boundary memvisualisasikan batasan aplikasi yang sedang dibuat.',
-        override: true
-    },
     {
         scenario: 'Tantangan Akhir: Sistem Go Food',
         instruction: 'Susun kembali Use Case Diagram Sistem Go Food dengan lengkap. Tempatkan Aktor dan Use Case pada posisi yang tepat sesuai alur bisnis.',
@@ -205,45 +161,8 @@ export const useCaseQuestions: QuizQuestion[] = [
     }
 ];
 
+// === ACTIVITY COMPONENTS (Only Final Challenge) ===
 export const activityQuestions: QuizQuestion[] = [
-    {
-        scenario: 'Alur Dasar',
-        instruction: 'Mulai -> Isi Form -> Selesai.',
-        targetSequence: ['initial', 'action', 'final'],
-        explanation: 'Setiap activity diagram dimulai dengan Initial Node dan diakhiri Activity Final.',
-        layoutMode: 'swimlane',
-        swimlaneHeaders: ['User'],
-        slotMapping: [0, 0, 0]
-    },
-    {
-        scenario: 'Percabangan (Login)',
-        instruction: 'Input Password -> Cek Valid? -> (Ya/Tidak).',
-        targetSequence: ['action', 'decision'],
-        explanation: 'Gunakan Decision (belah ketupat) untuk memecah alur berdasarkan kondisi benar/salah.',
-        layoutMode: 'swimlane',
-        swimlaneHeaders: ['System'],
-        slotMapping: [0, 0]
-    },
-    {
-        scenario: 'Proses Paralel',
-        instruction: 'Setelah Bayar, sistem kirim Email DAN update Stok secara bersamaan.',
-        targetSequence: ['action', 'control_flow', 'fork_h'],
-        explanation: 'Fork Node (batang hitam) membagi satu alur menjadi beberapa alur yang berjalan paralel.'
-    },
-    {
-        scenario: 'Sinkronisasi (Join)',
-        instruction: 'Tunggu Verifikasi Email selesai DAN Verifikasi NoHP selesai -> Baru akun aktif.',
-        targetSequence: ['action', 'fork_h', 'action'],
-        // Note: Simplification for quiz visual -> usually action -> join -> action but using fork_h visual for join is same
-        explanation: 'Join Node menunggu semua proses paralel selesai sebelum melanjutkan ke langkah berikutnya.'
-    },
-    {
-        scenario: 'Swimlane (Tanggung Jawab)',
-        instruction: 'Tunjukkan bahwa aktivitas "Validasi Data" dilakukan oleh "Sistem".',
-        targetSequence: ['partition_v', 'action'],
-        explanation: 'Swimlane membagi area diagram kolom-per-kolom untuk menjelaskan siapa yang melakukan apa.',
-        override: true
-    },
     {
         scenario: 'Tantangan Akhir: Alur Pemesanan Go Food',
         instruction: 'Susun kembali Activity Diagram untuk proses pemesanan makanan via Go Food. Perhatikan alur antar swimlane (Pelanggan, Sistem, Admin Resto, Driver).',
