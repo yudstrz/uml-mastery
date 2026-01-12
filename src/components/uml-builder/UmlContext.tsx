@@ -62,16 +62,32 @@ export const UmlProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const addElement = useCallback((type: ElementType, x: number, y: number) => {
         const id = `el-${nextId.current++}`;
+
+        let width = 100;
+        let height = 60;
+        let text = type.charAt(0).toUpperCase() + type.slice(1);
+
+        if (type === 'process') { width = 120; height = 60; }
+        else if (type === 'usecase') { width = 140; height = 80; }
+        else if (type === 'actor') { width = 60; height = 80; }
+        else if (type === 'start' || type === 'end') { width = 30; height = 30; text = ''; }
+        else if (type === 'note') { width = 120; height = 100; text = 'Note...'; }
+        else if (type === 'decision') { width = 60; height = 60; text = ''; }
+        else if (type === 'action') { width = 120; height = 50; }
+        else if (type === 'fork') { width = 150; height = 6; text = ''; }
+        else if (type === 'boundary') { width = 300; height = 400; text = 'System'; }
+        else if (type === 'swimlane') { width = 250; height = 500; text = 'Lane'; }
+
         const newElement: UmlElement = {
             id,
             type,
             x,
             y,
-            text: type === 'note' ? 'Note...' : type.charAt(0).toUpperCase() + type.slice(1),
+            text,
             bgColor: '#ffffff',
             fontSize: 14,
-            width: type === 'process' ? 120 : (type === 'usecase' ? 140 : 100),
-            height: type === 'process' ? 60 : (type === 'usecase' ? 80 : 100)
+            width,
+            height
         };
         setElements(prev => [...prev, newElement]);
         setSelectedId(id);

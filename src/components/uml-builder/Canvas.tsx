@@ -152,6 +152,42 @@ export default function Canvas() {
             case 'start':
             case 'end':
                 return null;
+            case 'action':
+                return <div style={{ textAlign: 'center' }}>{el.text}</div>;
+            case 'decision':
+                return (
+                    <div style={{
+                        width: '100%', height: '100%',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transform: 'rotate(-45deg)' // Counter rotate text
+                    }}>{el.text}</div>
+                );
+            case 'fork':
+                return null; // Just a black bar
+            case 'boundary':
+                return (
+                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                        <div style={{
+                            position: 'absolute', top: '-12px', left: '10px',
+                            background: 'white', padding: '0 5px', fontWeight: 'bold',
+                            color: '#2563EB'
+                        }}>
+                            {el.text}
+                        </div>
+                    </div>
+                );
+            case 'swimlane':
+                return (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{
+                            padding: '8px', fontWeight: 'bold', textAlign: 'center',
+                            borderBottom: '1px solid black', background: '#f1f5f9'
+                        }}>
+                            {el.text}
+                        </div>
+                        <div style={{ flex: 1 }}></div>
+                    </div>
+                );
             default:
                 return <div>{el.text}</div>;
         }
@@ -199,10 +235,12 @@ export default function Canvas() {
             </svg>
 
             {/* Elements Layer */}
-            {elements.map(el => (
-                <div
-                    key={el.id}
-                    className={`
+            {elements.map(el => {
+                const zIndex = (el.type === 'boundary' || el.type === 'swimlane') ? 1 : 2;
+                return (
+                    <div
+                        key={el.id}
+                        className={`
                         ${styles.canvasElement} 
                         ${el.type === 'process' ? styles.umlClass : ''}
                         ${el.type === 'actor' ? styles.umlActor : ''}
@@ -210,27 +248,33 @@ export default function Canvas() {
                         ${el.type === 'start' ? styles.umlStart : ''}
                         ${el.type === 'end' ? styles.umlEnd : ''}
                         ${el.type === 'note' ? styles.umlNote : ''}
+                        ${el.type === 'action' ? styles.umlAction : ''}
+                        ${el.type === 'decision' ? styles.umlDecision : ''}
+                        ${el.type === 'fork' ? styles.umlFork : ''}
+                        ${el.type === 'boundary' ? styles.umlBoundary : ''}
+                        ${el.type === 'swimlane' ? styles.umlSwimlane : ''}
                         ${selectedId === el.id ? styles.selected : ''}
                     `}
-                    style={{
-                        left: el.x,
-                        top: el.y,
-                        width: el.width,
-                        height: el.height,
-                        backgroundColor: (el.type !== 'actor' && el.type !== 'start' && el.type !== 'end') ? el.bgColor : undefined,
-                        fontSize: el.fontSize,
-                        zIndex: 2 // explicitly set
-                    }}
-                    onMouseDown={(e) => handleMouseDown(e, el.id, el.x, el.y)}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        if (tool === 'connect') completeConnection(el.id);
-                    }}
-                    onContextMenu={(e) => handleContextMenu(e, el.id)}
-                >
-                    {renderElementContent(el)}
-                </div>
-            ))}
+                        style={{
+                            left: el.x,
+                            top: el.y,
+                            width: el.width,
+                            height: el.height,
+                            backgroundColor: (el.type !== 'actor' && el.type !== 'start' && el.type !== 'end' && el.type !== 'fork' && el.type !== 'boundary' && el.type !== 'swimlane') ? el.bgColor : undefined,
+                            fontSize: el.fontSize,
+                            zIndex: zIndex
+                        }}
+                        onMouseDown={(e) => handleMouseDown(e, el.id, el.x, el.y)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (tool === 'connect') completeConnection(el.id);
+                        }}
+                        onContextMenu={(e) => handleContextMenu(e, el.id)}
+                    >
+                        {renderElementContent(el)}
+                    </div>
+                )
+            })}
 
             {/* Context Menu */}
             {contextMenu && contextMenu.visible && (

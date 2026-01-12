@@ -293,6 +293,38 @@
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
 }
 
+.umlAction {
+    border-radius: 12px;
+}
+
+.umlDecision {
+    transform: rotate(45deg);
+    border-radius: 2px;
+}
+
+.umlFork {
+    background: #0f172a !important;
+    /* Force black */
+    border: none;
+    border-radius: 2px;
+}
+
+.umlBoundary {
+    background: transparent;
+    border: 2px dashed var(--primary);
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.umlSwimlane {
+    background: white;
+    border: 1px solid var(--text-main);
+    align-items: stretch;
+    /* Top to bottom */
+    justify-content: flex-start;
+    padding: 0;
+}
+
 /* Sidebar Right - Properties */
 .sidebarRight {
     width: 280px;

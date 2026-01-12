@@ -1,4 +1,4 @@
-export type ElementType = 'process' | 'usecase' | 'actor' | 'note' | 'start' | 'end';
+export type ElementType = 'process' | 'usecase' | 'actor' | 'note' | 'start' | 'end' | 'action' | 'decision' | 'fork' | 'boundary' | 'swimlane';
 
 export interface UmlElement {
     id: string;
