@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import styles from './UmlBuilder.module.css';
 import { useUml } from './UmlContext';
 import { ElementType, UmlElement } from '../../types/uml-builder';
+import { MousePointer2, Link, Undo2, Trash2, Copy, Layers } from 'lucide-react';
 
 export default function Canvas() {
     const {
@@ -18,7 +19,8 @@ export default function Canvas() {
         completeConnection,
         deleteSelected,
         duplicateElement,
-        sendToBack
+        sendToBack,
+        connectSource
     } = useUml();
 
     const canvasRef = useRef<HTMLDivElement>(null);
@@ -42,35 +44,41 @@ export default function Canvas() {
         addElement(type, x, y);
     };
 
-    // --- Element Moving ---
+    // --- Element Interaction ---
     const handleMouseDown = (e: React.MouseEvent, id: string, elX: number, elY: number) => {
+        // If connecting, do NOT start dragging.
+        // We handle connection in onClick to be cleaner, but we need to stop propagation here
+        // so we don't drag the canvas or element.
         if (tool === 'connect') {
             e.stopPropagation();
-            startConnection(id);
-            // If already connected, complete? No context handles that logic in completeConnection calling logic
-            // Actually context logic: startConnection sets source. Next click calls completeConnection.
-            // Only if we click valid target.
-            // Let's rely on click for connection to be robust? 
-            // The original logic: click (mousedown) source -> start. Click target -> end.
             return;
         }
 
-        // Select tool
+        // Select tool: Start dragging
         e.stopPropagation();
         selectElement(id);
 
-        if (tool === 'select') {
-            // Calculate offset relative to the element's top-left
-            const rect = canvasRef.current!.getBoundingClientRect();
-            // Mouse pos relative to canvas
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
+        // Calculate offset relative to the element's top-left
+        const rect = canvasRef.current!.getBoundingClientRect();
+        // Mouse pos relative to canvas
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
 
-            setDragState({
-                id,
-                offsetX: mouseX - elX,
-                offsetY: mouseY - elY
-            });
+        setDragState({
+            id,
+            offsetX: mouseX - elX,
+            offsetY: mouseY - elY
+        });
+    };
+
+    const handleElementClick = (e: React.MouseEvent, id: string) => {
+        e.stopPropagation();
+        if (tool === 'connect') {
+            if (!connectSource) {
+                startConnection(id);
+            } else {
+                completeConnection(id);
+            }
         }
     };
 
@@ -83,16 +91,15 @@ export default function Canvas() {
 
     const handleCanvasClick = (e: React.MouseEvent) => {
         setContextMenu(null);
-        // If clicking empty canvas, deselect
+        // If clicking empty canvas
         if (e.target === canvasRef.current) {
-            selectElement(''); // or null, hacky but works via context safe check
-        }
-    };
-
-    const handleElementClick = (e: React.MouseEvent, id: string) => {
-        e.stopPropagation();
-        if (tool === 'connect') {
-            completeConnection(id);
+            if (tool === 'connect') {
+                // If clicking canvas while connecting, maybe cancel?
+                // For now, doing nothing or selecting nothing is fine.
+                // We can reset connectSource via selectElement(null) implicitly?
+                // Actually currently valid: selectElement(null)
+            }
+            selectElement(''); // Deselect
         }
     };
 
@@ -106,8 +113,8 @@ export default function Canvas() {
             let newY = e.clientY - rect.top - dragState.offsetY;
 
             // Optional: Grid snap
-            // newX = Math.round(newX / 10) * 10;
-            // newY = Math.round(newY / 10) * 10;
+            newX = Math.round(newX / 10) * 10;
+            newY = Math.round(newY / 10) * 10;
 
             updateElement(dragState.id, { x: newX, y: newY });
         };
@@ -209,6 +216,7 @@ export default function Canvas() {
             onDragOver={handleDragOver}
             onDrop={handleDrop}
             onClick={handleCanvasClick}
+            style={{ cursor: tool === 'connect' ? 'crosshair' : 'default' }}
         >
             <div className={styles.canvasGrid}></div>
 
@@ -232,11 +240,19 @@ export default function Canvas() {
                         />
                     );
                 })}
+                {/* Temporary Line for Connection Creation */}
+                {tool === 'connect' && connectSource && dragState === null && (
+                    // We could add a line following mouse here if we tracked mouse pos in state
+                    // For now, simpler: Just show we are in connect mode via cursor
+                    null
+                )}
             </svg>
 
             {/* Elements Layer */}
             {elements.map(el => {
                 const zIndex = (el.type === 'boundary' || el.type === 'swimlane') ? 1 : 2;
+                const isConnectSource = connectSource === el.id;
+
                 return (
                     <div
                         key={el.id}
@@ -262,13 +278,13 @@ export default function Canvas() {
                             height: el.height,
                             backgroundColor: (el.type !== 'actor' && el.type !== 'start' && el.type !== 'end' && el.type !== 'fork' && el.type !== 'boundary' && el.type !== 'swimlane') ? el.bgColor : undefined,
                             fontSize: el.fontSize,
-                            zIndex: zIndex
+                            zIndex: zIndex,
+                            // Visual feedback for connection source
+                            outline: isConnectSource ? '2px dashed #ef4444' : undefined,
+                            boxShadow: isConnectSource ? '0 0 10px rgba(239, 68, 68, 0.5)' : undefined
                         }}
                         onMouseDown={(e) => handleMouseDown(e, el.id, el.x, el.y)}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            if (tool === 'connect') completeConnection(el.id);
-                        }}
+                        onClick={(e) => handleElementClick(e, el.id)}
                         onContextMenu={(e) => handleContextMenu(e, el.id)}
                     >
                         {renderElementContent(el)}
@@ -283,13 +299,13 @@ export default function Canvas() {
                     style={{ left: contextMenu.x, top: contextMenu.y }}
                 >
                     <div className={styles.contextItem} onClick={duplicateElement}>
-                        <i className="fas fa-copy"></i> Duplicate
+                        <Copy size={14} /> Duplicate
                     </div>
                     <div className={styles.contextItem} onClick={sendToBack}>
-                        <i className="fas fa-layer-group"></i> Send to Back
+                        <Layers size={14} /> Send to Back
                     </div>
                     <div className={`${styles.contextItem} ${styles.danger}`} onClick={deleteSelected}>
-                        <i className="fas fa-trash"></i> Delete
+                        <Trash2 size={14} /> Delete
                     </div>
                 </div>
             )}
@@ -301,21 +317,21 @@ export default function Canvas() {
                     onClick={() => setTool('select')}
                     title="Select Tool (V)"
                 >
-                    <i className="fas fa-mouse-pointer"></i>
+                    <MousePointer2 size={20} />
                 </button>
                 <button
                     className={`${styles.controlBtn} ${tool === 'connect' ? styles.active : ''}`}
                     onClick={() => setTool('connect')}
                     title="Connect Tool (C)"
                 >
-                    <i className="fas fa-draw-polygon"></i>
+                    <Link size={20} />
                 </button>
                 <div className={styles.controlSeparator}></div>
                 <button className={styles.controlBtn} onClick={() => alert("Undo unimplemented in React version yet")} title="Undo (Ctrl+Z)">
-                    <i className="fas fa-undo"></i>
+                    <Undo2 size={20} />
                 </button>
                 <button className={styles.controlBtn} onClick={deleteSelected} title="Delete (Del)">
-                    <i className="fas fa-trash"></i>
+                    <Trash2 size={20} />
                 </button>
             </div>
         </main>

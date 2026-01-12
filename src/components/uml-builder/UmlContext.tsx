@@ -114,6 +114,14 @@ export const UmlProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setConnectSource(null);
     }, [selectedId]);
 
+    const handleSetTool = useCallback((newTool: ToolType) => {
+        setTool(newTool);
+        setConnectSource(null); // Always clear connection source when switching tools
+        if (newTool !== 'select') {
+            setSelectedId(null); // Deselect if switching to a creation tool
+        }
+    }, []);
+
     const startConnection = useCallback((id: string) => {
         if (tool === 'connect') {
             setConnectSource(id);
@@ -121,20 +129,23 @@ export const UmlProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }, [tool]);
 
     const completeConnection = useCallback((targetId: string) => {
-        if (tool === 'connect' && connectSource && connectSource !== targetId) {
-            // Check if connection already exists
-            const exists = connections.some(
-                c => c.from === connectSource && c.to === targetId
-            );
-            if (!exists) {
-                setConnections(prev => [...prev, {
-                    id: `conn-${Date.now()}`,
-                    from: connectSource,
-                    to: targetId
-                }]);
+        if (tool === 'connect' && connectSource) {
+            if (connectSource !== targetId) {
+                // Check if connection already exists
+                const exists = connections.some(
+                    c => c.from === connectSource && c.to === targetId
+                );
+                if (!exists) {
+                    setConnections(prev => [...prev, {
+                        id: `conn-${Date.now()}`,
+                        from: connectSource,
+                        to: targetId
+                    }]);
+                }
             }
             setConnectSource(null);
-            setTool('select');
+            // Optional: keep tool active for chain connecting? 
+            // setTool('select'); // Let's keep it active for better UX, user can press V or click Select to stop
         }
     }, [tool, connectSource, connections]);
 
@@ -161,7 +172,7 @@ export const UmlProvider: React.FC<{ children: React.ReactNode }> = ({ children 
             selectedId,
             tool,
             connectSource,
-            setTool,
+            setTool: handleSetTool,
             addElement,
             updateElement,
             selectElement,
