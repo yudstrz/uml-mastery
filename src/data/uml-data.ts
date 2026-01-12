@@ -156,6 +156,52 @@ export const useCaseQuestions: QuizQuestion[] = [
         targetSequence: ['boundary', 'usecase'],
         explanation: 'System Boundary memvisualisasikan batasan aplikasi yang sedang dibuat.',
         override: true
+    },
+    {
+        scenario: 'Tantangan Akhir: Sistem Go Food',
+        instruction: 'Susun kembali Use Case Diagram Sistem Go Food dengan lengkap. Tempatkan Aktor dan Use Case pada posisi yang tepat sesuai alur bisnis.',
+        // Urutan: Pelanggan (0), Admin Resto (1), Driver (2), Usecases...
+        targetSequence: [
+            'actor',       // 0: Pelanggan
+            'actor',       // 1: Admin Resto
+            'actor',       // 2: Driver
+            'usecase',     // 3: Login
+            'usecase',     // 4: Mencari makanan
+            'usecase',     // 5: Melakukan pemesanan
+            'usecase',     // 6: Melakukan pembayaran
+            'usecase',     // 7: Validasi Pembayaran (Include)
+            'usecase',     // 8: Pakai promo (Extend)
+            'usecase',     // 9: Mengelola Menu
+            'usecase',     // 10: Menerima Pesanan (Resto)
+            'usecase',     // 11: Menyiapkan makanan
+            'usecase',     // 12: Menerima pesanan (Driver)
+            'usecase',     // 13: Mengambil makanan
+            'usecase',     // 14: Mengantar ke pelanggan
+        ],
+        explanation: 'Diagram Go Food melibatkan interaksi kompleks antara Pelanggan, Admin Resto, dan Driver dengan berbagai Use Case utama dan relasi Include/Extend.',
+        layoutMode: 'gofood',
+        slotConfig: [
+            { label: 'Pelanggan', gridArea: '1 / 1 / 3 / 2' }, // Left Top
+            { label: 'Admin Resto', gridArea: '9 / 1 / 11 / 2' }, // Left Bottom
+            { label: 'Driver', gridArea: '6 / 5 / 8 / 6' }, // Right Middle
+
+            // Use Cases (Center Column / System Box)
+            { label: 'Login', gridArea: '1 / 3 / 2 / 4' },
+            { label: 'Mencari makanan', gridArea: '2 / 3 / 3 / 4' },
+            { label: 'Melakukan pemesanan', gridArea: '3 / 3 / 4 / 4' },
+            { label: 'Melakukan pembayaran', gridArea: '4 / 3 / 5 / 4' },
+
+            { label: 'Validasi Pembayaran', gridArea: '5 / 3 / 6 / 4' }, // Include from Pembayaran? Layout wise
+            { label: 'Pakai promo', gridArea: '3 / 4 / 4 / 5' }, // Right of Pemesanan (Extend)
+
+            { label: 'Mengelola Menu', gridArea: '8 / 3 / 9 / 4' },
+            { label: 'Menerima Pesanan', gridArea: '9 / 3 / 10 / 4' },
+            { label: 'Menyiapkan makanan', gridArea: '10 / 3 / 11 / 4' },
+
+            { label: 'Menerima pesanan', gridArea: '6 / 4 / 7 / 5' }, // Driver related, slightly right
+            { label: 'Mengambil makanan', gridArea: '7 / 4 / 8 / 5' },
+            { label: 'Mengantar ke pelanggan', gridArea: '8 / 4 / 9 / 5' },
+        ]
     }
 ];
 
@@ -197,5 +243,55 @@ export const activityQuestions: QuizQuestion[] = [
         targetSequence: ['partition_v', 'action'],
         explanation: 'Swimlane membagi area diagram kolom-per-kolom untuk menjelaskan siapa yang melakukan apa.',
         override: true
+    },
+    {
+        scenario: 'Tantangan Akhir: Alur Pemesanan Go Food',
+        instruction: 'Susun kembali Activity Diagram untuk proses pemesanan makanan via Go Food. Perhatikan alur antar swimlane (Pelanggan, Sistem, Admin Resto, Driver).',
+        // 13 components based on flow
+        targetSequence: [
+            'initial',       // 0: Start (Pelanggan)
+            'action',        // 1: Masuk aplikasi
+            'action',        // 2: Mencari makanan
+            'action',        // 3: Memesan makanan
+            'action',        // 4: Melakukan pembayaran
+            'action',        // 5: Verifikasi pembayaran (Sistem)
+            'action',        // 6: Menyiapkan pesanan (Admin Resto)
+            'action',        // 7: Update status pesanan (Admin Resto)
+            'action',        // 8: Mencari driver (Sistem)
+            'action',        // 9: Terima pesanan (Driver)
+            'action',        // 10: Mengantar pesanan (Driver)
+            'action',        // 11: Update status pengiriman (Driver)
+            'action',        // 12: Menerima pesanan (Pelanggan) - kanan atas
+            'final'          // 13: Final (Pelanggan)
+        ],
+        explanation: 'Proses melibatkan 4 pihak. Dimulai dari Pelanggan, diproses Sistem dan Resto, diantar Driver, dan kembali ke Pelanggan.',
+        layoutMode: 'activity_gofood',
+        slotConfig: [
+            // Row 1: Pelanggan
+            { label: 'Start', gridArea: '1 / 1 / 2 / 2' },
+            { label: 'Masuk Aplikasi', gridArea: '1 / 2 / 2 / 3' },
+            { label: 'Mencari Makanan', gridArea: '1 / 3 / 2 / 4' },
+            { label: 'Memesan Makanan', gridArea: '1 / 4 / 2 / 5' },
+            { label: 'Bayar', gridArea: '1 / 5 / 2 / 6' },
+
+            // Row 2: Sistem (Verifikasi) -> Down from Bayar
+            { label: 'Verifikasi Pembayaran', gridArea: '2 / 5 / 3 / 6' },
+
+            // Row 3: Admin Resto (Siapkan) -> Down from Verifikasi
+            { label: 'Menyiapkan Pesanan', gridArea: '3 / 5 / 4 / 6' },
+            { label: 'Update Status', gridArea: '3 / 6 / 4 / 7' },
+
+            // Row 2: Sistem (Cari Driver) -> Up from Update Status
+            { label: 'Mencari Driver', gridArea: '2 / 6 / 3 / 7' },
+
+            // Row 4: Driver (Flow) -> Down from Cari Driver
+            { label: 'Terima Pesanan', gridArea: '4 / 6 / 5 / 7' },
+            { label: 'Mengantar Pesanan', gridArea: '4 / 7 / 5 / 8' },
+            { label: 'Update Pengiriman', gridArea: '4 / 8 / 5 / 9' },
+
+            // Row 1: Pelanggan (Terima) -> Up from Update Pengiriman
+            { label: 'Menerima Pesanan', gridArea: '1 / 8 / 2 / 9' },
+            { label: 'Finish', gridArea: '1 / 9 / 2 / 10' }
+        ]
     }
 ];

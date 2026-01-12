@@ -99,6 +99,7 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                     ) :
 
 
+
                         /* 2. SWIMLANE LAYOUT (Activity) */
                         currentQuestion.layoutMode === 'swimlane' && currentQuestion.swimlaneHeaders ? (
                             <div className={styles.swimlaneContainer}>
@@ -140,17 +141,93 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                             </div>
                         ) :
 
-                            /* 3. DEFAULT LINEAR LAYOUT */
-                            (
-                                <div className={styles.builderRow}>
-                                    {userSequence.map((item, i) => (
-                                        <React.Fragment key={i}>
-                                            {i > 0 && <div className={styles.arrowConnector}>→</div>}
-                                            <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
-                                        </React.Fragment>
+                            /* 3. GO FOOD / CUSTOM GRID LAYOUT */
+                            currentQuestion.layoutMode === 'gofood' && currentQuestion.slotConfig ? (
+                                <div className={styles.gofoodGrid}>
+                                    {/* System Boundary Box - visual only */}
+                                    <div className={styles.gofoodSystemBox}>
+                                        <span className={styles.gofoodSystemLabel}>Sistem Go Food</span>
+                                    </div>
+
+                                    {currentQuestion.slotConfig.map((config, i) => (
+                                        <div
+                                            key={i}
+                                            style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
+                                            className={styles.gofoodSlotWrapper}
+                                        >
+                                            <div className={styles.slotLabel}>{config.label}</div>
+                                            <DropSlot
+                                                item={userSequence[i]}
+                                                index={i}
+                                                onDrop={onDrop}
+                                                onDragOver={onDragOver}
+                                                handleRemove={handleRemove}
+                                            />
+                                        </div>
                                     ))}
+
+
+                                    {/* Visual Lines (Hardcoded for this specific layout to match the diagram) */}
+                                    <svg className={styles.connectorLines} viewBox="0 0 800 600">
+                                        <defs>
+                                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                                                <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+                                            </marker>
+                                        </defs>
+                                        {/* Lines will be drawn via CSS background or absolute if complex, but simple SVG lines work best */}
+                                        {/* Example lines matching the grid positions roughly - this is simplified */}
+                                        {/* Pelanggan -> Login */}
+                                        <line x1="80" y1="80" x2="350" y2="80" stroke="#cbd5e1" strokeWidth="2" markerEnd="url(#arrowhead)" />
+                                        {/* Pelanggan -> Mencari Makanan */}
+                                        <line x1="80" y1="120" x2="350" y2="150" stroke="#cbd5e1" strokeWidth="2" markerEnd="url(#arrowhead)" />
+                                        {/* ... more lines would be ideal but might be complex to hardcode perfectly without specific coordinates. 
+                                        For now, the grid placement implies the structure. 
+                                        Let's trust the spatial arrangement.
+                                    */}
+                                    </svg>
                                 </div>
-                            )}
+                            ) :
+
+                                /* 4. ACTIVITY CUSTOM LAYOUT (Go Food) */
+                                currentQuestion.layoutMode === 'activity_gofood' && currentQuestion.slotConfig ? (
+                                    <div className={styles.activityGrid}>
+                                        {/* Swimlane Headers/Backgrounds */}
+                                        <div className={styles.swimlaneRow} style={{ gridRow: '1 / 2' }}><span className={styles.swimlaneLabel}>Pelanggan</span></div>
+                                        <div className={styles.swimlaneRow} style={{ gridRow: '2 / 3' }}><span className={styles.swimlaneLabel}>Sistem</span></div>
+                                        <div className={styles.swimlaneRow} style={{ gridRow: '3 / 4' }}><span className={styles.swimlaneLabel}>Admin Resto</span></div>
+                                        <div className={styles.swimlaneRow} style={{ gridRow: '4 / 5' }}><span className={styles.swimlaneLabel}>Driver</span></div>
+
+                                        {currentQuestion.slotConfig.map((config, i) => (
+                                            <div
+                                                key={i}
+                                                style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
+                                                className={styles.gofoodSlotWrapper}
+                                            >
+                                                <div className={styles.slotLabel}>{config.label}</div>
+                                                <DropSlot
+                                                    item={userSequence[i]}
+                                                    index={i}
+                                                    onDrop={onDrop}
+                                                    onDragOver={onDragOver}
+                                                    handleRemove={handleRemove}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) :
+
+                                    /* 5. DEFAULT LINEAR LAYOUT */
+                                    (
+                                        <div className={styles.builderRow}>
+
+                                            {userSequence.map((item, i) => (
+                                                <React.Fragment key={i}>
+                                                    {i > 0 && <div className={styles.arrowConnector}>→</div>}
+                                                    <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+                                    )}
                 </div>
 
                 <button className={styles.btnCheck} onClick={checkAnswer}>CEK JAWABAN</button>
