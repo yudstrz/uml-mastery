@@ -25,7 +25,7 @@ export const QuizMenu: React.FC<QuizMenuProps> = ({ onStartQuiz }) => {
             <div className={styles.quizMenuCard} onClick={() => onStartQuiz('userflow')}>
                 <span className={styles.menuIcon}>🎯</span>
                 <div className={styles.menuTitle}>User Flow</div>
-                <div className={styles.menuDesc}>Tantangan: Alur pengalaman pengguna di aplikasi Go Food.</div>
+                <div className={styles.menuDesc}>3 Alur: Masuk aplikasi, mencari makanan, dan memesan.</div>
                 <button className={styles.btnCheck}>Mulai Kuis</button>
             </div>
         </div>

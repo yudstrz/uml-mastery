@@ -245,27 +245,61 @@ export const activityQuestions: QuizQuestion[] = [
     }
 ];
 
-// === USER FLOW COMPONENTS (Only Final Challenge) ===
+// === USER FLOW COMPONENTS (3 Separate Flows) ===
 export const userFlowQuestions: QuizQuestion[] = [
     {
-        scenario: 'Tantangan: Alur Login Go Food',
-        instruction: 'Susun kembali User Flow untuk proses login aplikasi Go Food. Perhatikan urutan dari membuka aplikasi hingga siap mencari makanan.',
+        scenario: 'Alur 1: Masuk ke Aplikasi',
+        instruction: 'Susun alur login aplikasi Go Food dari membuka aplikasi hingga siap mencari makanan.',
         targetSequence: [
             'start_end',     // 0: Start (Klik Icon Aplikasi)
             'flow_arrow',    // 1
             'process',       // 2: Tampilan Splash Screen
             'flow_arrow',    // 3
             'decision_uf',   // 4: Cek Belum Login
-            'flow_arrow',    // 5: Belum Login
+            'flow_arrow',    // 5: Belum Login (path)
             'process',       // 6: Halaman Login/Daftar
             'flow_arrow',    // 7
             'process',       // 8: Input Kredensial
-            'flow_arrow',    // 9: Sudah Login (dari decision)
+            'flow_arrow',    // 9: Sudah Login (dari decision, path lain)
             'process',       // 10: Halaman Utama/Home
             'flow_arrow',    // 11
             'start_end'      // 12: End (Siap Mencari Makanan)
         ],
-        explanation: 'Alur login dimulai dari membuka aplikasi, mengecek status login, masuk/daftar jika belum, lalu menuju halaman utama.',
+        explanation: 'Alur dimulai dari klik icon aplikasi, tampil splash screen, cek status login, jika belum login masuk halaman login/daftar, input kredensial, lalu ke halaman utama.',
+        layoutMode: 'userflow_horizontal'
+    },
+    {
+        scenario: 'Alur 2: Mencari Makanan',
+        instruction: 'Susun alur pencarian makanan dari masuk aplikasi hingga melihat detail makanan.',
+        targetSequence: [
+            'start_end',     // 0: Start (Masuk Aplikasi)
+            'flow_arrow',    // 1
+            'process',       // 2: Klik Kolom Pencarian/Kategori
+            'flow_arrow',    // 3
+            'process',       // 4: Input Nama Makanan/Resto
+            'flow_arrow',    // 5
+            'process',       // 6: Sistem Menampilkan Hasil
+            'flow_arrow',    // 7
+            'start_end'      // 8: End (Detail Makanan)
+        ],
+        explanation: 'Alur pencarian dimulai dari aplikasi, klik kolom pencarian, input nama makanan/resto, sistem menampilkan hasil, lalu menuju detail makanan.',
+        layoutMode: 'userflow_horizontal'
+    },
+    {
+        scenario: 'Alur 3: Memesan Makanan',
+        instruction: 'Susun alur pemesanan makanan dari memilih makanan hingga halaman pembayaran.',
+        targetSequence: [
+            'start_end',     // 0: Start (Pilih Makanan)
+            'flow_arrow',    // 1
+            'process',       // 2: Tentukan Jumlah/Catatan
+            'flow_arrow',    // 3
+            'process',       // 4: Klik Tambah ke Keranjang
+            'flow_arrow',    // 5
+            'process',       // 6: Klik Checkout
+            'flow_arrow',    // 7
+            'start_end'      // 8: End (Halaman Pembayaran)
+        ],
+        explanation: 'Alur pemesanan dimulai dari memilih makanan, tentukan jumlah/catatan, tambah ke keranjang, klik checkout, lalu ke halaman pembayaran.',
         layoutMode: 'userflow_horizontal'
     }
 ];
