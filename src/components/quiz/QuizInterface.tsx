@@ -199,24 +199,33 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                 /* 4. ACTIVITY CUSTOM LAYOUT (Go Food) */
                                 currentQuestion.layoutMode === 'activity_gofood' && currentQuestion.slotConfig ? (
                                     <div className={styles.activityGrid}>
-                                        {/* Swimlane Headers/Backgrounds */}
-                                        <div className={styles.swimlaneRow} style={{ gridRow: '1 / 2' }}><span className={styles.swimlaneLabel}>Pelanggan</span></div>
-                                        <div className={styles.swimlaneRow} style={{ gridRow: '2 / 3' }}><span className={styles.swimlaneLabel}>Sistem</span></div>
-                                        <div className={styles.swimlaneRow} style={{ gridRow: '3 / 4' }}><span className={styles.swimlaneLabel}>Admin Resto</span></div>
-                                        <div className={styles.swimlaneRow} style={{ gridRow: '4 / 5' }}><span className={styles.swimlaneLabel}>Driver</span></div>
+                                        {/* Swimlane Headers (Column 1) */}
+                                        <div className={`${styles.activitySwimlaneHeader} ${styles.pelanggan}`}>Pelanggan</div>
+                                        <div className={`${styles.activitySwimlaneHeader} ${styles.sistem}`}>Sistem</div>
+                                        <div className={`${styles.activitySwimlaneHeader} ${styles.admin}`}>Admin Resto</div>
+                                        <div className={`${styles.activitySwimlaneHeader} ${styles.driver}`}>Driver</div>
 
+                                        {/* Slots - placed in columns 2-10 (grid col 2 = data col 1) */}
                                         {currentQuestion.slotConfig.map((config, i) => {
-                                            // Determine swimlane color based on grid row
-                                            const gridRow = config.gridArea ? parseInt(config.gridArea.split('/')[0]) : 0;
-                                            const isAdminOrDriver = gridRow === 3 || gridRow === 4; // Admin Resto or Driver
+                                            // Parse grid area to determine row (for coloring)
+                                            const gridArea = config.gridArea || '1 / 1 / 2 / 2';
+                                            const gridRow = parseInt(gridArea.split('/')[0]);
+                                            // Adjust column: add 1 to shift right for swimlane header
+                                            const parts = gridArea.split('/').map(p => p.trim());
+                                            const adjustedGridArea = `${parts[0]} / ${parseInt(parts[1]) + 1} / ${parts[2]} / ${parseInt(parts[3]) + 1}`;
+
+                                            const swimlaneClass =
+                                                gridRow === 1 ? styles.pelanggan :
+                                                    gridRow === 2 ? styles.sistem :
+                                                        gridRow === 3 ? styles.admin : styles.driver;
 
                                             return (
                                                 <div
                                                     key={i}
-                                                    style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
-                                                    className={styles.gofoodSlotWrapper}
+                                                    style={{ gridArea: adjustedGridArea }}
+                                                    className={styles.activitySlotWrapper}
                                                 >
-                                                    <div className={`${styles.slotLabel} ${isAdminOrDriver ? styles.yellowSlotLabel : styles.purpleSlotLabel}`}>
+                                                    <div className={`${styles.activitySlotLabel} ${swimlaneClass}`}>
                                                         {config.label}
                                                     </div>
                                                     <DropSlot
@@ -225,7 +234,6 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                                         onDrop={onDrop}
                                                         onDragOver={onDragOver}
                                                         handleRemove={handleRemove}
-                                                        isYellowSlot={isAdminOrDriver}
                                                     />
                                                 </div>
                                             );
