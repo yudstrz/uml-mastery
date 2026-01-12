@@ -194,75 +194,50 @@ export const useCaseQuestions: QuizQuestion[] = [
 export const activityQuestions: QuizQuestion[] = [
     {
         scenario: 'Tantangan Akhir: Alur Pemesanan Go Food',
-        instruction: 'Susun Activity Diagram LENGKAP dengan semua action nodes dan control flow untuk setiap transisi.',
+        instruction: 'Susun Activity Diagram dengan semua action nodes sesuai swimlane yang benar.',
         targetSequence: [
-            // Nodes
+            // 14 Nodes only (no control flows in slots)
             'initial',       // 0: Start
             'action',        // 1: Masuk aplikasi
             'action',        // 2: Mencari makanan
             'action',        // 3: Memesan makanan
-            'action',        // 4: Melakukan pembayaran
-            'action',        // 5: Verifikasi pembayaran
-            'action',        // 6: Menyiapkan pesanan
-            'action',        // 7: Update status pesanan
-            'action',        // 8: Mencari driver
-            'action',        // 9: Terima pesanan
-            'action',        // 10: Mengantar pesanan
-            'action',        // 11: Update status pengiriman
-            'action',        // 12: Menerima pesanan
-            'final',         // 13: Final
-            // Control Flows (ALL transitions)
-            'control_flow',  // 14: Start → Masuk aplikasi
-            'control_flow',  // 15: Masuk aplikasi → Mencari makanan
-            'control_flow',  // 16: Mencari makanan → Memesan makanan
-            'control_flow',  // 17: Memesan makanan → Bayar
-            'control_flow',  // 18: Bayar → Verifikasi
-            'control_flow',  // 19: Verifikasi → Menyiapkan
-            'control_flow',  // 20: Menyiapkan → Update status
-            'control_flow',  // 21: Update status → Mencari driver
-            'control_flow',  // 22: Mencari driver → Terima pesanan
-            'control_flow',  // 23: Terima pesanan → Mengantar
-            'control_flow',  // 24: Mengantar → Update pengiriman
-            'control_flow',  // 25: Update pengiriman → Menerima pesanan
-            'control_flow',  // 26: Menerima pesanan → Finish
+            'action',        // 4: Bayar
+            'action',        // 5: Verifikasi
+            'action',        // 6: Cari Driver
+            'action',        // 7: Siapkan
+            'action',        // 8: Update Status
+            'action',        // 9: Terima
+            'action',        // 10: Antar
+            'action',        // 11: Update Kirim
+            'action',        // 12: Terima Pesanan
+            'final',         // 13: Finish
         ],
-        explanation: 'Diagram lengkap dengan semua nodes dan control flow untuk setiap transisi.',
+        explanation: 'Susun nodes sesuai swimlane masing-masing aktor.',
         layoutMode: 'activity_gofood',
         slotConfig: [
-            // Row 1: Pelanggan
-            { label: 'Start', gridArea: '1 / 1 / 2 / 2' },
-            { label: 'Masuk Aplikasi', gridArea: '1 / 2 / 2 / 3' },
-            { label: 'Mencari Makanan', gridArea: '1 / 3 / 2 / 4' },
-            { label: 'Memesan Makanan', gridArea: '1 / 4 / 2 / 5' },
-            { label: 'Bayar', gridArea: '1 / 5 / 2 / 6' },
-            // Row 2: Sistem
-            { label: 'Verifikasi', gridArea: '2 / 5 / 3 / 6' },
-            // Row 3: Admin Resto
-            { label: 'Siapkan', gridArea: '3 / 5 / 4 / 6' },
-            { label: 'Update Status', gridArea: '3 / 6 / 4 / 7' },
-            // Row 2: Sistem again
-            { label: 'Cari Driver', gridArea: '2 / 6 / 3 / 7' },
-            // Row 4: Driver
-            { label: 'Terima', gridArea: '4 / 6 / 5 / 7' },
-            { label: 'Antar', gridArea: '4 / 7 / 5 / 8' },
-            { label: 'Update Kirim', gridArea: '4 / 8 / 5 / 9' },
-            // Row 1: Pelanggan finish
-            { label: 'Terima Pesanan', gridArea: '1 / 8 / 2 / 9' },
-            { label: 'Finish', gridArea: '1 / 9 / 2 / 10' },
-            // Control Flows - simplified (just labels, no separate slots)
-            { label: '→', gridArea: '1 / 1 / 2 / 2' },
-            { label: '→', gridArea: '1 / 2 / 2 / 3' },
-            { label: '→', gridArea: '1 / 3 / 2 / 4' },
-            { label: '→', gridArea: '1 / 4 / 2 / 5' },
-            { label: '↓', gridArea: '1 / 5 / 3 / 6' },
-            { label: '↓', gridArea: '2 / 5 / 4 / 6' },
-            { label: '→', gridArea: '3 / 5 / 4 / 7' },
-            { label: '↑', gridArea: '2 / 6 / 4 / 7' },
-            { label: '↓', gridArea: '2 / 6 / 5 / 7' },
-            { label: '→', gridArea: '4 / 6 / 5 / 8' },
-            { label: '→', gridArea: '4 / 7 / 5 / 9' },
-            { label: '↑', gridArea: '1 / 8 / 5 / 9' },
-            { label: '→', gridArea: '1 / 8 / 2 / 10' },
+            // Row 1: Pelanggan (5 nodes) - columns 2-6
+            { label: 'Start', gridArea: '1 / 2 / 2 / 3' },
+            { label: 'Masuk Aplikasi', gridArea: '1 / 3 / 2 / 4' },
+            { label: 'Mencari Makanan', gridArea: '1 / 4 / 2 / 5' },
+            { label: 'Memesan Makanan', gridArea: '1 / 5 / 2 / 6' },
+            { label: 'Bayar', gridArea: '1 / 6 / 2 / 7' },
+
+            // Row 2: Sistem (2 nodes) - columns 6-7
+            { label: 'Verifikasi', gridArea: '2 / 6 / 3 / 7' },
+            { label: 'Cari Driver', gridArea: '2 / 7 / 3 / 8' },
+
+            // Row 3: Admin Resto (2 nodes) - columns 6-7
+            { label: 'Siapkan', gridArea: '3 / 6 / 4 / 7' },
+            { label: 'Update Status', gridArea: '3 / 7 / 4 / 8' },
+
+            // Row 4: Driver (3 nodes) - columns 7-9
+            { label: 'Terima', gridArea: '4 / 7 / 5 / 8' },
+            { label: 'Antar', gridArea: '4 / 8 / 5 / 9' },
+            { label: 'Update Kirim', gridArea: '4 / 9 / 5 / 10' },
+
+            // Row 1: Pelanggan finish (2 nodes) - columns 9-10
+            { label: 'Terima Pesanan', gridArea: '1 / 9 / 2 / 10' },
+            { label: 'Finish', gridArea: '1 / 10 / 2 / 11' },
         ]
     }
 ];
