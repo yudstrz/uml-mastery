@@ -524,18 +524,21 @@
     z-index: 0;
 }
 
-/* Activity Go Food Grid */
+/* Activity Go Food Grid - Fine Grained */
 .activityGrid {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    grid-template-rows: repeat(4, minmax(180px, auto));
-    gap: 2rem;
+    /* 17 cols: 9 Nodes max width + 8 Arrows spaces */
+    grid-template-columns: minmax(100px, 1fr) 40px minmax(100px, 1fr) 40px minmax(100px, 1fr) 40px minmax(100px, 1fr) 40px minmax(100px, 1fr) 40px minmax(100px, 1fr) 40px minmax(100px, 1fr) 40px minmax(100px, 1fr) 40px minmax(100px, 1fr);
+    /* 7 rows: Row 1(P), space, Row 2(S), space, Row 3(A), space, Row 4(D) */
+    grid-template-rows: minmax(140px, auto) 40px minmax(140px, auto) 40px minmax(140px, auto) 40px minmax(140px, auto);
+    gap: 1rem;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 1rem auto;
     position: relative;
-    padding: 2.5rem;
-    padding-left: 4rem;
+    padding: 3rem;
+    padding-left: 5rem;
+    /* Space for swimlane labels */
     background: #ffffff;
     border-radius: 1rem;
     overflow-x: auto;
@@ -545,35 +548,40 @@
 
 .swimlaneRow {
     grid-column: 1 / -1;
-    border-bottom: 2px solid #cbd5e1;
     position: relative;
-    min-height: 180px;
     display: flex;
-    align-items: flex-start;
-    padding-top: 1rem;
+    align-items: center;
+    justify-content: center;
     pointer-events: none;
     z-index: 0;
 }
 
-/* Background coloring for swimlanes */
+/* Swimlane Backgrounds spanning logical rows */
+/* Pelanggan: Row 1 */
 .swimlaneRow:nth-child(1) {
     background: #f0f9ff;
     grid-row: 1 / 2;
+    border-bottom: 1px solid #e2e8f0;
 }
 
+/* Sistem: Row 3 */
 .swimlaneRow:nth-child(2) {
     background: #ffffff;
-    grid-row: 2 / 3;
+    grid-row: 3 / 4;
+    border-bottom: 1px solid #e2e8f0;
 }
 
+/* Admin: Row 5 */
 .swimlaneRow:nth-child(3) {
     background: #f0f9ff;
-    grid-row: 3 / 4;
+    grid-row: 5 / 6;
+    border-bottom: 1px solid #e2e8f0;
 }
 
+/* Driver: Row 7 */
 .swimlaneRow:nth-child(4) {
     background: #ffffff;
-    grid-row: 4 / 5;
+    grid-row: 7 / 8;
 }
 
 .swimlaneLabel {
@@ -586,17 +594,16 @@
     font-size: 0.8rem;
     letter-spacing: 2px;
     height: 100%;
-    position: absolute;
+    position: sticky;
     left: 0;
-    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Adjust grid padding to account for label */
-.activityGrid {
-    padding-left: 4rem;
-}
 
-/* User Flow Grid - Horizontal Layout */
+
+/* User Flow Grid - Horizontal Layout (Legacy/Fallback) */
 .userFlowGrid {
     display: flex;
     flex-direction: row;
@@ -615,14 +622,38 @@
 
 .userFlowGrid .dropZone {
     flex-shrink: 0;
-}/* User Flow Branch Grid - 2 rows for decision branches */
-.userFlowBranchGrid {
-    display: grid;
-    grid-template-columns: repeat(11, minmax(100px, 1fr));
-    grid-template-rows: repeat(2, minmax(120px, auto));
-    gap: 0.75rem;
+}
+
+/* User Flow Grid - Horizontal Layout (Legacy/Fallback) */
+.userFlowGrid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
     width: 100%;
     max-width: 100%;
+    margin: 1rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 1rem;
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.userFlowGrid .dropZone {
+    flex-shrink: 0;
+}
+
+/* User Flow Branch Grid - 2 rows for decision branches */
+.userFlowBranchGrid {
+    display: grid;
+    /* 9 columns sufficient for the flow as calculated */
+    grid-template-columns: repeat(9, minmax(100px, 1fr));
+    grid-template-rows: repeat(2, minmax(140px, auto));
+    gap: 1rem;
+    width: 100%;
+    max-width: 1200px;
     margin: 1rem auto;
     padding: 2rem;
     background: #ffffff;
@@ -638,6 +669,7 @@
     align-items: center;
     justify-content: flex-start;
     gap: 0.5rem;
+    min-width: 80px;
 }
 
 .userFlowSlot .dropZone {

@@ -243,39 +243,48 @@ export const activityQuestions: QuizQuestion[] = [
         slotConfig: [
             // Row 1: Pelanggan (nodes)
             { label: 'Start', gridArea: '1 / 1 / 2 / 2' },
-            { label: 'Masuk Aplikasi', gridArea: '1 / 2 / 2 / 3' },
-            { label: 'Mencari Makanan', gridArea: '1 / 3 / 2 / 4' },
-            { label: 'Memesan Makanan', gridArea: '1 / 4 / 2 / 5' },
-            { label: 'Bayar', gridArea: '1 / 5 / 2 / 6' },
-            // Row 2: Sistem (nodes)
-            { label: 'Verifikasi Pembayaran', gridArea: '2 / 5 / 3 / 6' },
-            // Row 3: Admin Resto (nodes)
-            { label: 'Menyiapkan Pesanan', gridArea: '3 / 5 / 4 / 6' },
-            { label: 'Update Status', gridArea: '3 / 6 / 4 / 7' },
-            // Row 2: Sistem (nodes)
-            { label: 'Mencari Driver', gridArea: '2 / 6 / 3 / 7' },
-            // Row 4: Driver (nodes)
-            { label: 'Terima Pesanan', gridArea: '4 / 6 / 5 / 7' },
-            { label: 'Mengantar Pesanan', gridArea: '4 / 7 / 5 / 8' },
-            { label: 'Update Pengiriman', gridArea: '4 / 8 / 5 / 9' },
-            // Row 1: Pelanggan (nodes)
-            { label: 'Menerima Pesanan', gridArea: '1 / 8 / 2 / 9' },
-            { label: 'Finish', gridArea: '1 / 9 / 2 / 10' },
+            { label: 'Masuk Aplikasi', gridArea: '1 / 3 / 2 / 4' },
+            { label: 'Mencari Makanan', gridArea: '1 / 5 / 2 / 6' },
+            { label: 'Memesan Makanan', gridArea: '1 / 7 / 2 / 8' },
+            { label: 'Bayar', gridArea: '1 / 9 / 2 / 10' },
+
+            // Row 3: Sistem (nodes) - Verifikasi below Bayar
+            { label: 'Verifikasi Pembayaran', gridArea: '3 / 9 / 4 / 10' },
+
+            // Row 5: Admin Resto (nodes) - Siapkan below Verifikasi
+            { label: 'Menyiapkan Pesanan', gridArea: '5 / 9 / 6 / 10' },
+            { label: 'Update Status', gridArea: '5 / 11 / 6 / 12' },
+
+            // Row 3: Sistem (nodes) - Mencari Driver above Update Status? No, logic flow.
+            // Update Status (5/11) -> Cari Driver (3/11).
+            { label: 'Mencari Driver', gridArea: '3 / 11 / 4 / 12' },
+
+            // Row 7: Driver (nodes) - Terima below Cari Driver
+            { label: 'Terima Pesanan', gridArea: '7 / 11 / 8 / 12' },
+            { label: 'Mengantar Pesanan', gridArea: '7 / 13 / 8 / 14' },
+            { label: 'Update Pengiriman', gridArea: '7 / 15 / 8 / 16' },
+
+            // Row 1: Pelanggan (nodes) - Menerima above Update Pengiriman
+            { label: 'Menerima Pesanan', gridArea: '1 / 15 / 2 / 16' },
+            { label: 'Finish', gridArea: '1 / 17 / 2 / 18' },
 
             // Control Flows (arrows between nodes)
-            { label: '→', gridArea: '1 / 1 / 2 / 2' },   // Start → Masuk (in same cell, smaller)
-            { label: '→', gridArea: '1 / 2 / 2 / 3' },   // Masuk → Mencari
-            { label: '→', gridArea: '1 / 3 / 2 / 4' },   // Mencari → Memesan
-            { label: '→', gridArea: '1 / 4 / 2 / 5' },   // Memesan → Bayar
-            { label: '↓', gridArea: '1 / 5 / 3 / 6' },   // Bayar ↓ Verifikasi
-            { label: '↓', gridArea: '2 / 5 / 4 / 6' },   // Verifikasi ↓ Menyiapkan
-            { label: '→', gridArea: '3 / 5 / 4 / 7' },   // Menyiapkan → Update
-            { label: '↑', gridArea: '2 / 6 / 4 / 7' },   // Update ↑ Mencari Driver
-            { label: '↓', gridArea: '2 / 6 / 5 / 7' },   // Mencari ↓ Terima
-            { label: '→', gridArea: '4 / 6 / 5 / 8' },   // Terima → Mengantar
-            { label: '→', gridArea: '4 / 7 / 5 / 9' },   // Mengantar → Update
-            { label: '↑', gridArea: '1 / 8 / 5 / 9' },   // Update ↑ Menerima
-            { label: '→', gridArea: '1 / 8 / 2 / 10' },  // Menerima → Finish
+            { label: '→', gridArea: '1 / 2 / 2 / 3' },   // Start → Masuk
+            { label: '→', gridArea: '1 / 4 / 2 / 5' },   // Masuk → Mencari
+            { label: '→', gridArea: '1 / 6 / 2 / 7' },   // Mencari → Memesan
+            { label: '→', gridArea: '1 / 8 / 2 / 9' },   // Memesan → Bayar
+
+            { label: '↓', gridArea: '2 / 9 / 3 / 10' },  // Bayar ↓ Verifikasi
+            { label: '↓', gridArea: '4 / 9 / 5 / 10' },  // Verifikasi ↓ Menyiapkan
+            { label: '→', gridArea: '5 / 10 / 6 / 11' }, // Menyiapkan → Update
+            { label: '↑', gridArea: '4 / 11 / 5 / 12' }, // Update ↑ Mencari Driver
+            { label: '↓', gridArea: '6 / 11 / 7 / 12' }, // Mencari ↓ Terima (Spans Row 4-6 gap? Using Row 6 gap)
+
+            { label: '→', gridArea: '7 / 12 / 8 / 13' }, // Terima → Mengantar
+            { label: '→', gridArea: '7 / 14 / 8 / 15' }, // Mengantar → Update
+
+            { label: '↑', gridArea: '2 / 15 / 3 / 16' }, // Update ↑ Menerima (Using Row 2 gap - spans many rows visually)
+            { label: '→', gridArea: '1 / 16 / 2 / 17' }, // Menerima → Finish
         ]
     }
 ];
@@ -308,23 +317,40 @@ export const userFlowQuestions: QuizQuestion[] = [
         layoutMode: 'userflow_branch',
         slotConfig: [
             // Row 1: Main path + upper branch
+            // 9 Columns: 
+            // 1(Start) 2(A) 3(Splash) 4(A) 5(Dec) 6(A_Top) 7(Home) 8(A_Right) 9(Merge/End)
+
             { label: 'Start', gridArea: '1 / 1 / 2 / 2' },
             { label: '→', gridArea: '1 / 2 / 2 / 3' },
             { label: 'Splash', gridArea: '1 / 3 / 2 / 4' },
             { label: '→', gridArea: '1 / 4 / 2 / 5' },
-            { label: 'Decision', gridArea: '1 / 5 / 3 / 6' },
+            { label: 'Decision', gridArea: '1 / 5 / 2 / 6' }, // Row 1 only
+
             // Upper branch (Sudah Login)
             { label: '→ Sudah', gridArea: '1 / 6 / 2 / 7' },
             { label: 'Home', gridArea: '1 / 7 / 2 / 8' },
+            { label: '→', gridArea: '1 / 8 / 2 / 9' }, // Points to End
+            { label: 'End', gridArea: '1 / 9 / 2 / 10' }, // Merge point/End
+
             // Lower branch (Belum Login)
-            { label: '↓ Belum', gridArea: '2 / 6 / 3 / 7' },
-            { label: 'Login', gridArea: '2 / 7 / 3 / 8' },
-            { label: '→', gridArea: '2 / 8 / 3 / 9' },
-            { label: 'Kredensial', gridArea: '2 / 9 / 3 / 10' },
-            { label: '↑ merge', gridArea: '1 / 8 / 3 / 9' },
-            // Continue
-            { label: '→', gridArea: '1 / 9 / 2 / 10' },
-            { label: 'End', gridArea: '1 / 10 / 2 / 11' },
+            { label: '↓ Belum', gridArea: '2 / 5 / 3 / 6' }, // Arrow Down from Decision
+            { label: 'Login', gridArea: '2 / 6 / 3 / 7' },
+            { label: '→', gridArea: '2 / 7 / 3 / 8' },    // Arrow Right from Login
+            { label: 'Kredensial', gridArea: '2 / 8 / 3 / 9' }, // Below Home arrow
+            { label: '↑ merge', gridArea: '2 / 9 / 3 / 10' }, // Arrow Up to End
+
+            // Extra: The sequence had one more arrow? Flow Arrow 12.
+            // Start(0), A(1), Splash(2), A(3), Dec(4).
+            // Bot: AD(5), Log(6), A(7), Kred(8), AU(9).
+            // Top: A(10), Home(11).
+            // Final: A(12), End(13).
+            // Adjusted Map:
+            // Top: A(10) -> Home(11).
+            // We need A(12) somewhere.
+            // If Home(11) is at 1/7. End(13) is at 1/9. 
+            // Then A(12) is at 1/8. CORRECT.
+            // Kred(8) is at 2/8. AU(9) is at 2/9? No, End is at 1/9. AU needs to be below End?
+            // Yes, AU at 2/9 points to 1/9. Correct.
         ]
     }
 ];
