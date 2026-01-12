@@ -140,52 +140,58 @@ export const useCaseQuestions: QuizQuestion[] = [
         scenario: 'Tantangan Akhir: Sistem Go Food',
         instruction: 'Susun Use Case Diagram LENGKAP dengan komponen dan SEMUA relasi (associations, include, extend).',
         targetSequence: [
-            // Actors
+            // Ordered to match visual layout (top-to-bottom)
             'actor',       // 0: Pelanggan
-            'actor',       // 1: Admin Resto
-            'actor',       // 2: Driver
-            // Use Cases
-            'usecase',     // 3: Login
-            'usecase',     // 4: Mencari makanan
-            'usecase',     // 5: Melakukan pemesanan
+            'usecase',     // 1: Login
+            'usecase',     // 2: Mencari makanan
+            'extend',      // 3: <<extend>> (next to Mencari)
+            'usecase',     // 4: Melakukan pemesanan
+            'usecase',     // 5: Pakai promo
             'usecase',     // 6: Melakukan pembayaran
-            'usecase',     // 7: Validasi Pembayaran (Include)
-            'usecase',     // 8: Pakai promo (Extend)
-            'usecase',     // 9: Mengelola Menu
-            'usecase',     // 10: Menerima Pesanan (Resto)
-            'usecase',     // 11: Menyiapkan makanan
-            'usecase',     // 12: Menerima pesanan (Driver)
-            'usecase',     // 13: Mengambil makanan
-            'usecase',     // 14: Mengantar ke pelanggan
-            // Relations (only include and extend, associations available in toolbox but not in fixed slots)
-            'include',     // 15: Pembayaran <<include>> Validasi
-            'extend',      // 16: Pemesanan <<extend>> Pakai Promo
+            'usecase',     // 7: Validasi Pembayaran
+            'include',     // 8: <<include>> (between Pembayaran and Resto)
+            'actor',       // 9: Admin Resto
+            'usecase',     // 10: Mengelola Menu
+            'usecase',     // 11: Menerima Pesanan
+            'usecase',     // 12: Menyiapkan makanan
+            'actor',       // 13: Driver
+            'usecase',     // 14: Menerima pesanan
+            'usecase',     // 15: Mengambil makanan
+            'usecase',     // 16: Mengantar ke pelanggan
         ],
         explanation: 'Diagram lengkap dengan aktor, use case, dan relasi Include/Extend.',
         layoutMode: 'gofood',
         slotConfig: [
-            // Actors (3)
-            { label: 'Pelanggan', gridArea: '1 / 1 / 6 / 2' },
-            { label: 'Admin Resto', gridArea: '6 / 1 / 9 / 2' },
-            { label: 'Driver', gridArea: '9 / 1 / 12 / 2' },
-
-            // Use Cases (12)
+            // Row 1: Pelanggan + Login
+            { label: 'Pelanggan', gridArea: '1 / 1 / 5 / 2' },
             { label: 'Login', gridArea: '1 / 3 / 2 / 4' },
+
+            // Row 2: Mencari + Extend
             { label: 'Mencari makanan', gridArea: '2 / 3 / 3 / 4' },
+            { label: '<<extend>>', gridArea: '2 / 4 / 3 / 5' },
+
+            // Row 3: Pemesanan + Pakai Promo
             { label: 'Melakukan pemesanan', gridArea: '3 / 3 / 4 / 4' },
+            { label: 'Pakai promo', gridArea: '3 / 4 / 4 / 5' },
+
+            // Row 4: Pembayaran + Validasi
             { label: 'Melakukan pembayaran', gridArea: '4 / 3 / 5 / 4' },
             { label: 'Validasi Pembayaran', gridArea: '4 / 4 / 5 / 5' },
-            { label: 'Pakai promo', gridArea: '3 / 4 / 4 / 5' },
+
+            // Row 5: Include
+            { label: '<<include>>', gridArea: '5 / 3 / 6 / 5' },
+
+            // Row 6-8: Admin Resto section
+            { label: 'Admin Resto', gridArea: '6 / 1 / 9 / 2' },
             { label: 'Mengelola Menu', gridArea: '6 / 3 / 7 / 4' },
             { label: 'Menerima Pesanan', gridArea: '7 / 3 / 8 / 4' },
             { label: 'Menyiapkan makanan', gridArea: '8 / 3 / 9 / 4' },
+
+            // Row 9-11: Driver section
+            { label: 'Driver', gridArea: '9 / 1 / 12 / 2' },
             { label: 'Menerima pesanan', gridArea: '9 / 3 / 10 / 4' },
             { label: 'Mengambil makanan', gridArea: '10 / 3 / 11 / 4' },
             { label: 'Mengantar ke pelanggan', gridArea: '11 / 3 / 12 / 4' },
-
-            // Relations (2)
-            { label: '<<include>>', gridArea: '5 / 3 / 6 / 5' },
-            { label: '<<extend>>', gridArea: '2 / 4 / 3 / 5' },
         ]
     }
 ];
