@@ -1,0 +1,279 @@
+"use client";
+import React, { useRef, useState, useEffect } from 'react';
+import styles from './UmlBuilder.module.css';
+import { useUml } from './UmlContext';
+import { ElementType, UmlElement } from '../../types/uml-builder';
+
+export default function Canvas() {
+    const {
+        elements,
+        connections,
+        selectedId,
+        addElement,
+        selectElement,
+        updateElement,
+        tool,
+        setTool,
+        startConnection,
+        completeConnection,
+        deleteSelected,
+        duplicateElement,
+        sendToBack
+    } = useUml();
+
+    const canvasRef = useRef<HTMLDivElement>(null);
+    const [dragState, setDragState] = useState<{ id: string; offsetX: number; offsetY: number } | null>(null);
+    const [contextMenu, setContextMenu] = useState<{ x: number; y: number; visible: boolean } | null>(null);
+
+    // --- Drag & Drop from Sidebar ---
+    const handleDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        const type = e.dataTransfer.getData('type') as ElementType;
+        if (!type || !canvasRef.current) return;
+
+        const rect = canvasRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        addElement(type, x, y);
+    };
+
+    // --- Element Moving ---
+    const handleMouseDown = (e: React.MouseEvent, id: string, elX: number, elY: number) => {
+        if (tool === 'connect') {
+            e.stopPropagation();
+            startConnection(id);
+            // If already connected, complete? No context handles that logic in completeConnection calling logic
+            // Actually context logic: startConnection sets source. Next click calls completeConnection.
+            // Only if we click valid target.
+            // Let's rely on click for connection to be robust? 
+            // The original logic: click (mousedown) source -> start. Click target -> end.
+            return;
+        }
+
+        // Select tool
+        e.stopPropagation();
+        selectElement(id);
+
+        if (tool === 'select') {
+            // Calculate offset relative to the element's top-left
+            const rect = canvasRef.current!.getBoundingClientRect();
+            // Mouse pos relative to canvas
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            setDragState({
+                id,
+                offsetX: mouseX - elX,
+                offsetY: mouseY - elY
+            });
+        }
+    };
+
+    const handleContextMenu = (e: React.MouseEvent, id: string) => {
+        e.preventDefault();
+        e.stopPropagation();
+        selectElement(id);
+        setContextMenu({ x: e.clientX, y: e.clientY, visible: true });
+    };
+
+    const handleCanvasClick = (e: React.MouseEvent) => {
+        setContextMenu(null);
+        // If clicking empty canvas, deselect
+        if (e.target === canvasRef.current) {
+            selectElement(''); // or null, hacky but works via context safe check
+        }
+    };
+
+    const handleElementClick = (e: React.MouseEvent, id: string) => {
+        e.stopPropagation();
+        if (tool === 'connect') {
+            completeConnection(id);
+        }
+    };
+
+    // Global Mouse Move / Up handling for smooth dragging
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (!dragState || !canvasRef.current) return;
+
+            const rect = canvasRef.current.getBoundingClientRect();
+            let newX = e.clientX - rect.left - dragState.offsetX;
+            let newY = e.clientY - rect.top - dragState.offsetY;
+
+            // Optional: Grid snap
+            // newX = Math.round(newX / 10) * 10;
+            // newY = Math.round(newY / 10) * 10;
+
+            updateElement(dragState.id, { x: newX, y: newY });
+        };
+
+        const handleMouseUp = () => {
+            setDragState(null);
+        };
+
+        if (dragState) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [dragState, updateElement]);
+
+
+    // --- Rendering Helpers ---
+    const renderElementContent = (el: UmlElement) => {
+        switch (el.type) {
+            case 'process':
+                return (
+                    <>
+                        <div className={styles.umlClassHeader}>Class</div>
+                        <div className={styles.umlClassBody}>{el.text}</div>
+                    </>
+                );
+            case 'actor':
+                return (
+                    <>
+                        <i className={`fas fa-user ${styles.umlActorIcon}`}></i>
+                        <div style={{ marginTop: '5px' }}>{el.text}</div>
+                    </>
+                );
+            case 'usecase':
+                return <div>{el.text}</div>;
+            case 'note':
+                return <div>{el.text}</div>;
+            case 'start':
+            case 'end':
+                return null;
+            default:
+                return <div>{el.text}</div>;
+        }
+    };
+
+    const getElementCenter = (id: string) => {
+        const el = elements.find(e => e.id === id);
+        if (!el) return { x: 0, y: 0 };
+        return {
+            x: el.x + el.width / 2,
+            y: el.y + el.height / 2
+        };
+    };
+
+    return (
+        <main
+            className={styles.canvasContainer}
+            ref={canvasRef}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            onClick={handleCanvasClick}
+        >
+            <div className={styles.canvasGrid}></div>
+
+            {/* SVG Layer */}
+            <svg className={styles.connectionsLayer}>
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+                    </marker>
+                </defs>
+                {connections.map(conn => {
+                    const fromPos = getElementCenter(conn.from);
+                    const toPos = getElementCenter(conn.to);
+                    return (
+                        <line
+                            key={conn.id}
+                            x1={fromPos.x} y1={fromPos.y}
+                            x2={toPos.x} y2={toPos.y}
+                            className={styles.connectionPath}
+                            markerEnd="url(#arrowhead)"
+                        />
+                    );
+                })}
+            </svg>
+
+            {/* Elements Layer */}
+            {elements.map(el => (
+                <div
+                    key={el.id}
+                    className={`
+                        ${styles.canvasElement} 
+                        ${el.type === 'process' ? styles.umlClass : ''}
+                        ${el.type === 'actor' ? styles.umlActor : ''}
+                        ${el.type === 'usecase' ? styles.umlUsecase : ''}
+                        ${el.type === 'start' ? styles.umlStart : ''}
+                        ${el.type === 'end' ? styles.umlEnd : ''}
+                        ${el.type === 'note' ? styles.umlNote : ''}
+                        ${selectedId === el.id ? styles.selected : ''}
+                    `}
+                    style={{
+                        left: el.x,
+                        top: el.y,
+                        width: el.width,
+                        height: el.height,
+                        backgroundColor: (el.type !== 'actor' && el.type !== 'start' && el.type !== 'end') ? el.bgColor : undefined,
+                        fontSize: el.fontSize,
+                        zIndex: 2 // explicitly set
+                    }}
+                    onMouseDown={(e) => handleMouseDown(e, el.id, el.x, el.y)}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        if (tool === 'connect') completeConnection(el.id);
+                    }}
+                    onContextMenu={(e) => handleContextMenu(e, el.id)}
+                >
+                    {renderElementContent(el)}
+                </div>
+            ))}
+
+            {/* Context Menu */}
+            {contextMenu && contextMenu.visible && (
+                <div
+                    className={styles.contextMenu}
+                    style={{ left: contextMenu.x, top: contextMenu.y }}
+                >
+                    <div className={styles.contextItem} onClick={duplicateElement}>
+                        <i className="fas fa-copy"></i> Duplicate
+                    </div>
+                    <div className={styles.contextItem} onClick={sendToBack}>
+                        <i className="fas fa-layer-group"></i> Send to Back
+                    </div>
+                    <div className={`${styles.contextItem} ${styles.danger}`} onClick={deleteSelected}>
+                        <i className="fas fa-trash"></i> Delete
+                    </div>
+                </div>
+            )}
+
+            {/* Floating Controls */}
+            <div className={styles.floatingControls}>
+                <button
+                    className={`${styles.controlBtn} ${tool === 'select' ? styles.active : ''}`}
+                    onClick={() => setTool('select')}
+                    title="Select Tool (V)"
+                >
+                    <i className="fas fa-mouse-pointer"></i>
+                </button>
+                <button
+                    className={`${styles.controlBtn} ${tool === 'connect' ? styles.active : ''}`}
+                    onClick={() => setTool('connect')}
+                    title="Connect Tool (C)"
+                >
+                    <i className="fas fa-draw-polygon"></i>
+                </button>
+                <div className={styles.controlSeparator}></div>
+                <button className={styles.controlBtn} onClick={() => alert("Undo unimplemented in React version yet")} title="Undo (Ctrl+Z)">
+                    <i className="fas fa-undo"></i>
+                </button>
+                <button className={styles.controlBtn} onClick={deleteSelected} title="Delete (Del)">
+                    <i className="fas fa-trash"></i>
+                </button>
+            </div>
+        </main>
+    );
+}
