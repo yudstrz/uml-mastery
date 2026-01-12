@@ -250,18 +250,40 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                         </div>
                                     ) :
 
-                                        /* 6. DEFAULT LINEAR LAYOUT */
-                                        (
-                                            <div className={styles.builderRow}>
-
-                                                {userSequence.map((item, i) => (
-                                                    <React.Fragment key={i}>
-                                                        {i > 0 && <div className={styles.arrowConnector}>→</div>}
-                                                        <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
-                                                    </React.Fragment>
+                                        /* 5. USER FLOW BRANCH LAYOUT (with decision branches) */
+                                        currentQuestion.layoutMode === 'userflow_branch' && currentQuestion.slotConfig ? (
+                                            <div className={styles.userFlowBranchGrid}>
+                                                {currentQuestion.slotConfig.map((config, i) => (
+                                                    <div
+                                                        key={i}
+                                                        style={{ gridArea: config.gridArea }}
+                                                        className={styles.userFlowSlot}
+                                                    >
+                                                        <div className={styles.slotLabel}>{config.label}</div>
+                                                        <DropSlot
+                                                            item={userSequence[i]}
+                                                            index={i}
+                                                            onDrop={onDrop}
+                                                            onDragOver={onDragOver}
+                                                            handleRemove={handleRemove}
+                                                        />
+                                                    </div>
                                                 ))}
                                             </div>
-                                        )}
+                                        ) :
+
+                                            /* 6. DEFAULT LINEAR LAYOUT */
+                                            (
+                                                <div className={styles.builderRow}>
+
+                                                    {userSequence.map((item, i) => (
+                                                        <React.Fragment key={i}>
+                                                            {i > 0 && <div className={styles.arrowConnector}>→</div>}
+                                                            <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
+                                                        </React.Fragment>
+                                                    ))}
+                                                </div>
+                                            )}
                 </div>
 
                 <button className={styles.btnCheck} onClick={checkAnswer}>CEK JAWABAN</button>

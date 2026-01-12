@@ -157,20 +157,9 @@ export const useCaseQuestions: QuizQuestion[] = [
             'usecase',     // 12: Menerima pesanan (Driver)
             'usecase',     // 13: Mengambil makanan
             'usecase',     // 14: Mengantar ke pelanggan
-            // Relations
+            // Relations (only include and extend, associations available in toolbox but not in fixed slots)
             'include',     // 15: Pembayaran <<include>> Validasi
             'extend',      // 16: Pemesanan <<extend>> Pakai Promo
-            // Associations (Actor-Use Case connections)
-            'assoc_solid', // 17: Pelanggan — Login
-            'assoc_solid', // 18: Pelanggan — Mencari makanan
-            'assoc_solid', // 19: Pelanggan — Melakukan pemesanan
-            'assoc_solid', // 20: Pelanggan — Melakukan pembayaran
-            'assoc_solid', // 21: Admin Resto — Mengelola Menu
-            'assoc_solid', // 22: Admin Resto — Menerima Pesanan
-            'assoc_solid', // 23: Admin Resto — Menyiapkan makanan
-            'assoc_solid', // 24: Driver — Menerima pesanan
-            'assoc_solid', // 25: Driver — Mengambil makanan
-            'assoc_solid', // 26: Driver — Mengantar ke pelanggan
         ],
         explanation: 'Diagram lengkap dengan aktor, use case, dan relasi Include/Extend.',
         layoutMode: 'gofood',
@@ -295,26 +284,47 @@ export const activityQuestions: QuizQuestion[] = [
 export const userFlowQuestions: QuizQuestion[] = [
     {
         scenario: 'Tantangan: Alur Login Go Food',
-        instruction: 'Susun alur login aplikasi Go Food dari membuka aplikasi hingga siap mencari makanan. Perhatikan ada 2 jalur dari Decision.',
+        instruction: 'Susun alur login dengan 2 jalur: Jalur atas (sudah login) langsung ke Home, jalur bawah (belum login) melalui login dulu.',
         targetSequence: [
-            'start_end',     // 0: Start (Klik Icon Aplikasi)
-            'flow_arrow',    // 1
-            'process',       // 2: Tampilan Splash Screen
-            'flow_arrow',    // 3
-            'decision_uf',   // 4: Cek Belum Login
-            // Branch 1: Belum Login
-            'flow_arrow',    // 5: arrow ke bawah (Belum Login)
-            'process',       // 6: Halaman Login/Daftar
-            'flow_arrow',    // 7
-            'process',       // 8: Input Kredensial
-            'flow_arrow',    // 9: arrow ke atas merge
-            // Branch 2 dari decision langsung ke Home (Sudah Login)
-            'flow_arrow',    // 10: arrow ke kanan (Sudah Login)
-            'process',       // 11: Halaman Utama/Home
-            'flow_arrow',    // 12
-            'start_end'      // 13: End (Siap Mencari Makanan)
+            'start_end',     // 0: Start
+            'flow_arrow',    // 1: →
+            'process',       // 2: Splash Screen
+            'flow_arrow',    // 3: →
+            'decision_uf',   // 4: Decision (Cek Login)
+            // Branch Atas: Sudah Login (straight)
+            'flow_arrow',    // 5: → (Sudah Login)
+            'process',       // 6: Halaman Utama
+            // Branch Bawah: Belum Login (down path)
+            'flow_arrow',    // 7: ↓ (Belum Login)
+            'process',       // 8: Login/Daftar
+            'flow_arrow',    // 9: →
+            'process',       // 10: Input Kredensial
+            'flow_arrow',    // 11: ↑ (merge ke atas)
+            // Continue to end
+            'flow_arrow',    // 12: →
+            'start_end'      // 13: End
         ],
-        explanation: 'Alur dimulai dari klik icon aplikasi, tampil splash screen, cek status login. Jika belum login: masuk halaman login/daftar → input kredensial. Jika sudah login: langsung ke halaman utama.',
-        layoutMode: 'userflow_horizontal'
+        explanation: 'Decision mengarah ke 2 jalur: atas (sudah login) dan bawah (belum login).',
+        layoutMode: 'userflow_branch',
+        slotConfig: [
+            // Row 1: Main path + upper branch
+            { label: 'Start', gridArea: '1 / 1 / 2 / 2' },
+            { label: '→', gridArea: '1 / 2 / 2 / 3' },
+            { label: 'Splash', gridArea: '1 / 3 / 2 / 4' },
+            { label: '→', gridArea: '1 / 4 / 2 / 5' },
+            { label: 'Decision', gridArea: '1 / 5 / 3 / 6' },
+            // Upper branch (Sudah Login)
+            { label: '→ Sudah', gridArea: '1 / 6 / 2 / 7' },
+            { label: 'Home', gridArea: '1 / 7 / 2 / 8' },
+            // Lower branch (Belum Login)
+            { label: '↓ Belum', gridArea: '2 / 6 / 3 / 7' },
+            { label: 'Login', gridArea: '2 / 7 / 3 / 8' },
+            { label: '→', gridArea: '2 / 8 / 3 / 9' },
+            { label: 'Kredensial', gridArea: '2 / 9 / 3 / 10' },
+            { label: '↑ merge', gridArea: '1 / 8 / 3 / 9' },
+            // Continue
+            { label: '→', gridArea: '1 / 9 / 2 / 10' },
+            { label: 'End', gridArea: '1 / 10 / 2 / 11' },
+        ]
     }
 ];
