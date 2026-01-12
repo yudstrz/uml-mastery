@@ -269,23 +269,25 @@ export const userFlowQuestions: QuizQuestion[] = [
         explanation: 'Decision mengarah ke 2 jalur: atas (sudah login) dan bawah (belum login).',
         layoutMode: 'userflow_branch',
         slotConfig: [
-            // Row 1: Upper path (Start to End)
-            { label: 'Start', gridArea: '1 / 1 / 2 / 2' },
-            { label: '→', gridArea: '1 / 2 / 2 / 3' },
-            { label: 'Splash', gridArea: '1 / 3 / 2 / 4' },
-            { label: '→', gridArea: '1 / 4 / 2 / 5' },
-            { label: 'Decision', gridArea: '1 / 5 / 2 / 6' },
-            { label: '→ Sudah', gridArea: '1 / 6 / 2 / 7' },
-            { label: 'Home', gridArea: '1 / 7 / 2 / 8' },
-            // Row 2: Lower path (Belum Login)
-            { label: '↓ Belum', gridArea: '2 / 5 / 3 / 6' },
-            { label: 'Login', gridArea: '2 / 6 / 3 / 7' },
-            { label: '→', gridArea: '2 / 7 / 3 / 8' },
-            { label: 'Kredensial', gridArea: '2 / 8 / 3 / 9' },
-            { label: '↑', gridArea: '1 / 8 / 2 / 9' },
-            // End
-            { label: '→', gridArea: '1 / 8 / 2 / 9' },
-            { label: 'End', gridArea: '1 / 9 / 2 / 10' },
+            // Row 1: Upper path - Start to Home to End
+            { label: 'Start', gridArea: '1 / 1 / 2 / 2' },           // 0
+            { label: '→', gridArea: '1 / 2 / 2 / 3' },               // 1
+            { label: 'Splash', gridArea: '1 / 3 / 2 / 4' },          // 2
+            { label: '→', gridArea: '1 / 4 / 2 / 5' },               // 3
+            { label: 'Decision', gridArea: '1 / 5 / 2 / 6' },        // 4
+            { label: '→ Sudah', gridArea: '1 / 6 / 2 / 7' },         // 5
+            { label: 'Home', gridArea: '1 / 7 / 2 / 8' },            // 6
+
+            // Row 2: Lower path - Belum Login
+            { label: '↓ Belum', gridArea: '2 / 5 / 3 / 6' },         // 7
+            { label: 'Login', gridArea: '2 / 6 / 3 / 7' },           // 8
+            { label: '→', gridArea: '2 / 7 / 3 / 8' },               // 9
+            { label: 'Kredensial', gridArea: '2 / 8 / 3 / 9' },      // 10
+            { label: '↑', gridArea: '2 / 9 / 3 / 10' },              // 11 - merge up
+
+            // Row 1: Continue to End
+            { label: '→', gridArea: '1 / 8 / 2 / 9' },               // 12
+            { label: 'End', gridArea: '1 / 9 / 2 / 10' },            // 13
         ]
     }
 ];
