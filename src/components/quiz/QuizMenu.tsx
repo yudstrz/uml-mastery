@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Quiz.module.css';
 
 interface QuizMenuProps {
-    onStartQuiz: (type: 'usecase' | 'activity') => void;
+    onStartQuiz: (type: 'usecase' | 'activity' | 'userflow') => void;
 }
 
 export const QuizMenu: React.FC<QuizMenuProps> = ({ onStartQuiz }) => {
@@ -19,6 +19,13 @@ export const QuizMenu: React.FC<QuizMenuProps> = ({ onStartQuiz }) => {
                 <span className={styles.menuIcon}>⚡</span>
                 <div className={styles.menuTitle}>Activity Diagram</div>
                 <div className={styles.menuDesc}>Tantangan akhir: Alur pemesanan makanan via Go Food.</div>
+                <button className={styles.btnCheck}>Mulai Kuis</button>
+            </div>
+
+            <div className={styles.quizMenuCard} onClick={() => onStartQuiz('userflow')}>
+                <span className={styles.menuIcon}>🎯</span>
+                <div className={styles.menuTitle}>User Flow</div>
+                <div className={styles.menuDesc}>Tantangan: Alur pengalaman pengguna di aplikasi Go Food.</div>
                 <button className={styles.btnCheck}>Mulai Kuis</button>
             </div>
         </div>

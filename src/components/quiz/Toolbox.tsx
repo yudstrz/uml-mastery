@@ -3,7 +3,7 @@ import { umlData } from '@/data/uml-data';
 import styles from './Quiz.module.css';
 
 interface ToolboxProps {
-    quizType: 'usecase' | 'activity';
+    quizType: 'usecase' | 'activity' | 'userflow';
     onDragStart: (e: React.DragEvent, id: string) => void;
 }
 
@@ -15,12 +15,18 @@ export const Toolbox: React.FC<ToolboxProps> = ({ quizType, onDragStart }) => {
                 'Nodes': ['usecase', 'boundary'],
                 'Relations': ['assoc_solid', 'include', 'extend', 'generalization']
             };
-        } else {
+        } else if (quizType === 'activity') {
             return {
                 'Nodes': ['initial', 'final', 'action', 'decision'],
                 'Flows': ['control_flow'],
                 'Parallel': ['fork_h'],
                 'Layout': ['partition_v']
+            };
+        } else {
+            return {
+                'Start/End': ['start_end'],
+                'Screens': ['process'],
+                'Flow': ['flow_arrow', 'decision_uf']
             };
         }
     }, [quizType]);

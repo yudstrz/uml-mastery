@@ -108,6 +108,36 @@ export const umlData: UmlComponent[] = [
         name: 'Swimlane',
         desc: 'Area vertikal untuk mengelompokkan aktivitas berdasarkan siapa yang bertanggung jawab (Misal: User, System, Database).',
         svg: '<svg viewBox="0 0 50 60" fill="none" stroke="#2563EB" stroke-width="1"><rect x="5" y="5" width="40" height="50"/><line x1="5" y1="15" x2="45" y2="15"/></svg>'
+    },
+
+    // === USER FLOW COMPONENTS ===
+    {
+        id: 'start_end',
+        type: 'userflow',
+        name: 'Start / End',
+        desc: 'Node awal atau akhir dari user flow. Biasanya berbentuk rounded rectangle untuk menandai titik mulai dan selesai perjalanan pengguna.',
+        svg: '<svg viewBox="0 0 100 40" fill="white" stroke="#2563EB" stroke-width="2"><rect x="5" y="5" width="90" height="30" rx="15"/></svg>'
+    },
+    {
+        id: 'process',
+        type: 'userflow',
+        name: 'Process / Screen',
+        desc: 'Menggambarkan halaman, layar, atau proses yang dilalui user. Contoh: "Tampilan Splash Screen", "Halaman Login".',
+        svg: '<svg viewBox="0 0 100 40" fill="white" stroke="#2563EB" stroke-width="2"><rect x="5" y="5" width="90" height="30" rx="4"/></svg>'
+    },
+    {
+        id: 'decision_uf',
+        type: 'userflow',
+        name: 'Decision',
+        desc: 'Titik keputusan dalam alur pengguna. Biasanya berdasarkan kondisi seperti "Sudah Login?" atau "Pembayaran Berhasil?".',
+        svg: '<svg viewBox="0 0 50 50" fill="white" stroke="#2563EB" stroke-width="2"><path d="M25 5 L45 25 L25 45 L5 25 Z"/></svg>'
+    },
+    {
+        id: 'flow_arrow',
+        type: 'userflow',
+        name: 'Flow Arrow',
+        desc: 'Panah penghubung yang menunjukkan arah alur dari satu langkah ke langkah berikutnya dalam user journey.',
+        svg: '<svg viewBox="0 0 50 20" stroke="#2563EB" stroke-width="2" fill="none"><line x1="0" y1="10" x2="40" y2="10"/><path d="M40 10 L35 5 M40 10 L35 15"/></svg>'
     }
 ];
 
@@ -212,5 +242,30 @@ export const activityQuestions: QuizQuestion[] = [
             { label: 'Menerima Pesanan', gridArea: '1 / 8 / 2 / 9' },
             { label: 'Finish', gridArea: '1 / 9 / 2 / 10' }
         ]
+    }
+];
+
+// === USER FLOW COMPONENTS (Only Final Challenge) ===
+export const userFlowQuestions: QuizQuestion[] = [
+    {
+        scenario: 'Tantangan: Alur Login Go Food',
+        instruction: 'Susun kembali User Flow untuk proses login aplikasi Go Food. Perhatikan urutan dari membuka aplikasi hingga siap mencari makanan.',
+        targetSequence: [
+            'start_end',     // 0: Start (Klik Icon Aplikasi)
+            'flow_arrow',    // 1
+            'process',       // 2: Tampilan Splash Screen
+            'flow_arrow',    // 3
+            'decision_uf',   // 4: Cek Belum Login
+            'flow_arrow',    // 5: Belum Login
+            'process',       // 6: Halaman Login/Daftar
+            'flow_arrow',    // 7
+            'process',       // 8: Input Kredensial
+            'flow_arrow',    // 9: Sudah Login (dari decision)
+            'process',       // 10: Halaman Utama/Home
+            'flow_arrow',    // 11
+            'start_end'      // 12: End (Siap Mencari Makanan)
+        ],
+        explanation: 'Alur login dimulai dari membuka aplikasi, mengecek status login, masuk/daftar jika belum, lalu menuju halaman utama.',
+        layoutMode: 'userflow_horizontal'
     }
 ];

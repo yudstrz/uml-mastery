@@ -4,7 +4,7 @@ import { UmlCard } from './UmlCard';
 import styles from './KnowledgeGrid.module.css';
 
 export const KnowledgeGrid: React.FC = () => {
-    const [filter, setFilter] = useState<'all' | 'usecase' | 'activity'>('all');
+    const [filter, setFilter] = useState<'all' | 'usecase' | 'activity' | 'userflow'>('all');
 
     const filteredData = filter === 'all'
         ? umlData
@@ -30,6 +30,12 @@ export const KnowledgeGrid: React.FC = () => {
                     onClick={() => setFilter('activity')}
                 >
                     Activity
+                </button>
+                <button
+                    className={`${styles.btnFilter} ${filter === 'userflow' ? styles.active : ''}`}
+                    onClick={() => setFilter('userflow')}
+                >
+                    User Flow
                 </button>
             </div>
 

@@ -149,22 +149,30 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                         <span className={styles.gofoodSystemLabel}>Sistem Go Food</span>
                                     </div>
 
-                                    {currentQuestion.slotConfig.map((config, i) => (
-                                        <div
-                                            key={i}
-                                            style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
-                                            className={styles.gofoodSlotWrapper}
-                                        >
-                                            <div className={styles.slotLabel}>{config.label}</div>
-                                            <DropSlot
-                                                item={userSequence[i]}
-                                                index={i}
-                                                onDrop={onDrop}
-                                                onDragOver={onDragOver}
-                                                handleRemove={handleRemove}
-                                            />
-                                        </div>
-                                    ))}
+                                    {currentQuestion.slotConfig.map((config, i) => {
+                                        // Yellow slots for Validasi Pembayaran (index 7) and Pakai promo (index 8)
+                                        const isSpecialUseCase = i === 7 || i === 8;
+
+                                        return (
+                                            <div
+                                                key={i}
+                                                style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
+                                                className={styles.gofoodSlotWrapper}
+                                            >
+                                                <div className={`${styles.slotLabel} ${isSpecialUseCase ? styles.yellowSlotLabel : ''}`}>
+                                                    {config.label}
+                                                </div>
+                                                <DropSlot
+                                                    item={userSequence[i]}
+                                                    index={i}
+                                                    onDrop={onDrop}
+                                                    onDragOver={onDragOver}
+                                                    handleRemove={handleRemove}
+                                                    isYellowSlot={isSpecialUseCase}
+                                                />
+                                            </div>
+                                        );
+                                    })}
 
 
                                     {/* Visual Lines (Hardcoded for this specific layout to match the diagram) */}
@@ -197,37 +205,63 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                         <div className={styles.swimlaneRow} style={{ gridRow: '3 / 4' }}><span className={styles.swimlaneLabel}>Admin Resto</span></div>
                                         <div className={styles.swimlaneRow} style={{ gridRow: '4 / 5' }}><span className={styles.swimlaneLabel}>Driver</span></div>
 
-                                        {currentQuestion.slotConfig.map((config, i) => (
-                                            <div
-                                                key={i}
-                                                style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
-                                                className={styles.gofoodSlotWrapper}
-                                            >
-                                                <div className={styles.slotLabel}>{config.label}</div>
-                                                <DropSlot
-                                                    item={userSequence[i]}
-                                                    index={i}
-                                                    onDrop={onDrop}
-                                                    onDragOver={onDragOver}
-                                                    handleRemove={handleRemove}
-                                                />
-                                            </div>
-                                        ))}
+                                        {currentQuestion.slotConfig.map((config, i) => {
+                                            // Determine swimlane color based on grid row
+                                            const gridRow = config.gridArea ? parseInt(config.gridArea.split('/')[0]) : 0;
+                                            const isAdminOrDriver = gridRow === 3 || gridRow === 4; // Admin Resto or Driver
+
+                                            return (
+                                                <div
+                                                    key={i}
+                                                    style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
+                                                    className={styles.gofoodSlotWrapper}
+                                                >
+                                                    <div className={`${styles.slotLabel} ${isAdminOrDriver ? styles.yellowSlotLabel : styles.purpleSlotLabel}`}>
+                                                        {config.label}
+                                                    </div>
+                                                    <DropSlot
+                                                        item={userSequence[i]}
+                                                        index={i}
+                                                        onDrop={onDrop}
+                                                        onDragOver={onDragOver}
+                                                        handleRemove={handleRemove}
+                                                        isYellowSlot={isAdminOrDriver}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 ) :
 
-                                    /* 5. DEFAULT LINEAR LAYOUT */
-                                    (
-                                        <div className={styles.builderRow}>
-
+                                    /* 5. USER FLOW HORIZONTAL LAYOUT */
+                                    currentQuestion.layoutMode === 'userflow_horizontal' ? (
+                                        <div className={styles.userFlowGrid}>
                                             {userSequence.map((item, i) => (
                                                 <React.Fragment key={i}>
-                                                    {i > 0 && <div className={styles.arrowConnector}>→</div>}
-                                                    <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
+                                                    <DropSlot
+                                                        item={item}
+                                                        index={i}
+                                                        onDrop={onDrop}
+                                                        onDragOver={onDragOver}
+                                                        handleRemove={handleRemove}
+                                                    />
                                                 </React.Fragment>
                                             ))}
                                         </div>
-                                    )}
+                                    ) :
+
+                                        /* 6. DEFAULT LINEAR LAYOUT */
+                                        (
+                                            <div className={styles.builderRow}>
+
+                                                {userSequence.map((item, i) => (
+                                                    <React.Fragment key={i}>
+                                                        {i > 0 && <div className={styles.arrowConnector}>→</div>}
+                                                        <DropSlot item={item} index={i} onDrop={onDrop} onDragOver={onDragOver} handleRemove={handleRemove} />
+                                                    </React.Fragment>
+                                                ))}
+                                            </div>
+                                        )}
                 </div>
 
                 <button className={styles.btnCheck} onClick={checkAnswer}>CEK JAWABAN</button>
@@ -295,10 +329,10 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
 };
 
 // Helper Component for Drop Zone
-const DropSlot = ({ item, index, onDrop, onDragOver, handleRemove }: any) => {
+const DropSlot = ({ item, index, onDrop, onDragOver, handleRemove, isYellowSlot }: any) => {
     return (
         <div
-            className={`${styles.dropZone} ${item ? styles.dropZoneFilled : ''}`}
+            className={`${styles.dropZone} ${item ? styles.dropZoneFilled : ''} ${isYellowSlot ? styles.yellowDropZone : styles.purpleDropZone}`}
             onDragOver={onDragOver}
             onDrop={(e) => onDrop(e, index)}
         >

@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
 import { QuizQuestion, UmlComponent } from '@/types';
-import { useCaseQuestions, activityQuestions, umlData } from '@/data/uml-data';
+import { useCaseQuestions, activityQuestions, userFlowQuestions, umlData } from '@/data/uml-data';
 
 export const useQuiz = () => {
-    const [activeQuizType, setActiveQuizType] = useState<'usecase' | 'activity' | null>(null);
+    const [activeQuizType, setActiveQuizType] = useState<'usecase' | 'activity' | 'userflow' | null>(null);
     const [currentQuestions, setCurrentQuestions] = useState<QuizQuestion[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userSequence, setUserSequence] = useState<(UmlComponent | null)[]>([]);
@@ -27,9 +27,10 @@ export const useQuiz = () => {
         }
     }, [currentQuestion]);
 
-    const startQuiz = (type: 'usecase' | 'activity') => {
+    const startQuiz = (type: 'usecase' | 'activity' | 'userflow') => {
         setActiveQuizType(type);
-        setCurrentQuestions(type === 'usecase' ? useCaseQuestions : activityQuestions);
+        const questions = type === 'usecase' ? useCaseQuestions : type === 'activity' ? activityQuestions : userFlowQuestions;
+        setCurrentQuestions(questions);
         setCurrentIndex(0);
         setScore(0);
         setShowResult(false);
