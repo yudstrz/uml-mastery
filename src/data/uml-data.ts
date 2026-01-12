@@ -10,13 +10,6 @@ export const umlData: UmlComponent[] = [
         svg: '<svg viewBox="0 0 50 50" fill="none" stroke="#2563EB" stroke-width="2"><circle cx="25" cy="15" r="8"/><path d="M25 23 L25 38 M10 28 L40 28 M15 50 L25 38 L35 50"/></svg>'
     },
     {
-        id: 'actor_system',
-        type: 'usecase',
-        name: 'Actor (System)',
-        desc: 'Mewakili sistem eksternal lain yang berinteraksi dengan sistem kita, misalnya Payment Core banking atau layanan API pihak ketiga.',
-        svg: '<svg viewBox="0 0 50 50" fill="none" stroke="#2563EB" stroke-width="2"><rect x="5" y="5" width="40" height="40" rx="4"/><circle cx="25" cy="18" r="5"/><path d="M25 23 L25 35 M15 28 L35 28 M18 42 L25 35 L32 42"/><text x="13" y="12" font-size="6" fill="#2563EB" stroke="none">&lt;&lt;system&gt;&gt;</text></svg>'
-    },
-    {
         id: 'usecase',
         type: 'usecase',
         name: 'Use Case',
@@ -249,23 +242,26 @@ export const activityQuestions: QuizQuestion[] = [
 export const userFlowQuestions: QuizQuestion[] = [
     {
         scenario: 'Alur 1: Masuk ke Aplikasi',
-        instruction: 'Susun alur login aplikasi Go Food dari membuka aplikasi hingga siap mencari makanan.',
+        instruction: 'Susun alur login aplikasi Go Food dari membuka aplikasi hingga siap mencari makanan. Perhatikan ada 2 jalur dari Decision.',
         targetSequence: [
             'start_end',     // 0: Start (Klik Icon Aplikasi)
             'flow_arrow',    // 1
             'process',       // 2: Tampilan Splash Screen
             'flow_arrow',    // 3
             'decision_uf',   // 4: Cek Belum Login
-            'flow_arrow',    // 5: Belum Login (path)
+            // Branch 1: Belum Login
+            'flow_arrow',    // 5: arrow ke bawah (Belum Login)
             'process',       // 6: Halaman Login/Daftar
             'flow_arrow',    // 7
             'process',       // 8: Input Kredensial
-            'flow_arrow',    // 9: Sudah Login (dari decision, path lain)
-            'process',       // 10: Halaman Utama/Home
-            'flow_arrow',    // 11
-            'start_end'      // 12: End (Siap Mencari Makanan)
+            'flow_arrow',    // 9: arrow ke atas merge
+            // Branch 2 dari decision langsung ke Home (Sudah Login)
+            'flow_arrow',    // 10: arrow ke kanan (Sudah Login)
+            'process',       // 11: Halaman Utama/Home
+            'flow_arrow',    // 12
+            'start_end'      // 13: End (Siap Mencari Makanan)
         ],
-        explanation: 'Alur dimulai dari klik icon aplikasi, tampil splash screen, cek status login, jika belum login masuk halaman login/daftar, input kredensial, lalu ke halaman utama.',
+        explanation: 'Alur dimulai dari klik icon aplikasi, tampil splash screen, cek status login. Jika belum login: masuk halaman login/daftar → input kredensial. Jika sudah login: langsung ke halaman utama.',
         layoutMode: 'userflow_horizontal'
     },
     {

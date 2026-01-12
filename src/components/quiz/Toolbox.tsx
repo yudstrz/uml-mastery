@@ -11,7 +11,7 @@ export const Toolbox: React.FC<ToolboxProps> = ({ quizType, onDragStart }) => {
     const groups = useMemo(() => {
         if (quizType === 'usecase') {
             return {
-                'Actors': ['actor', 'actor_system'],
+                'Actors': ['actor'],
                 'Nodes': ['usecase', 'boundary'],
                 'Relations': ['assoc_solid', 'include', 'extend', 'generalization']
             };
