@@ -56,7 +56,8 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                         <span style={{ fontWeight: 600 }}>Soal {currentIndex + 1}/{totalQuestions}</span>
                     </div>
                     <h2 style={{ marginTop: '1rem', color: 'var(--primary-color)' }}>
-                        {activeQuizType === 'usecase' ? 'USE CASE DIAGRAM' : 'ACTIVITY DIAGRAM'}
+                        {activeQuizType === 'usecase' ? 'USE CASE DIAGRAM' :
+                            activeQuizType === 'userflow' ? 'USER FLOW DIAGRAM' : 'ACTIVITY DIAGRAM'}
                     </h2>
                     <div className={styles.progressContainer}>
                         <div
