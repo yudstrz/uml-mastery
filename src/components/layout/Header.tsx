@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './Header.module.css';
 
 interface HeaderProps {
-    activeTab: 'knowledge' | 'quiz';
-    onTabChange: (tab: 'knowledge' | 'quiz') => void;
+    activeTab: 'knowledge' | 'quiz' | 'builder';
+    onTabChange: (tab: 'knowledge' | 'quiz' | 'builder') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
@@ -28,6 +28,12 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
                         onClick={() => onTabChange('quiz')}
                     >
                         Visual Quiz
+                    </button>
+                    <button
+                        className={`${styles.navButton} ${activeTab === 'builder' ? styles.active : ''}`}
+                        onClick={() => onTabChange('builder')}
+                    >
+                        UML Builder
                     </button>
                 </nav>
             </div>

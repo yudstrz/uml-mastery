@@ -16,16 +16,13 @@
     background: var(--bg-main);
     color: var(--text-main);
     overflow: hidden;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    position: fixed;
-    /* Force full screen overlay */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    z-index: 50;
-    /* Ensure it stays on top */
+    position: absolute;
+    /* To fill parent */
+    inset: 0;
 }
 
 /* Header */

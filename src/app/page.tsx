@@ -7,16 +7,29 @@ import { QuizMenu } from "@/components/quiz/QuizMenu";
 import { QuizInterface } from "@/components/quiz/QuizInterface";
 import { useQuiz } from "@/hooks/useQuiz";
 
+import UmlBuilder from "@/components/uml-builder/UmlBuilder";
+
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<'knowledge' | 'quiz'>('knowledge');
+  const [activeTab, setActiveTab] = useState<'knowledge' | 'quiz' | 'builder'>('knowledge');
   const quizHook = useQuiz();
 
-  const handleTabChange = (tab: 'knowledge' | 'quiz') => {
+  const handleTabChange = (tab: 'knowledge' | 'quiz' | 'builder') => {
     setActiveTab(tab);
     if (tab === 'quiz') {
       quizHook.exitQuiz();
     }
   };
+
+  if (activeTab === 'builder') {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+        <Header activeTab={activeTab} onTabChange={handleTabChange} />
+        <div style={{ flex: 1, position: 'relative' }}>
+          <UmlBuilder />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
