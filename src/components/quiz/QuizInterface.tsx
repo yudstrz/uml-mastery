@@ -141,25 +141,25 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                             </div>
                         ) :
 
-                            /* 3. GO FOOD / CUSTOM GRID LAYOUT */
+                            /* 3. USE CASE DIAGRAM - DEDICATED LAYOUT */
                             currentQuestion.layoutMode === 'gofood' && currentQuestion.slotConfig ? (
-                                <div className={styles.gofoodGrid}>
-                                    {/* System Boundary Box - visual only */}
-                                    <div className={styles.gofoodSystemBox}>
-                                        <span className={styles.gofoodSystemLabel}>Sistem Go Food</span>
+                                <div className={styles.useCaseGrid}>
+                                    {/* System Boundary Box */}
+                                    <div className={styles.useCaseSystemBox}>
+                                        <span className={styles.useCaseSystemLabel}>Sistem Go Food</span>
                                     </div>
 
                                     {currentQuestion.slotConfig.map((config, i) => {
-                                        // Yellow slots for Validasi Pembayaran (index 7) and Pakai promo (index 8)
-                                        const isSpecialUseCase = i === 7 || i === 8;
+                                        // Determine type for coloring: Actor (0-2), UseCase (3-14), Relation (15-16)
+                                        const slotType = i < 3 ? 'actor' : i < 15 ? 'usecase' : 'relation';
 
                                         return (
                                             <div
                                                 key={i}
-                                                style={{ gridArea: config.gridArea, position: 'relative', zIndex: 10 }}
-                                                className={styles.gofoodSlotWrapper}
+                                                style={{ gridArea: config.gridArea }}
+                                                className={styles.useCaseSlotWrapper}
                                             >
-                                                <div className={`${styles.slotLabel} ${isSpecialUseCase ? styles.yellowSlotLabel : ''}`}>
+                                                <div className={`${styles.useCaseSlotLabel} ${styles[slotType]}`}>
                                                     {config.label}
                                                 </div>
                                                 <DropSlot
@@ -168,31 +168,10 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                                     onDrop={onDrop}
                                                     onDragOver={onDragOver}
                                                     handleRemove={handleRemove}
-                                                    isYellowSlot={isSpecialUseCase}
                                                 />
                                             </div>
                                         );
                                     })}
-
-
-                                    {/* Visual Lines (Hardcoded for this specific layout to match the diagram) */}
-                                    <svg className={styles.connectorLines} viewBox="0 0 800 600">
-                                        <defs>
-                                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
-                                                <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
-                                            </marker>
-                                        </defs>
-                                        {/* Lines will be drawn via CSS background or absolute if complex, but simple SVG lines work best */}
-                                        {/* Example lines matching the grid positions roughly - this is simplified */}
-                                        {/* Pelanggan -> Login */}
-                                        <line x1="80" y1="80" x2="350" y2="80" stroke="#cbd5e1" strokeWidth="2" markerEnd="url(#arrowhead)" />
-                                        {/* Pelanggan -> Mencari Makanan */}
-                                        <line x1="80" y1="120" x2="350" y2="150" stroke="#cbd5e1" strokeWidth="2" markerEnd="url(#arrowhead)" />
-                                        {/* ... more lines would be ideal but might be complex to hardcode perfectly without specific coordinates. 
-                                        For now, the grid placement implies the structure. 
-                                        Let's trust the spatial arrangement.
-                                    */}
-                                    </svg>
                                 </div>
                             ) :
 
@@ -258,25 +237,36 @@ export const QuizInterface: React.FC<QuizInterfaceProps> = ({ quizHook }) => {
                                         </div>
                                     ) :
 
-                                        /* 5. USER FLOW BRANCH LAYOUT (with decision branches) */
+                                        /* 5. USER FLOW BRANCH LAYOUT - DEDICATED */
                                         currentQuestion.layoutMode === 'userflow_branch' && currentQuestion.slotConfig ? (
                                             <div className={styles.userFlowBranchGrid}>
-                                                {currentQuestion.slotConfig.map((config, i) => (
-                                                    <div
-                                                        key={i}
-                                                        style={{ gridArea: config.gridArea }}
-                                                        className={styles.userFlowSlot}
-                                                    >
-                                                        <div className={styles.slotLabel}>{config.label}</div>
-                                                        <DropSlot
-                                                            item={userSequence[i]}
-                                                            index={i}
-                                                            onDrop={onDrop}
-                                                            onDragOver={onDragOver}
-                                                            handleRemove={handleRemove}
-                                                        />
-                                                    </div>
-                                                ))}
+                                                {currentQuestion.slotConfig.map((config, i) => {
+                                                    // Determine slot type for coloring
+                                                    const label = (config.label || '').toLowerCase();
+                                                    const slotType =
+                                                        label.includes('start') || label.includes('end') ? 'start' :
+                                                            label.includes('decision') ? 'decision' :
+                                                                label.includes('→') || label.includes('↓') || label.includes('↑') ? 'arrow' : 'process';
+
+                                                    return (
+                                                        <div
+                                                            key={i}
+                                                            style={{ gridArea: config.gridArea }}
+                                                            className={styles.userFlowSlotWrapper}
+                                                        >
+                                                            <div className={`${styles.userFlowSlotLabel} ${styles[slotType]}`}>
+                                                                {config.label}
+                                                            </div>
+                                                            <DropSlot
+                                                                item={userSequence[i]}
+                                                                index={i}
+                                                                onDrop={onDrop}
+                                                                onDragOver={onDragOver}
+                                                                handleRemove={handleRemove}
+                                                            />
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
                                         ) :
 
