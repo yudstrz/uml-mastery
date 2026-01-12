@@ -480,13 +480,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100px;
+    justify-content: flex-start;
+    min-height: 140px;
     padding: 0.5rem;
+    gap: 0.5rem;
 }
 
 .slotLabel {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     font-size: 0.75rem;
     font-weight: 600;
     color: #475569;
@@ -496,6 +497,7 @@
     border-radius: 6px;
     white-space: nowrap;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
 }
 
 /* Purple slot labels (Pelanggan, Sistem) */
@@ -592,7 +594,9 @@
 /* Adjust grid padding to account for label */
 .activityGrid {
     padding-left: 4rem;
-}/* User Flow Grid - Horizontal Layout */
+}
+
+/* User Flow Grid - Horizontal Layout */
 .userFlowGrid {
     display: flex;
     flex-direction: row;
