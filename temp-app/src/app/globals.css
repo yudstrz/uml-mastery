@@ -21,7 +21,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Segoe UI', system-ui, sans-serif;
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -668,4 +668,156 @@ body {
 
 .fade-in {
   animation: fadeIn 0.3s ease-in-out;
+}
+
+/* --- RESPONSIVE ADAPTERS --- */
+@media (max-width: 768px) {
+
+  /* Layout adjustments */
+  body {
+    height: 100dvh;
+    font-size: 14px;
+    /* Slightly smaller base text */
+  }
+
+  /* Header adjustments */
+  .header-nav {
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .nav-logo {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+  }
+
+  .nav-tabs {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    justify-content: flex-start;
+    padding: 0.25rem;
+    gap: 0.25rem;
+    -ms-overflow-style: none;
+    /* Hide scrollbar IE/Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .nav-tabs::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari */
+  }
+
+  .nav-tab {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  /* Welcome Screen */
+  .hero-icon {
+    font-size: 3.5rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  #screen-welcome {
+    padding: 1rem;
+  }
+
+  /* Generic Content Containers */
+  .slide-card,
+  .quiz-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  #screen-learning,
+  #screen-quiz-theory {
+    padding: 1rem;
+  }
+
+  .slide-title {
+    font-size: 1.4rem;
+  }
+
+  .slide-icon {
+    font-size: 2rem;
+  }
+
+  /* Knowledge Hub */
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-bottom: 5rem;
+    /* Space for footer if needed */
+  }
+
+  .filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  /* Visual Builder Mobile Layout */
+  .wizard-main {
+    flex-direction: column;
+  }
+
+  .wizard-preview-area {
+    height: 50%;
+    flex: none;
+    /* Disable flex growth to enforce height */
+    order: 1;
+    /* Show preview first */
+    border-bottom: 1px solid var(--border);
+  }
+
+  .wizard-form-area {
+    width: 100%;
+    /* Full width */
+    height: 50%;
+    /* Remaining height */
+    flex: 1;
+    border-right: none;
+    order: 2;
+    padding: 1rem;
+  }
+
+  .wizard-header {
+    padding: 1rem;
+  }
+
+  .wizard-steps {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 0.5rem;
+  }
+
+  .step {
+    white-space: nowrap;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  /* Adjust buttons for touch */
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+  }
 }

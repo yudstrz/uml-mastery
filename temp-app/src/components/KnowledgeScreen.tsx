@@ -14,12 +14,12 @@ export default function KnowledgeScreen({ onNavigate }: KnowledgeScreenProps) {
 
     return (
         <div id="screen-knowledge" className="app-screen active">
-            <div className="hub-header" style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <div className="hub-title" style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--primary)' }}>Knowledge Hub</div>
-                <div className="hub-subtitle" style={{ color: 'var(--secondary)' }}>Kamus Visual Komponen UML</div>
+            <div className="hub-header">
+                <div className="hub-title">Knowledge Hub</div>
+                <div className="hub-subtitle">Kamus Visual Komponen UML</div>
             </div>
 
-            <div className="filter-bar" style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
+            <div className="filter-bar">
                 <button
                     className={`btn ${filter === 'all' ? 'btn-primary' : 'btn-secondary'}`}
                     onClick={() => setFilter('all')}
@@ -40,24 +40,24 @@ export default function KnowledgeScreen({ onNavigate }: KnowledgeScreenProps) {
                 </button>
             </div>
 
-            <div className="grid-container" id="knowledge-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', maxWidth: '1000px', margin: '0 auto' }}>
+            <div className="grid-container" id="knowledge-grid">
                 {filteredComponents.map((item) => (
                     <div key={item.id} className="knowledge-card">
-                        <div className="k-icon" style={{ width: '80px', height: '80px', marginBottom: '1rem' }} dangerouslySetInnerHTML={{ __html: item.svg }} />
-                        <div className="k-type" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--secondary)', marginBottom: '0.5rem' }}>
+                        <div className="k-icon" dangerouslySetInnerHTML={{ __html: item.svg }} />
+                        <div className="k-type">
                             {item.type}
                         </div>
-                        <div className="k-name" style={{ fontWeight: 800, fontSize: '1.1rem', marginBottom: '0.5rem' }}>
+                        <div className="k-name">
                             {item.name}
                         </div>
-                        <div className="k-desc" style={{ fontSize: '0.9rem', color: 'var(--secondary)' }}>
+                        <div className="k-desc">
                             {item.desc}
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className="hub-footer" style={{ textAlign: 'center', marginTop: '3rem', paddingBottom: '3rem' }}>
+            <div className="hub-footer">
                 <button className="btn btn-primary" style={{ padding: '1rem 3rem' }} onClick={() => onNavigate('visual-menu')}>
                     Lanjut ke Tantangan Visual ⚡
                 </button>

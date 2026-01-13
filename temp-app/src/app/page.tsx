@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-slate-50 font-sans text-slate-900">
+    <div className="flex flex-col h-full overflow-hidden bg-slate-50 font-sans text-slate-900">
       <Header
         activeTab={screen === 'visual-builder' ? 'visual-menu' : screen}
         onNavigate={handleNavigate}

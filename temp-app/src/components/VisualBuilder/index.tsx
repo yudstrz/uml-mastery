@@ -98,13 +98,13 @@ export default function VisualBuilder({ scenarioId, onBack }: VisualBuilderProps
         <div className="flex-1 flex flex-col h-full bg-slate-50 overflow-hidden">
             {/* Wizard Header */}
             <div className="bg-white px-6 py-4 border-b border-slate-200 shadow-sm z-10">
-                <div className="flex justify-center mb-4">
-                    <div className="flex items-center gap-4 bg-slate-100 p-1 rounded-full">
+                <div className="flex justify-center mb-4 overflow-x-auto">
+                    <div className="flex items-center gap-4 bg-slate-100 p-1 rounded-full min-w-max">
                         {[1, 2, 3].map(s => (
                             <div
                                 key={s}
                                 className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition-all ${step === s ? 'bg-indigo-600 text-white shadow' :
-                                        step > s ? 'bg-emerald-500 text-white' : 'text-slate-400'
+                                    step > s ? 'bg-emerald-500 text-white' : 'text-slate-400'
                                     }`}
                             >
                                 <span className={`flex items-center justify-center w-5 h-5 rounded-full text-xs ${step === s ? 'bg-white/20' : step > s ? 'bg-white/20' : 'bg-slate-300 text-white'}`}>
@@ -126,10 +126,10 @@ export default function VisualBuilder({ scenarioId, onBack }: VisualBuilderProps
             </div>
 
             {/* Main Content Split */}
-            <div className="flex-1 flex overflow-hidden">
+            <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
                 {/* Left: Form Area */}
                 {step < 3 && (
-                    <div className="w-1/3 min-w-[320px] bg-white border-r border-slate-200 p-6 overflow-y-auto">
+                    <div className="w-full md:w-1/3 md:min-w-[320px] h-1/2 md:h-full bg-white border-t md:border-t-0 md:border-r border-slate-200 p-6 overflow-y-auto order-2 md:order-1">
                         <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mb-6 flex items-start gap-3">
                             <div className="bg-indigo-200 p-1 rounded text-indigo-700 mt-0.5">💡</div>
                             <p className="text-xs text-indigo-800 leading-relaxed">
@@ -198,7 +198,7 @@ export default function VisualBuilder({ scenarioId, onBack }: VisualBuilderProps
                                 <div className="border-t border-slate-200 pt-4">
                                     <h3 className="text-sm font-bold text-slate-700 mb-2">Relasi Lanjutan</h3>
                                     {relations.map((rel, rIdx) => (
-                                        <div key={rIdx} className="flex gap-1 items-center bg-slate-50 p-2 rounded mb-2 text-xs">
+                                        <div key={rIdx} className="flex flex-wrap gap-2 items-center bg-slate-50 p-2 rounded mb-2 text-xs">
                                             <select
                                                 className="flex-1 bg-white border border-slate-200 rounded p-1"
                                                 value={rel.source}
@@ -234,7 +234,7 @@ export default function VisualBuilder({ scenarioId, onBack }: VisualBuilderProps
                 )}
 
                 {/* Right: Preview Area */}
-                <div className="flex-1 flex flex-col bg-slate-100 relative">
+                <div className="w-full md:flex-1 h-1/2 md:h-full flex flex-col bg-slate-100 relative order-1 md:order-2">
                     {/* View Controls (Step 3) */}
                     {step === 3 && (
                         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-white p-1.5 rounded-xl text-sm font-bold shadow-lg flex gap-1 border border-slate-200">
@@ -260,7 +260,7 @@ export default function VisualBuilder({ scenarioId, onBack }: VisualBuilderProps
             </div>
 
             {/* Footer Actions */}
-            <div className="bg-white p-4 border-t border-slate-200 flex justify-between items-center z-20">
+            <div className="bg-white p-4 border-t border-slate-200 flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center z-20">
                 <div className="flex gap-2">
                     {step === 3 && (
                         <button

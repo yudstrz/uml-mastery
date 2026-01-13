@@ -17,18 +17,18 @@ export default function VisualMenuScreen({ onStartBuilder, onBack }: VisualMenuS
                 </p>
             </div>
 
-            <div className="menu-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+            <div className="menu-grid">
                 {/* GO FOOD */}
-                <div className="menu-card" style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: 'var(--shadow)', border: '1px solid var(--border)', textAlign: 'center', cursor: 'pointer', transition: 'transform 0.2s' }} onClick={() => onStartBuilder('gofood')}>
-                    <span className="menu-icon" style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>🍔</span>
+                <div className="menu-card" onClick={() => onStartBuilder('gofood')}>
+                    <span className="menu-icon">🍔</span>
                     <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem', fontWeight: 'bold' }}>Go-Food Flow</h3>
                     <p style={{ color: 'var(--secondary)', marginBottom: '1.5rem' }}>Simulasi pesan makanan online.</p>
                     <button className="btn btn-primary" style={{ width: '100%' }}>Mulai Misi</button>
                 </div>
 
                 {/* ATM SYSTEM */}
-                <div className="menu-card" style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: 'var(--shadow)', border: '1px solid var(--border)', textAlign: 'center', cursor: 'pointer', transition: 'transform 0.2s' }} onClick={() => onStartBuilder('atm')}>
-                    <span className="menu-icon" style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>🏧</span>
+                <div className="menu-card" onClick={() => onStartBuilder('atm')}>
+                    <span className="menu-icon">🏧</span>
                     <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem', fontWeight: 'bold' }}>ATM System</h3>
                     <p style={{ color: 'var(--secondary)', marginBottom: '1.5rem' }}>Simulasi tarik tunai & cek saldo.</p>
                     <button className="btn btn-primary" style={{ width: '100%' }}>Mulai Misi</button>
