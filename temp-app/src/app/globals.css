@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* --- REFERENCE STYLES FROM UML SMK BISA --- */
+/* --- REFERENCE STYLES --- */
 :root {
   --primary: #4F46E5;
   --primary-light: #EEF2FF;
@@ -14,16 +14,36 @@
   --text: #1E293B;
   --border: #E2E8F0;
   --radius: 12px;
-  --shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Segoe UI', system-ui, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0;
 }
 
-/* --- NAV HEADER --- */
+/* --- SCREEN MANAGEMENT --- */
+.app-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* In Next.js we manage visibility via React conditional rendering, 
+       but keeping these for layout compatibility if needed */
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+/* --- NAV HEADER (PERSISTENT) --- */
 .header-nav {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
@@ -35,6 +55,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
+  flex-shrink: 0;
 }
 
 .nav-logo {
@@ -127,7 +148,54 @@ body {
   background: var(--primary-light);
 }
 
-/* --- VISUAL BOX & SLIDES --- */
+/* --- SCREEN 1: WELCOME --- */
+#screen-welcome {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary) 0%, #312E81 100%);
+  color: white;
+}
+
+.hero-icon {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* --- SCREEN 2: LEARNING (SLIDES) --- */
+#screen-learning {
+  align-items: center;
+  padding: 2rem;
+  justify-content: center;
+}
+
 .slide-card {
   background: var(--white);
   padding: 3rem;
@@ -136,6 +204,25 @@ body {
   max-width: 800px;
   width: 100%;
   text-align: center;
+}
+
+.slide-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.slide-title {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.slide-content-wrapper {
+  text-align: left;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text);
 }
 
 .visual-box {
@@ -202,7 +289,45 @@ body {
   background: #F8FAFC;
 }
 
-/* --- QUIZ --- */
+.slide-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+/* --- SCREEN 3: THEORY QUIZ (MCQ) --- */
+#screen-quiz-theory {
+  align-items: center;
+  padding: 2rem;
+  justify-content: center;
+  background: #EEF2FF;
+}
+
+.quiz-card {
+  background: var(--white);
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  width: 100%;
+}
+
+.quiz-question {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .quiz-option {
   padding: 1rem;
   border: 2px solid var(--border);
@@ -230,7 +355,65 @@ body {
   color: #991B1B;
 }
 
-/* --- KNOWLEDGE HUB --- */
+.feedback-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--primary-light);
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+  animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- SCREEN 4: KNOWLEDGE HUB --- */
+#screen-knowledge {
+  padding: 2rem;
+}
+
+.hub-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hub-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.hub-subtitle {
+  color: var(--secondary);
+}
+
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+}
+
 .knowledge-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -249,12 +432,115 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* --- BUILDER WIZARD --- */
+.k-icon {
+  height: 60px;
+  width: 60px;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.k-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.k-type {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--secondary);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.k-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.k-desc {
+  font-size: 0.9rem;
+  color: var(--secondary);
+  line-height: 1.4;
+}
+
+.hub-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--white);
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  z-index: 40;
+}
+
+/* --- SCREEN 5: VISUAL MENU --- */
+#screen-visual-menu {
+  padding: 2rem;
+  align-items: center;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.menu-card {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.menu-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* --- SCREEN 6: VISUAL BUILDER --- */
+#screen-visual-builder {
+  flex-direction: column;
+}
+
+.builder-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .wizard-header {
   background: white;
   padding: 1.5rem;
   border-bottom: 2px solid var(--border);
   text-align: center;
+  flex-shrink: 0;
+}
+
+.wizard-steps {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .step {
@@ -289,6 +575,29 @@ body {
   text-align: center;
 }
 
+.wizard-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.wizard-form-area {
+  width: 35%;
+  padding: 1.5rem;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  background: white;
+}
+
+.wizard-preview-area {
+  flex: 1;
+  background: #F8FAFC;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .canvas-grid-bg {
   position: absolute;
   top: 0;
@@ -300,15 +609,32 @@ body {
   pointer-events: none;
 }
 
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .tips-banner {
-  background: #eff6ff;
-  border: 2px solid #3b82f6;
+  background: #EFF6FF;
+  border: 1px solid #3B82F6;
   border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1.5rem;
   display: flex;
   gap: 1rem;
   align-items: center;
+  font-size: 0.9rem;
+  color: #1E40AF;
+}
+
+.wizard-actions {
+  background: white;
+  padding: 1rem;
+  border-top: 2px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
 /* Custom Scrollbar */
@@ -322,15 +648,14 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #94A3B8;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
