@@ -1,0 +1,1816 @@
+< !DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>UML Mastery: SMK Bisa !</title><style> :root {
+    --primary: #4F46E5;
+    --primary-light: #EEF2FF;
+    --primary-hover: #4338CA;
+    --secondary: #64748B;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --bg: #F8FAFC;
+    --white: #FFFFFF;
+    --text: #1E293B;
+    --border: #E2E8F0;
+    --radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* --- SCREEN MANAGEMENT --- */
+.app-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    background: var(--bg);
+    overflow-y: auto;
+}
+
+.app-screen.active {
+    display: flex;
+}
+
+/* --- NAV HEADER (PERSISTENT) --- */
+.header-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--border);
+    padding: 0.75rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.nav-logo {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--bg);
+    padding: 0.4rem;
+    border-radius: 12px;
+}
+
+.nav-tab {
+    padding: 0.6rem 1.2rem;
+    background: transparent;
+    color: var(--secondary);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.nav-tab:hover {
+    color: var(--primary);
+    background: var(--white);
+}
+
+.nav-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+/* --- BUTTONS --- */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background: var(--bg);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--secondary);
+}
+
+.btn-ghost:hover {
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+/* --- SCREEN 1: WELCOME --- */
+#screen-welcome {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary) 0%, #312E81 100%);
+    color: white;
+}
+
+.hero-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* --- SCREEN 2: LEARNING (SLIDES) --- */
+#screen-learning {
+    align-items: center;
+    padding: 2rem;
+    justify-content: center;
+}
+
+.slide-card {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+}
+
+.slide-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.slide-title {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+/* NEW SLIDE STYLES */
+.slide-content-wrapper {
+    text-align: left;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.slide-content-wrapper p {
+    margin-bottom: 1rem;
+}
+
+.visual-box {
+    background: #F1F5F9;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin: 1.5rem 0;
+    border: 2px dashed var(--secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.visual-flow {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.flow-item {
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-weight: bold;
+    color: var(--primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.flow-arrow {
+    color: var(--secondary);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.slide-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.slide-table th {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.slide-table td {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    vertical-align: top;
+}
+
+.slide-table tr:nth-child(even) td {
+    background: #F8FAFC;
+}
+
+.slide-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+/* --- SCREEN 3: THEORY QUIZ (MCQ) --- */
+#screen-quiz-theory {
+    align-items: center;
+    padding: 2rem;
+    justify-content: center;
+    background: #EEF2FF;
+}
+
+.quiz-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    width: 100%;
+}
+
+.quiz-question {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.quiz-option {
+    padding: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    text-align: left;
+}
+
+.quiz-option:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.quiz-option.correct {
+    background: #D1FAE5;
+    border-color: var(--success);
+    color: #065F46;
+}
+
+.quiz-option.wrong {
+    background: #FEE2E2;
+    border-color: var(--danger);
+    color: #991B1B;
+}
+
+.feedback-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
+    border-radius: 8px;
+    display: none;
+    animation: slideDown 0.3s;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- SCREEN 4: KNOWLEDGE HUB --- */
+#screen-knowledge {
+    padding: 2rem;
+}
+
+.hub-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.hub-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.hub-subtitle {
+    color: var(--secondary);
+}
+
+.filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+}
+
+.knowledge-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.knowledge-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.k-icon {
+    height: 60px;
+    width: 60px;
+    margin-bottom: 1rem;
+    color: var(--primary);
+}
+
+.k-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.k-type {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary);
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.k-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.k-desc {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    line-height: 1.4;
+}
+
+.hub-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    padding: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    z-index: 40;
+}
+
+/* --- SCREEN 5: VISUAL QUIZ MENU --- */
+#screen-visual-menu {
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: #EEF2FF;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    width: 100%;
+}
+
+.menu-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    box-shadow: var(--shadow);
+}
+
+.menu-card:hover {
+    border-color: var(--primary);
+    transform: scale(1.03);
+}
+
+.menu-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* --- SCREEN 6: VISUAL QUIZ INTERFACE (Builder Wizard) --- */
+#screen-visual-builder {
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    background: var(--bg);
+    overflow: hidden;
+}
+
+#screen-visual-builder.active {
+    display: flex;
+}
+
+.builder-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Wizard Header */
+.wizard-header {
+    background: white;
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--border);
+    text-align: center;
+}
+
+.wizard-steps {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg);
+    border-radius: 50px;
+    font-weight: 600;
+    color: var(--secondary);
+    font-size: 0.8rem;
+}
+
+.step.active {
+    background: var(--primary);
+    color: white;
+}
+
+.step.completed {
+    background: var(--success);
+    color: white;
+}
+
+.step-number {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    line-height: 20px;
+    text-align: center;
+}
+
+/* Wizard Content */
+.wizard-main {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.wizard-form-area {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background: white;
+    border-right: 2px solid var(--border);
+}
+
+.wizard-preview-area {
+    flex: 1;
+    background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.preview-canvas {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--border);
+    position: relative;
+    overflow: auto;
+}
+
+.canvas-grid-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.item-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    background: var(--bg);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.item-input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+}
+
+.item-input:focus {
+    border-color: var(--primary);
+}
+
+.btn-add {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 2px dashed var(--primary);
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 1rem;
+}
+
+.btn-add:hover {
+    background: var(--primary);
+    color: white;
+    border-style: solid;
+}
+
+.btn-remove {
+    background: var(--danger);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Actions */
+.wizard-actions {
+    padding: 1rem 2rem;
+    background: white;
+    border-top: 2px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Tips Banner */
+.tips-banner {
+    background: #eff6ff;
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.tips-icon {
+    font-size: 1.5rem;
+}
+
+.tips-text {
+    font-size: 0.85rem;
+    color: #1e40af;
+    line-height: 1.4;
+}
+
+/* Result View */
+#result-view {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem;
+    background: var(--bg);
+    overflow: hidden;
+}
+
+#result-view.active {
+    display: flex;
+}
+
+/* Modal Feedback */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: 24px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+</style></head><body>< !-- PERSISTENT NAV HEADER --><header class="header-nav" id="main-header" style="display: none;"><div class="nav-logo" onclick="app.goto('welcome')"><span>🚀</span>UML Mastery </div><nav class="nav-tabs"><button class="nav-tab" onclick="app.goto('learning')" id="tab-learning">📚 <span>Materi</span></button><button class="nav-tab" onclick="app.goto('quiz-theory')" id="tab-quiz-theory">✏️ <span>Kuis Teori</span></button><button class="nav-tab" onclick="app.goto('knowledge')" id="tab-knowledge">🧩 <span>Knowledge Hub</span></button><button class="nav-tab" onclick="app.goto('visual-menu')" id="tab-visual-menu">🎨 <span>Tantangan Visual</span></button></nav></header>< !-- SCREEN 1: WELCOME --><div id="screen-welcome" class="app-screen active"><div class="hero-icon">🚀</div><h1 class="hero-title">UML Mastery</h1><p class="hero-subtitle">Platform belajar interaktif untuk Siswa SMK.<br>Pahami Proses Bisnis,
+Kuasai UML,
+dan Bangun Diagrammu sendiri.</p><button class="btn btn-primary btn-lg" onclick="app.goto('learning')">Mulai Petualangan Belajar</button></div>< !-- SCREEN 2: LEARNING SLIDES --><div id="screen-learning" class="app-screen"><div class="slide-card"><div id="slide-content-area">< !-- Injected via JS --></div><div class="slide-nav"><button class="btn btn-secondary" onclick="app.prevSlide()">Kembali</button><div style="font-weight:bold; color:var(--primary);">Materi <span id="slide-count">1/15</span></div><button class="btn btn-primary" onclick="app.nextSlide()">Lanjut</button></div></div></div>< !-- SCREEN 3: THEORY QUIZ (MCQ) --><div id="screen-quiz-theory" class="app-screen"><div class="quiz-card"><div style="text-transform:uppercase; color:var(--warning); font-weight:800; font-size:0.8rem; margin-bottom:1rem;">Kuis Teori</div><div class="quiz-question" id="mcq-question">Loading...</div><div class="quiz-options" id="mcq-options">< !-- Options injected --></div><div class="feedback-box" id="mcq-feedback"><div style="font-weight:bold; margin-bottom:0.5rem;">Penjelasan:</div><div id="mcq-explanation"></div><div style="text-align:right; margin-top:1rem;"><button class="btn btn-primary btn-sm" onclick="app.nextMCQ()">Soal Berikutnya 👉</button></div></div></div></div>< !-- SCREEN 4: KNOWLEDGE HUB --><div id="screen-knowledge" class="app-screen"><div class="hub-header"><div class="hub-title">Knowledge Hub</div><div class="hub-subtitle">Kamus Visual Komponen UML</div></div><div class="filter-bar"><button class="btn btn-primary" onclick="knowledge.filter('all', this)">Semua</button><button class="btn btn-secondary" onclick="knowledge.filter('usecase', this)">Use Case</button><button class="btn btn-secondary" onclick="knowledge.filter('activity', this)">Activity</button></div><div class="grid-container" id="knowledge-grid">< !-- Items injected via JS --></div><div class="hub-footer"><button class="btn btn-primary" style="padding: 1rem 3rem;" onclick="app.goto('visual-menu')">Lanjut ke Tantangan Visual ⚡ </button></div></div>< !-- SCREEN 5: VISUAL QUIZ MENU --><div id="screen-visual-menu" class="app-screen"><div class="hub-header"><h1 class="hub-title">Tantangan Visual</h1><p class="hub-subtitle">Pilih topik dan susun diagram berdasarkan skenario nyata.</p></div><div class="menu-grid"><div class="menu-card" onclick="builder.start('gofood')"><span class="menu-icon">🍔</span><h3 style="margin-bottom:0.5rem;">Go-Food Flow</h3><p style="color:var(--secondary); margin-bottom:1.5rem;">Simulasi pesan makanan online.</p><button class="btn btn-primary" style="width:100%">Mulai Misi</button></div><div class="menu-card" onclick="builder.start('atm')"><span class="menu-icon">🏧</span><h3 style="margin-bottom:0.5rem;">ATM System</h3><p style="color:var(--secondary); margin-bottom:1.5rem;">Simulasi tarik tunai & cek saldo.</p><button class="btn btn-primary" style="width:100%">Mulai Misi</button></div></div><div style="margin-top:2rem;"><button class="btn btn-ghost" onclick="app.goto('knowledge')">← Kembali ke Knowledge Hub</button></div></div>< !-- SCREEN 6: VISUAL QUIZ BUILDER (GUIDED) --><div id="screen-visual-builder" class="app-screen">< !-- WIZARD VIEW --><div id="wizard-view" class="builder-container"><div class="wizard-header"><div class="wizard-steps"><div class="step active" id="b-step-1"><span class="step-number">1</span>👨‍💼 Aktor </div><div class="step" id="b-step-2"><span class="step-number">2</span>⚙️ Kegiatan & Link </div><div class="step" id="b-step-3"><span class="step-number">3</span>✅ Hasil </div></div><h2 id="b-wizard-title" style="font-size: 1.5rem; color: var(--text);">Siapa saja yang terlibat?</h2><p id="b-wizard-subtitle" style="color: var(--secondary);">Sebutkan aktor (orang/sistem) yang berperan </p></div><div class="wizard-main"><div class="wizard-form-area" id="b-form-content">< !-- Form content injected here --></div><div class="wizard-preview-area"><div class="preview-canvas" id="b-live-preview"><div class="canvas-grid-bg"></div><div id="b-diagram-render"
+style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">< !-- SVG Render --></div></div></div></div><div class="wizard-actions"><button class="btn btn-secondary" onclick="builder.prev()" id="b-btn-prev">← Sebelumnya</button><button class="btn btn-primary" onclick="builder.next()" id="b-btn-next">Lanjut →</button></div></div>< !-- FINAL RESULT VIEW --><div id="result-view"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;"><h2 style="font-size: 1.5rem;">🎉 Diagrammu Siap !</h2><div style="display:flex; gap:0.5rem;"><button class="btn btn-secondary btn-sm" onclick="builder.edit()">✏️ Edit</button><button class="btn btn-primary btn-sm" onclick="builder.save()">💾 Simpan JSON</button></div></div>< !-- Toggle Diagram Type --><div style="display:flex; gap:0.5rem; margin-bottom:1rem; background:white; padding:0.5rem; border-radius:12px; border:1px solid var(--border);"><button class="btn btn-primary btn-sm" id="btn-view-usecase" onclick="builder.setView('usecase')"
+style="flex:1;">Use Case Diagram</button><button class="btn btn-secondary btn-sm" id="btn-view-activity" onclick="builder.setView('activity')"
+style="flex:1;">Activity Diagram</button></div><div class="preview-canvas" style="flex:1;"><div class="canvas-grid-bg"></div><div id="b-final-render"
+style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div></div><div style="margin-top:1rem; text-align:center;"><button class="btn btn-ghost" onclick="app.goto('visual-menu')">Kembali ke Menu Misi</button></div></div></div>< !-- MODAL --><div class="modal-overlay" id="modal-overlay"><div class="modal-box"><div style="font-size:4rem; margin-bottom:1rem;" id="modal-icon">🎉</div><h2 style="margin-bottom:0.5rem;" id="modal-title">Benar !</h2><p style="color:var(--secondary); margin-bottom:2rem;" id="modal-msg">Penjelasan...</p><button class="btn btn-primary" onclick="visualQuiz.nextQuestion()">Lanjut</button></div></div><script> // --- DATA SOURCE ---
+const umlComponents=[ // Use Case
+
+    {
+    id: 'actor', type: 'usecase', name: 'Actor (User)', svg: '<svg viewBox="0 0 50 50" fill="none" stroke="#4F46E5" stroke-width="2"><circle cx="25" cy="15" r="8"/><path d="M25 23 L25 38 M10 28 L40 28 M15 50 L25 38 L35 50"/></svg>', desc: 'Pengguna sistem (Manusia).'
+}
+
+,
+{
+id: 'actor_sys', type: 'usecase', name: 'System Actor', svg: '<svg viewBox="0 0 50 50" fill="none" stroke="#4F46E5" stroke-width="2"><rect x="10" y="10" width="30" height="30" rx="4"/><text x="13" y="30" font-size="8" fill="#4F46E5" stroke="none">SYS</text></svg>', desc: 'Sistem eksternal / API.'
+}
+
+,
+{
+id: 'usecase', type: 'usecase', name: 'Use Case', svg: '<svg viewBox="0 0 80 40" fill="#EEF2FF" stroke="#4F46E5" stroke-width="2"><ellipse cx="40" cy="20" rx="35" ry="15"/></svg>', desc: 'Fungsionalitas / Fitur.'
+}
+
+,
+{
+id: 'boundary', type: 'usecase', name: 'Boundary', svg: '<svg viewBox="0 0 50 50" fill="none" stroke="#4F46E5" stroke-width="2"><rect x="5" y="5" width="40" height="40"/></svg>', desc: 'Batasan sistem.'
+}
+
+,
+{
+id: 'assoc', type: 'usecase', name: 'Association', svg: '<svg viewBox="0 0 50 20" stroke="#4F46E5" stroke-width="2"><line x1="0" y1="10" x2="50" y2="10"/></svg>', desc: 'Garis komunikasi.'
+}
+
+,
+{
+id: 'include', type: 'usecase', name: 'Include', svg: '<svg viewBox="0 0 60 20" fill="none" stroke="#4F46E5" stroke-width="2"><path d="M0 10 L50 10" stroke-dasharray="4"/><path d="M50 10 L40 5 M50 10 L40 15"/></svg>', desc: 'Relasi Wajib.'
+}
+
+,
+{
+id: 'extend', type: 'usecase', name: 'Extend', svg: '<svg viewBox="0 0 60 20" fill="none" stroke="#4F46E5" stroke-width="2"><path d="M0 10 L50 10" stroke-dasharray="4"/><path d="M50 10 L40 5 M50 10 L40 15"/><text x="10" y="5" font-size="6" stroke="none" fill="#4F46E5">&lt;&lt;extend&gt;&gt;</text></svg>', desc: 'Relasi Opsional.'
+}
+
+,
+
+// Activity
+    {
+    id: 'start', type: 'activity', name: 'Start', svg: '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="12" fill="#10B981"/></svg>', desc: 'Titik Mulai.'
+}
+
+,
+{
+id: 'end', type: 'activity', name: 'End', svg: '<svg viewBox="0 0 40 40" fill="none" stroke="#EF4444" stroke-width="3"><circle cx="20" cy="20" r="12"/><circle cx="20" cy="20" r="6" fill="#EF4444" stroke="none"/></svg>', desc: 'Titik Akhir.'
+}
+
+,
+{
+id: 'action', type: 'activity', name: 'Action', svg: '<svg viewBox="0 0 80 40" fill="#EEF2FF" stroke="#4F46E5" stroke-width="2"><rect x="2" y="2" width="76" height="36" rx="8"/></svg>', desc: 'Aktivitas / Proses.'
+}
+
+,
+{
+id: 'decision', type: 'activity', name: 'Decision', svg: '<svg viewBox="0 0 50 50" fill="#FFFBEB" stroke="#F59E0B" stroke-width="2"><path d="M25 2 L48 25 L25 48 L2 25 Z"/></svg>', desc: 'Percabangan / Kondisi.'
+}
+
+,
+{
+id: 'fork', type: 'activity', name: 'Fork/Join', svg: '<svg viewBox="0 0 60 20"><rect x="5" y="8" width="50" height="6" fill="#1E293B"/></svg>', desc: 'Split / Gabung Paralel.'
+}
+
+,
+{
+id: 'flow', type: 'activity', name: 'Control Flow', svg: '<svg viewBox="0 0 50 20" stroke="#4F46E5" stroke-width="2" fill="none"><line x1="0" y1="10" x2="40" y2="10"/><path d="M40 10 L35 5 M40 10 L35 15"/></svg>', desc: 'Arah Alur.'
+}
+
+];
+
+// --- UPDATED LEARNING CONTENT (HTML SUPPORTED) ---
+const learningSlides=[ {
+    icon: "💡",
+        title: "1. Dari Ide ke Aplikasi",
+        content: ` <div class="visual-box" > <div class="visual-flow" > <span class="flow-item" >Mimpi / Ide</span> <span class="flow-arrow" >➜</span> <span class="flow-item" >Analisis</span> <span class="flow-arrow" >➜</span> <span class="flow-item" >UML (Rancang)</span> <span class="flow-arrow" >➜</span> <span class="flow-item" >Aplikasi</span> </div> </div> <p>Jangan langsung menulis kode ! Membuat aplikasi itu seperti membangun rumah. Anda butuh gambar arsitek sebelum memanggil tukang batu.</p> <p>Alur yang benar memastikan aplikasi yang kita buat benar-benar berguna dan menyelesaikan masalah.</p> `
+}
+
+,
+{
+icon: "⚠️",
+    title: "2. Bahaya Tanpa Rencana",
+    content: ` <div class="visual-box" style="background:#FEF2F2; border-color:#EF4444;" > <span style="font-size:3rem; margin-bottom:0.5rem;" >🏚️ vs 🏠</span> <div style="color:#991B1B; font-weight:bold;" >Tanpa Rencana=Runtuh</div> </div> <p>Tahukah kamu? Hampir <b>47% proyek IT gagal</b> karena kebutuhan yang tidak jelas di awal.</p> <ul style="margin-left:1.5rem; margin-bottom:1rem;" > <li>❌ Biaya membengkak</li> <li>❌ Waktu molor</li> <li>❌ Fitur tidak terpakai</li> </ul> <p>Analisis kebutuhan adalah pondasi agar tidak "salah bangun" .</p> `
+}
+
+,
+{
+icon: "👷‍♂️",
+    title: "3. Analis vs Developer",
+    content: ` <p>Dalam proyek besar, peran dibagi dua. Jangan tertukar !</p> <table class="slide-table" > <tr> <th>Aspek</th> <th>Analis (Arsitek)</th> <th>Developer (Tukang)</th> </tr> <tr> <td><b>Fokus</b></td> <td>"APA yang ingin dicapai?"(Masalah)</td> <td>"BAGAIMANA cara buatnya?"(Teknis)</td> </tr> <tr> <td><b>Output</b></td> <td>Dokumen, Diagram UML</td> <td>Kode Program, Database</td> </tr> <tr> <td><b>Mindset</b></td> <td>Bisnis & Strategi</td> <td>Logika & Algoritma</td> </tr> </table> `
+}
+
+,
+{
+icon: "👂",
+    title: "4. Langkah 1: Mendengar",
+    content: ` <p>Seorang analis harus menjadi pendengar yang baik sebelum merancang solusi.</p> <div class="visual-box" > <div style="display:flex; gap:2rem;" > <div> <div style="font-size:2rem;" >❓</div> <b>Why (Mengapa)?</b><br> <small>Tujuan Bisnis</small> </div> <div> <div style="font-size:2rem;" >🎯</div> <b>What (Apa)?</b><br> <small>Kebutuhan Sistem</small> </div> </div> </div> <p>Contoh: "Mengapa butuh sistem antrean?" -> "Agar pasien tidak menumpuk di lobi."(Why) -> "Sistem harus bisa booking online."(What).</p> `
+}
+
+,
+{
+icon: "💎",
+    title: "5. Value & Constraints",
+    content: ` <p>Sebelum mulai, kita harus tahu "Harga" dan "Batasan" .</p> <table class="slide-table" > <tr> <th>Kategori</th> <th>Penjelasan</th> </tr> <tr> <td><b>Business Value</b></td> <td>Keuntungan apa yang didapat? Bisa berupa uang (Hemat Biaya) atau Citra (Klinik jadi modern).</td> </tr> <tr> <td><b>Constraints</b></td> <td>Batasan proyek. Misal: "Harus jadi dalam 3 bulan"(Waktu) atau "Server harus di Indonesia"(Regulasi).</td> </tr> </table> `
+}
+
+,
+{
+icon: "⚖️",
+    title: "6. Fitur vs Kualitas",
+    content: ` <p>Sistem itu punya dua sisi mata uang. Bukan cuma soal "Bisa apa", tapi "Seberapa bagus" .</p> <table class="slide-table" > <tr> <th>Tipe</th> <th>Deskripsi</th> <th>Contoh</th> </tr> <tr> <td><b>Fungsional (Fitur)</b></td> <td>Apa yang sistem LAKUKAN.</td> <td>Login, Cetak Struk, Hitung Total.</td> </tr> <tr> <td><b>Non-Fungsional (Kualitas)</b></td> <td>Seberapa BAIK kerjanya.</td> <td>Loading < 2 detik, Aman dari Hacker, Mudah dipakai di HP.</td> </tr> </table> `
+}
+
+,
+{
+icon: "🗺️",
+    title: "7. Apa itu UML?",
+    content: ` <div class="visual-box" > <span style="font-size:3rem;" >📝 + 🤝=✅</span> </div> <p><b>UML (Unified Modeling Language)</b> adalah bahasa standar internasional berupa diagram visual.</p> <p><b>Fungsinya:</b> Sebagai "Bahasa Penengah" antara orang bisnis (Klien) dan orang teknis (Programmer) agar tidak salah paham.</p> <p>UML adalah cetak biru (blueprint) software kita.</p> `
+}
+
+,
+{
+icon: "👤",
+    title: "8. Use Case Diagram",
+    content: ` <p>Ini adalah diagram paling pertama yang dibuat. Sangat sederhana.</p> <div class="visual-box" > <svg width="200" height="100" viewBox="0 0 200 100" > < !-- Actor --> <circle cx="30" cy="30" r="10" fill="none" stroke="#4F46E5" stroke-width="2" /> <line x1="30" y1="40" x2="30" y2="70" stroke="#4F46E5" stroke-width="2" /> <line x1="10" y1="50" x2="50" y2="50" stroke="#4F46E5" stroke-width="2" /> <line x1="30" y1="70" x2="10" y2="90" stroke="#4F46E5" stroke-width="2" /> <line x1="30" y1="70" x2="50" y2="90" stroke="#4F46E5" stroke-width="2" /> < !-- Line --> <line x1="60" y1="50" x2="110" y2="50" stroke="#4F46E5" stroke-width="2" /> < !-- Use Case --> <ellipse cx="150" cy="50" rx="40" ry="20" fill="#EEF2FF" stroke="#4F46E5" stroke-width="2" /> <text x="150" y="55" font-size="10" text-anchor="middle" fill="#4F46E5" >Login</text> </svg> </div> <p><b>Fokus:</b> Menjawab pertanyaan "SIAPA bisa melakukan APA?" .</p> <p>Diagram ini tidak peduli urutan waktu, hanya daftar fitur yang tersedia untuk setiap pengguna.</p> `
+}
+
+,
+{
+icon: "🧩",
+    title: "9. Komponen Use Case",
+    content: ` <table class="slide-table" > <tr> <th width="30%" >Simbol</th> <th>Nama & Fungsi</th> </tr> <tr> <td style="text-align:center;" >👤 (Orang)</td> <td><b>Actor</b>: Siapapun yang berinteraksi dengan sistem (User, Admin, atau Sistem Lain).</td> </tr> <tr> <td style="text-align:center;" >⭕ (Oval)</td> <td><b>Use Case</b>: Fungsionalitas / Fitur spesifik (misal: "Tarik Tunai").</td> </tr> <tr> <td style="text-align:center;" >── (Garis)</td> <td><b>Association</b>: Garis penghubung antara Aktor dan Use Case.</td> </tr> <tr> <td style="text-align:center;" >⬜ (Kotak)</td> <td><b>Boundary</b>: Batas sistem. Memisahkan apa yang ada di dalam aplikasi dan di luar (dunia nyata).</td> </tr> </table> `
+}
+
+,
+{
+icon: "🔗",
+    title: "10. Relasi: Include vs Extend",
+    content: ` <p>Dalam Use Case, ada dua hubungan spesial yang sering muncul:</p> <table class="slide-table" > <tr> <th>Relasi</th> <th>Sifat</th> <th>Contoh</th> </tr> <tr> <td><b>&lt;
+&lt;
+include&gt;
+&gt;
+</b></td><td><b>Wajib</b>. Use Case A tidak bisa jalan tanpa B.</td><td>"Transfer" ➜ <i>include</i>➜ "Cek Saldo"(Saldo wajib dicek).</td></tr><tr><td><b>&lt;
+&lt;
+extend&gt;
+&gt;
+</b></td><td><b>Opsional</b>. Use Case B hanya jalan jika kondisi tertentu.</td><td>"Cek Saldo" ➜ <i>extend</i>➜ "Cetak Struk"(Kalau mau saja).</td></tr></table><div class="visual-box"><span style="font-size:0.8rem; color:var(--secondary);">Tips: Include="Harus Ada", Extend="Boleh Ada" </span> </div> `
+}
+
+,
+{
+icon: "🔄",
+    title: "11. Activity Diagram",
+    content: ` <p>Kalau Use Case itu "Daftar Menu", maka Activity Diagram adalah "Resep Masak" -nya.</p> <div class="visual-box" > <div class="visual-flow" > <span class="flow-item" style="background:#10B981; color:white; border:none;" >Mulai</span> <span class="flow-arrow" >➜</span> <span class="flow-item" >Input</span> <span class="flow-arrow" >➜</span> <span class="flow-item" >Cek?</span> <span class="flow-arrow" >➜</span> <span class="flow-item" style="background:#EF4444; color:white; border:none;" >Selesai</span> </div> </div> <p>Diagram ini menggambarkan alur kerja (workflow) langkah demi langkah, termasuk logika percabangan (IF/ELSE).</p> <p>Sangat mirip dengan Flowchart klasik.</p> `
+}
+
+,
+{
+icon: "🔷",
+    title: "12. Simbol Activity",
+    content: ` <table class="slide-table" > <tr> <th>Simbol Visual</th> <th>Arti</th> </tr> <tr> <td>⚫ (Lingkaran Hitam)</td> <td><b>Start Node</b>: Titik di mana proses dimulai.</td> </tr> <tr> <td>🟥 (Persegi Panjang)</td> <td><b>Action</b>: Sebuah kegiatan atau aktivitas yang dilakukan.</td> </tr> <tr> <td>🔶 (Belah Ketupat)</td> <td><b>Decision</b>: Percabangan. Misal: "Saldo Cukup?"(Ya ke kiri, Tidak ke kanan).</td> </tr> <tr> <td>🎯 (Target)</td> <td><b>Final Node</b>: Titik proses berakhir/selesai.</td> </tr> </table> `
+}
+
+,
+{
+icon: "🏗️",
+    title: "13. Class Diagram",
+    content: ` <p>Ini adalah diagram paling teknis. Menggambarkan struktur data statis.</p> <div class="visual-box" > <div style="border:2px solid var(--primary); width:150px; background:white;" > <div style="padding:5px; border-bottom:1px solid var(--primary); font-weight:bold; background:#EEF2FF;" >Siswa</div> <div style="padding:5px; border-bottom:1px solid var(--primary); text-align:left; font-size:0.8rem;" >- nama: String<br>- nis: Int</div> <div style="padding:5px; text-align:left; font-size:0.8rem;" >+ belajar()<br>+ ujian()</div> </div> </div> <p>Diagram ini menjadi cetak biru untuk pembuatan <b>Database</b> dan <b>Kelas Pemrograman</b> (OOP).</p> <p>Terdiri dari 3 bagian: Nama Kelas, Atribut (Data), dan Operasi (Fungsi).</p> `
+}
+
+,
+{
+icon: "⏱️",
+    title: "14. Sequence Diagram",
+    content: ` <p>Menggambarkan interaksi antar objek berdasarkan <b>urutan waktu</b>.</p> <div class="visual-box" > <span style="font-size:0.9rem;" >User ➜ (Login) ➜ Server ➜ (Cek DB) ➜ Database</span> <br><br> <span style="color:var(--secondary); font-size:0.8rem;" >⬇️ Waktu berjalan ke bawah ⬇️</span> </div> <p>Menjelaskan detail: "Siapa mengirim pesan ke siapa, dan kapan?" .</p> <p>Cocok untuk merancang logika pertukaran data (API) yang kompleks.</p> `
+}
+
+,
+{
+icon: "🏢",
+    title: "15. Arsitektur Sistem (Layers)",
+    content: ` <p>Sistem yang baik dibagi menjadi lapisan-lapisan (Layers) agar rapi.</p> <table class="slide-table" > <tr> <th>Layer</th> <th>Analogi Toko</th> <th>Fungsi IT</th> </tr> <tr> <td><b>Presentation</b></td> <td>Etalase / Kasir</td> <td><b>UI (User Interface)</b>: Apa yang user lihat.</td> </tr> <tr> <td><b>Business Logic</b></td> <td>Manajer Toko</td> <td><b>Logika Aplikasi</b>: Perhitungan, Validasi aturan.</td> </tr> <tr> <td><b>Data Layer</b></td> <td>Gudang</td> <td><b>Database</b>: Tempat simpan data aman.</td> </tr> </table> `
+}
+
+,
+{
+icon: "🚀",
+    title: "16. Kesimpulan: Alur Sukses",
+    content: ` <div class="visual-box" style="background:#D1FAE5; border-color:#10B981;" > <b>Resep Sukses Proyek IT</b> </div> <ol style="margin-left:1.5rem; line-height:2;" > <li><b>Mimpi (Ide):</b> Temukan masalah yang ingin dipecahkan.</li> <li><b>Analisis:</b> Pahami kebutuhan (Why & What).</li> <li><b>Rancang (UML):</b> Buat peta visual (Use Case, Activity, dll).</li> <li><b>Konstruksi (Coding):</b> Bangun aplikasi berdasarkan rancangan.</li> </ol> <p style="margin-top:1rem; text-align:center; font-weight:bold; color:var(--primary);" >Selamat ! Anda siap menjadi Arsitek Sistem. 🎓</p> `
+}
+
+];
+
+const theoryQuestions=[ {
+    q: "Apa fokus utama seorang Analis Sistem?", opts: ["Menulis kode program secepat mungkin", "Memahami 'Apa yang ingin dicapai'", "Memperbaiki komputer rusak"], correct: 1, exp: "Analis Sistem fokus pada kebutuhan bisnis (APA), bukan teknis coding (BAGAIMANA)."
+}
+
+,
+{
+q: "Apa fungsi utama Use Case Diagram?", opts: ["Menggambar database", "Menjelaskan fungsionalitas sistem & aktor", "Menghitung biaya proyek"], correct: 1, exp: "Use Case fokus pada 'APA' yang sistem lakukan dan 'SIAPA' yang berinteraksi."
+}
+
+,
+{
+q: "'Sistem harus memuat halaman dalam 2 detik'. Ini contoh...?", opts: ["Fitur Fungsional", "Kualitas (Non-Fungsional)", "User Story"], correct: 1, exp: "Kecepatan adalah karakteristik kualitas (Seberapa baik), bukan fitur (Apa yang dilakukan)."
+}
+
+,
+{
+q: "Simbol orang dalam Use Case Diagram disebut...?", opts: ["User", "Person", "Actor"], correct: 2, exp: "Dalam UML, pengguna atau sistem lain yang berinteraksi disebut Actor."
+}
+
+,
+{
+q: "Simbol Belah Ketupat (Diamond) pada Activity Diagram berarti?", opts: ["Mulai", "Selesai", "Keputusan (Decision)"], correct: 2, exp: "Diamond digunakan untuk percabangan logika (Ya/Tidak)."
+}
+
+,
+{
+q: "Garis putus-putus dengan label <<include>> berarti?", opts: ["Relasi Wajib", "Relasi Opsional", "Pewarisan"], correct: 0, exp: "Include artinya Use Case A 'selalu' memanggil Use Case B."
+}
+
+,
+{
+q: "Diagram yang paling cocok untuk merancang struktur database adalah...?", opts: ["Activity Diagram", "Class Diagram", "Sequence Diagram"], correct: 1, exp: "Class Diagram menggambarkan entitas data dan relasinya, mirip dengan skema database."
+}
+
+,
+{
+q: "Pada Sequence Diagram, waktu berjalan ke arah...?", opts: ["Kiri ke Kanan", "Atas ke Bawah", "Bawah ke Atas"], correct: 1, exp: "Sequence Diagram membaca urutan waktu dari atas (awal) ke bawah (akhir)."
+}
+
+,
+{
+q: "Bagian arsitektur sistem yang menyimpan data disebut...?", opts: ["Presentation Layer", "Business Layer", "Data Layer"], correct: 2, exp: "Data Layer bertanggung jawab atas penyimpanan dan pengambilan data."
+}
+
+,
+{
+q: "Apa langkah pertama yang benar sebelum Coding?", opts: ["Desain UI", "Analisis & Perancangan", "Testing"], correct: 1, exp: "Analisis kebutuhan dan perancangan harus dilakukan sebelum konstruksi (coding)."
+}
+
+];
+
+const visualScenarios= {
+    usecase: [ {
+        title: "Login System", text: "User memasukkan data, dan Sistem memvalidasinya.", seq: ['actor', 'assoc', 'usecase', 'assoc', 'actor_sys'], exp: "User (Actor) terhubung ke Use Case, dan Use Case butuh validasi dari Sistem (Actor lain)."
+    }
+
+    ,
+    {
+    title: "Fitur Wajib (Include)", text: "Saat Transfer Uang, sistem WAJIB Cek Saldo.", seq: ['usecase', 'include', 'usecase'], exp: "Transfer 'Include' Cek Saldo. Artinya Cek Saldo selalu dijalankan."
+}
+
+,
+{
+title: "Sistem ATM", text: "Nasabah menarik tunai dari Mesin ATM (Hardware).", seq: ['actor', 'assoc', 'usecase', 'assoc', 'actor_sys'], exp: "Nasabah -> Tarik Tunai -> Sistem Bank."
+}
+
+],
+activity: [ {
+    title: "Login Flow", text: "Mulai -> Input Data -> Validasi -> Selesai.", seq: ['start', 'flow', 'action', 'flow', 'action', 'flow', 'end'], exp: "Alur linear sederhana: Start -> Input -> Validasi -> End."
+}
+
+,
+{
+title: "Cek Stok (Decision)", text: "Cek Barang -> Jika Ada (Kirim), Jika Kosong (Pesan).", seq: ['action', 'flow', 'decision'], exp: "Setelah aksi Cek Barang, masuk ke Decision untuk bercabang."
+}
+
+,
+{
+title: "Paralel (Fork)", text: "Mulai -> Split menjadi 2 proses (Kirim Email & SMS).", seq: ['start', 'flow', 'fork'], exp: "Fork Node memecah satu aliran menjadi banyak aliran paralel."
+}
+
+]
+}
+
+;
+
+// --- APP CONTROLLER ---
+const app= {
+    state: {
+        slideIdx: 0, mcqIdx: 0
+    }
+
+    ,
+
+    init() {
+        this.renderSlide();
+        this.renderMCQ();
+        knowledge.render('all');
+
+        // Drag Drop Global Prevent
+        document.addEventListener('dragover', e=> e.preventDefault());
+        document.addEventListener('drop', e=> e.preventDefault());
+    }
+
+    ,
+
+    goto(screenId) {
+        // Hide all screens
+        document.querySelectorAll('.app-screen').forEach(el=> el.classList.remove('active'));
+
+        // Show target screen
+        const target=document.getElementById('screen-' + screenId);
+        if (target) target.classList.add('active');
+
+        // Update Header Visibility
+        const header=document.getElementById('main-header');
+
+        if (screenId==='welcome') {
+            header.style.display='none';
+        }
+
+        else {
+            header.style.display='flex';
+        }
+
+        // Update Active Tab
+        document.querySelectorAll('.nav-tab').forEach(tab=> tab.classList.remove('active'));
+        const activeTab=document.getElementById('tab-' + screenId);
+        if (activeTab) activeTab.classList.add('active');
+
+        // Special case for builder (it belongs to Visual Menu section)
+        if (screenId==='visual-builder') {
+            document.getElementById('tab-visual-menu').classList.add('active');
+        }
+    }
+
+    ,
+
+    // SLIDES
+    renderSlide() {
+        const s=learningSlides[this.state.slideIdx];
+
+        // Using content HTML if available, fallback to old text style
+        let contentHtml=s.content ? s.content : `<div class="slide-text">$ {
+            s.text
+        }
+
+        </div>`;
+
+        document.getElementById('slide-content-area').innerHTML=` <div class="slide-icon">$ {
+            s.icon
+        }
+
+        </div><div class="slide-title">$ {
+            s.title
+        }
+
+        </div><div class="slide-content-wrapper">$ {
+            contentHtml
+        }
+
+        </div>`;
+
+        document.getElementById('slide-count').innerText=`$ {
+            this.state.slideIdx+1
+        }
+
+        /$ {
+            learningSlides.length
+        }
+
+        `;
+    }
+
+    ,
+    nextSlide() {
+        if (this.state.slideIdx < learningSlides.length - 1) {
+            this.state.slideIdx++;
+            this.renderSlide();
+        }
+
+        else {
+            this.goto('quiz-theory');
+        }
+    }
+
+    ,
+    prevSlide() {
+        if (this.state.slideIdx > 0) {
+            this.state.slideIdx--;
+            this.renderSlide();
+        }
+    }
+
+    ,
+
+    // MCQ
+    renderMCQ() {
+        const q=theoryQuestions[this.state.mcqIdx];
+
+        document.getElementById('mcq-question').innerText=`$ {
+            this.state.mcqIdx+1
+        }
+
+        . $ {
+            q.q
+        }
+
+        `;
+        const opts=document.getElementById('mcq-options');
+        opts.innerHTML='';
+        document.getElementById('mcq-feedback').style.display='none';
+
+        q.opts.forEach((opt, i)=> {
+                const div=document.createElement('div');
+                div.className='quiz-option';
+                div.innerText=opt;
+                div.onclick=()=> this.checkMCQ(i, div);
+                opts.appendChild(div);
+            });
+    }
+
+    ,
+    checkMCQ(ansIdx, el) {
+        if (document.getElementById('mcq-feedback').style.display==='block') return;
+
+        const q=theoryQuestions[this.state.mcqIdx];
+
+        if (ansIdx===q.correct) {
+            el.classList.add('correct');
+            document.getElementById('mcq-explanation').innerHTML=q.exp;
+            document.getElementById('mcq-feedback').style.display='block';
+
+            const btn=document.querySelector('#mcq-feedback button');
+            if (this.state.mcqIdx===theoryQuestions.length - 1) btn.innerText="Masuk ke Knowledge Hub 📚";
+        }
+
+        else {
+            el.classList.add('wrong');
+            setTimeout(()=> el.classList.remove('wrong'), 500);
+        }
+    }
+
+    ,
+    nextMCQ() {
+        if (this.state.mcqIdx < theoryQuestions.length - 1) {
+            this.state.mcqIdx++;
+            this.renderMCQ();
+        }
+
+        else {
+            this.goto('knowledge');
+        }
+    }
+}
+
+;
+
+// --- KNOWLEDGE HUB LOGIC ---
+const knowledge= {
+    render(filter, btn) {
+        if (btn) {
+            document.querySelectorAll('.filter-bar .btn').forEach(b=> {
+                    b.classList.remove('btn-primary');
+                    b.classList.add('btn-secondary');
+                });
+            btn.classList.remove('btn-secondary');
+            btn.classList.add('btn-primary');
+        }
+
+        const grid=document.getElementById('knowledge-grid');
+        grid.innerHTML='';
+        const data=filter==='all' ? umlComponents : umlComponents.filter(c=> c.type===filter);
+
+        data.forEach(item=> {
+                grid.innerHTML +=` <div class="knowledge-card" > <div class="k-icon" >$ {
+                    item.svg
+                }
+
+                </div> <div class="k-type" >$ {
+                    item.type
+                }
+
+                </div> <div class="k-name" >$ {
+                    item.name
+                }
+
+                </div> <div class="k-desc" >$ {
+                    item.desc
+                }
+
+                </div> </div> `;
+            });
+    }
+
+    ,
+    filter(type, btn) {
+        this.render(type, btn);
+    }
+}
+
+;
+
+// --- GUIDED BUILDER LOGIC (REWORKED) ---
+const builder= {
+    state: {
+
+        currentTemplate: '',
+        step: 1,
+        view: 'usecase',
+        // 'usecase' or 'activity'
+        data: {
+
+            actors: [],
+            usecases: [],
+            mappings: {}
+
+            ,
+            // actorIndex: [usecaseIndex, ...]
+            relations: [] // { source: usecaseIdx, target: usecaseIdx, type: 'include'|'extend' }
+        }
+    }
+
+    ,
+
+    templates: {
+        gofood: {
+
+            title: 'Go-Food',
+            actors: ['Pelanggan',
+            'Driver',
+            'Restoran'],
+            usecases: ['Pilih Menu',
+            'Pesan',
+            'Bayar',
+            'Antar',
+            'Selesai'],
+            mappings: {
+                0: [0, 1, 2], 1: [3, 4], 2: [2, 3]
+            }
+
+            ,
+            relations: [ {
+                source: 1, target: 2, type: 'include'
+            }
+
+            ]
+        }
+
+        ,
+        atm: {
+
+            title: 'ATM System',
+            actors: ['Nasabah',
+            'Sistem Bank'],
+            usecases: ['Masukkan Kartu',
+            'Verifikasi PIN',
+            'Cek Saldo',
+            'Tarik Tunai',
+            'Struk Print'],
+            mappings: {
+                0: [0, 1, 2, 3], 1: [1, 2, 3]
+            }
+
+            ,
+            relations: [ {
+                source: 3, target: 4, type: 'extend'
+            }
+
+            ]
+        }
+    }
+
+    ,
+
+    start(id) {
+        const t=this.templates[id];
+        this.state.currentTemplate=id;
+        this.state.step=1;
+        this.state.view='usecase';
+
+        this.state.data= {
+            actors: [...t.actors],
+                usecases: [...t.usecases],
+                mappings: JSON.parse(JSON.stringify(t.mappings)),
+                relations: JSON.parse(JSON.stringify(t.relations))
+        }
+
+        ;
+
+        document.getElementById('wizard-view').style.display='flex';
+        document.getElementById('result-view').style.display='none';
+        app.goto('visual-builder');
+        this.render();
+    }
+
+    ,
+
+    render() {
+        const step=this.state.step;
+        const content=document.getElementById('b-form-content');
+        const title=document.getElementById('b-wizard-title');
+        const subtitle=document.getElementById('b-wizard-subtitle');
+        const prevBtn=document.getElementById('b-btn-prev');
+        const nextBtn=document.getElementById('b-btn-next');
+
+        for (let i=1; i <=3; i++) {
+            const el=document.getElementById(`b-step-$ {
+                    i
+                }
+
+                `);
+
+            if (el) {
+                el.classList.remove('active', 'completed');
+                if (i < step) el.classList.add('completed');
+                if (i===step) el.classList.add('active');
+            }
+        }
+
+        prevBtn.style.visibility=step===1 ? 'hidden' : 'visible';
+        nextBtn.innerText=step===3 ? 'Selesai ✨' : 'Lanjut →';
+
+        if (step===1) {
+            title.innerText="Siapa saja yang terlibat?";
+            subtitle.innerText="Sebutkan aktor (orang atau sistem eksternal)";
+            this.renderForm('actors', 'Actor');
+        }
+
+        else if (step===2) {
+            title.innerText="Apa saja kegiatannya?";
+            subtitle.innerText="Isi nama kegiatan dan pilih siapa pelakunya";
+            this.renderUseCasesWithMapping();
+        }
+
+        else if (step===3) {
+            title.innerText="Pratinjau Diagram";
+            subtitle.innerText="Cek kembali hubungan dan alur";
+
+            content.innerHTML=`<div class="tips-banner"><span class="tips-icon">💡</span><span class="tips-text">Klik <b>Selesai</b>untuk melihat diagram dalam tampilan penuh.</span></div><div style="background:#f1f5f9; padding:1.5rem; border-radius:12px;"><p style="margin-bottom:0.5rem;"><b>Aktor:</b>$ {
+                this.state.data.actors.join(', ')
+            }
+
+            </p><p style="margin-bottom:0.5rem;"><b>Kegiatan:</b>$ {
+                this.state.data.usecases.join(', ')
+            }
+
+            </p></div>`;
+        }
+
+        this.updateSVG('b-diagram-render');
+    }
+
+    ,
+
+    renderForm(key, label) {
+        const container=document.getElementById('b-form-content');
+
+        container.innerHTML=` <div class="tips-banner"><span class="tips-icon">💡</span><span class="tips-text">Daftar $ {
+            label
+        }
+
+        . Tambahkan atau ubah list di bawah.</span></div><div class="items-list">$ {
+            this.state.data[key].map((item, i)=> ` <div class="item-row" > <span style="font-weight:800; color:var(--primary); min-width:20px;" >$ {
+                    i + 1
+                }
+
+                </span> <input class="item-input" value="${item}" oninput="builder.updateItem('${key}', ${i}, this.value)" > <button class="btn-remove" onclick="builder.removeItem('${key}', ${i})" >×</button> </div> `).join('')
+        }
+
+        </div><button class="btn-add" onclick="builder.addItem('${key}')">+Tambah $ {
+            label
+        }
+
+        </button>`;
+    }
+
+    ,
+
+    renderUseCasesWithMapping() {
+        const container=document.getElementById('b-form-content');
+        let html=`<div class="tips-banner"><span class="tips-icon">🔗</span><span class="tips-text">Tulis kegiatan,
+        lalu <b>klik nama aktor</b>di bawahnya untuk menyambungkan.</span></div>`;
+
+        html+=`<div class="items-list">`;
+
+        this.state.data.usecases.forEach((uc, uIdx)=> {
+                html +=` <div style="background:white; border:2px solid var(--border); border-radius:12px; padding:1rem; margin-bottom:1rem;" > <div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.75rem;" > <span style="font-weight:800; color:var(--primary);" >$ {
+                    uIdx + 1
+                }
+
+                </span> <input class="item-input" style="font-weight:bold;" value="${uc}" oninput="builder.updateItem('usecases', ${uIdx}, this.value)" > <button class="btn-remove" onclick="builder.removeItem('usecases', ${uIdx})" >×</button> </div> < !-- Actor Selection Chips --> <div style="display:flex; flex-wrap:wrap; gap:0.4rem; padding-left:1.5rem;" > $ {
+                    this.state.data.actors.map((actor, aIdx)=> {
+                            const isActive=(this.state.data.mappings[aIdx] || []).includes(uIdx);
+                            return ` <div onclick="builder.toggleMapping(${aIdx}, ${uIdx})"
+
+                            style="padding:0.3rem 0.8rem; border-radius:50px; font-size:0.75rem; cursor:pointer; font-weight:600; border:1px solid ${isActive ? 'var(--primary)' : 'var(--border)'}; background:${isActive ? 'var(--primary)' : 'white'}; color:${isActive ? 'white' : 'var(--secondary)'}; transition:all 0.2s;" > $ {
+                                isActive ? '✅' : '+'
+                            }
+
+                            $ {
+                                actor
+                            }
+
+                            </div> `;
+                        }).join('')
+                }
+
+                </div> </div> `;
+            });
+        html+=`</div><button class="btn-add" onclick="builder.addItem('usecases')">+Tambah Kegiatan</button>`;
+
+        // Quick Logic Links
+        html+=`<h3 style="margin: 1.5rem 0 0.5rem; font-size:1rem;">Relasi <<include>>/ <<extend>></h3>`;
+
+        html+=`<div class="items-list">$ {
+            this.state.data.relations.map((rel, i)=> ` <div class="item-row" style="font-size:0.8rem;" > <select class="item-input" style="flex:1;" onchange="builder.updateRelation(${i}, 'source', this.value)" > $ {
+                    this.state.data.usecases.map((uc, idx)=> `<option value="${idx}"$ {
+                            rel.source==idx ? 'selected' : ''
+                        }
+
+                        >$ {
+                            uc
+                        }
+
+                        </option>`).join('')
+                }
+
+                </select> <select class="item-input" style="width:80px;" onchange="builder.updateRelation(${i}, 'type', this.value)" > <option value="include"$ {
+                    rel.type==='include' ? 'selected' : ''
+                }
+
+                >INC</option> <option value="extend"$ {
+                    rel.type==='extend' ? 'selected' : ''
+                }
+
+                >EXT</option> </select> <select class="item-input" style="flex:1;" onchange="builder.updateRelation(${i}, 'target', this.value)" > $ {
+                    this.state.data.usecases.map((uc, idx)=> `<option value="${idx}"$ {
+                            rel.target==idx ? 'selected' : ''
+                        }
+
+                        >$ {
+                            uc
+                        }
+
+                        </option>`).join('')
+                }
+
+                </select> <button class="btn-remove" onclick="builder.removeRelation(${i})" >×</button> </div> `).join('')
+        }
+
+        </div><button class="btn-add" onclick="builder.addRelation()">+Tambah Relasi Lanjutan</button>`;
+
+        container.innerHTML=html;
+    }
+
+    ,
+
+    updateItem(key, idx, val) {
+        this.state.data[key][idx]=val;
+        this.updateSVG('b-diagram-render');
+    }
+
+    ,
+    addItem(key) {
+        this.state.data[key].push('Baru...');
+        this.render();
+    }
+
+    ,
+    removeItem(key, idx) {
+        this.state.data[key].splice(idx, 1);
+        this.render();
+    }
+
+    ,
+
+    toggleMapping(aIdx, uIdx) {
+        if ( !this.state.data.mappings[aIdx]) this.state.data.mappings[aIdx]=[];
+        const idx=this.state.data.mappings[aIdx].indexOf(uIdx);
+        if (idx===-1) this.state.data.mappings[aIdx].push(uIdx);
+        else this.state.data.mappings[aIdx].splice(idx, 1);
+        this.render(); // Need full rerender for chip states
+    }
+
+    ,
+
+    addRelation() {
+        this.state.data.relations.push({
+            source: 0, target: 1, type: 'include'
+        });
+    this.render();
+}
+
+,
+updateRelation(idx, key, val) {
+    this.state.data.relations[idx][key]=val;
+    this.updateSVG('b-diagram-render');
+}
+
+,
+removeRelation(idx) {
+    this.state.data.relations.splice(idx, 1);
+    this.render();
+}
+
+,
+
+next() {
+    if (this.state.step < 3) {
+        this.state.step++;
+        this.render();
+    }
+
+    else {
+        this.finish();
+    }
+}
+
+,
+prev() {
+    if (this.state.step > 1) {
+        this.state.step--;
+        this.render();
+    }
+}
+
+,
+
+finish() {
+    document.getElementById('wizard-view').style.display='none';
+    document.getElementById('result-view').style.display='flex';
+    this.setView('usecase');
+}
+
+,
+
+setView(type) {
+    this.state.view=type;
+    document.getElementById('btn-view-usecase').className=type==='usecase' ? 'btn btn-primary btn-sm': 'btn btn-secondary btn-sm';
+    document.getElementById('btn-view-activity').className=type==='activity' ? 'btn btn-primary btn-sm': 'btn btn-secondary btn-sm';
+    this.updateSVG('b-final-render');
+}
+
+,
+
+edit() {
+    document.getElementById('result-view').style.display='none';
+    document.getElementById('wizard-view').style.display='flex';
+    this.state.step=2;
+    this.render();
+}
+
+,
+
+updateSVG(targetId) {
+    const isFinal=targetId==='b-final-render';
+
+    if (this.state.view==='activity' && isFinal) {
+        this.drawActivity(targetId);
+    }
+
+    else {
+        this.drawUseCase(targetId);
+    }
+}
+
+,
+
+drawUseCase(targetId) {
+    const actors=this.state.data.actors;
+    const usecases=this.state.data.usecases;
+    const container=document.getElementById(targetId);
+    const w=container.clientWidth || 600;
+    const h=Math.max(400, Math.max(actors.length, usecases.length) * 100);
+
+    let svg=`<svg width="100%" height="${h}" viewBox="0 0 600 ${h}" xmlns="http://www.w3.org/2000/svg">`;
+    svg+=`<rect x="180" y="20" width="380" height="${h - 40}" fill="#fff" stroke="var(--primary)" stroke-width="3" rx="15" />`;
+
+    svg+=`<text x="200" y="50" font-weight="900" fill="var(--primary)" font-size="14">SISTEM $ {
+        this.state.currentTemplate.toUpperCase()
+    }
+
+    </text>`;
+
+    const aPositions=[];
+    const uPositions=[];
+
+    // Draw Actors
+    actors.forEach((a, i)=> {
+            const y=(h / (actors.length + 1)) * (i + 1);
+
+            aPositions.push({
+                x: 100, y: y
+            });
+
+        svg +=` <g transform="translate(70, ${y - 40})" > <circle cx="30" cy="20" r="12" fill="none" stroke="var(--primary)" stroke-width="2.5" /> <line x1="30" y1="32" x2="30" y2="55" stroke="var(--primary)" stroke-width="2.5" /> <line x1="15" y1="40" x2="45" y2="40" stroke="var(--primary)" stroke-width="2.5" /> <line x1="30" y1="55" x2="15" y2="75" stroke="var(--primary)" stroke-width="2.5" /> <line x1="30" y1="55" x2="45" y2="75" stroke="var(--primary)" stroke-width="2.5" /> <text x="30" y="95" text-anchor="middle" font-weight="700" font-size="11" fill="var(--text)" >$ {
+            a
+        }
+
+        </text> </g> `;
+    });
+
+// Draw Use Cases
+usecases.forEach((u, i)=> {
+        const y=(h / (usecases.length + 1)) * (i + 1);
+
+        uPositions.push({
+            x: 240, y: y
+        });
+
+    svg +=` <g transform="translate(240, ${y - 25})" > <ellipse cx="120" cy="25" rx="100" ry="25" fill="#f5f3ff" stroke="var(--primary)" stroke-width="2" /> <text x="120" y="30" text-anchor="middle" font-weight="700" font-size="11" fill="var(--text)" >$ {
+        u
+    }
+
+    </text> </g> `;
+});
+
+// Draw Mappings (Actor -> Use Case)
+Object.keys(this.state.data.mappings).forEach(aIdx=> {
+        this.state.data.mappings[aIdx].forEach(uIdx=> {
+                const start=aPositions[aIdx];
+                const end=uPositions[uIdx];
+
+                if (start && end) {
+                    svg +=`<line x1="${start.x}" y1="${start.y}" x2="${end.x}" y2="${end.y}" stroke="#94A3B8" stroke-width="1.5" />`;
+                }
+            });
+    });
+
+// Draw Relations (Include/Extend)
+this.state.data.relations.forEach(rel=> {
+        const s=uPositions[rel.source];
+        const t=uPositions[rel.target];
+
+        if (s && t) {
+            svg +=` <g> <line x1="${s.x + 200}" y1="${s.y}" x2="${t.x + 200}" y2="${t.y}" stroke="var(--primary)" stroke-width="1.5" stroke-dasharray="4" /> <text x="${(s.x + t.x) / 2 + 210}" y="${(s.y + t.y) / 2}" font-size="9" fill="var(--primary)" font-weight="bold" >&lt; &lt; $ {
+                rel.type
+            }
+
+            &gt; &gt; </text> </g> `;
+        }
+    });
+
+svg+=`</svg>`;
+container.innerHTML=svg;
+}
+
+,
+
+drawActivity(targetId) {
+    const usecases=this.state.data.usecases;
+    const container=document.getElementById(targetId);
+    const h=(usecases.length + 2) * 100;
+
+    let svg=`<svg width="100%" height="${h}" viewBox="0 0 400 ${h}" xmlns="http://www.w3.org/2000/svg">`;
+
+    // Start Node
+    svg+=`<circle cx="200" cy="50" r="12" fill="var(--success)" />`;
+    svg+=`<line x1="200" y1="62" x2="200" y2="100" stroke="var(--primary)" stroke-width="2" />`;
+
+    usecases.forEach((u, i)=> {
+            const y=100 + (i * 100);
+
+            svg +=` <g transform="translate(100, ${y})" > <rect x="0" y="0" width="200" height="50" rx="10" fill="#f5f3ff" stroke="var(--primary)" stroke-width="2" /> <text x="100" y="30" text-anchor="middle" font-weight="700" font-size="12" fill="var(--text)" >$ {
+                u
+            }
+
+            </text> </g> `;
+
+            // Arrow down
+            if (i < usecases.length - 1) {
+                svg +=`<line x1="200" y1="${y + 50}" x2="200" y2="${y + 100}" stroke="var(--primary)" stroke-width="2" />`;
+                svg +=`<path d="M200 ${y + 100} L195 ${y + 90} M200 ${y + 100} L205 ${y + 90}" stroke="var(--primary)" stroke-width="2" fill="none" />`;
+            }
+        });
+
+    // End Node
+    const lastY=100+(usecases.length - 1) * 100+50;
+    svg+=`<line x1="200" y1="${lastY}" x2="200" y2="${lastY + 30}" stroke="var(--primary)" stroke-width="2" />`;
+    svg+=` <g transform="translate(200, ${lastY + 50})"><circle cx="0" cy="0" r="15" fill="none" stroke="var(--danger)" stroke-width="2" /><circle cx="0" cy="0" r="8" fill="var(--danger)" /></g>`;
+
+    svg+=`</svg>`;
+    container.innerHTML=svg;
+}
+
+,
+
+save() {
+    const blob=new Blob([JSON.stringify(this.state.data, null, 2)], {
+        type: 'application/json'
+    });
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+a.href=url;
+
+a.download=`uml-data-$ {
+    this.state.currentTemplate
+}
+
+.json`;
+a.click();
+}
+}
+
+;
+
+// Init App
+app.init();
+
+// Remove drag active class on leave
+document.addEventListener('dragleave', (e)=> {
+        if (e.target.classList.contains('drop-zone')) e.target.classList.remove('active');
+    });
+
+</script></body></html>

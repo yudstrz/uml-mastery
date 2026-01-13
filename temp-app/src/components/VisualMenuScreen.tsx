@@ -1,56 +1,45 @@
 import React from 'react';
-import { ArrowLeft, PlayCircle } from 'lucide-react';
 
 interface VisualMenuScreenProps {
-    onSelect: (scenarioId: string) => void;
+    onStartBuilder: (templateId: string) => void;
     onBack: () => void;
 }
 
-export default function VisualMenuScreen({ onSelect, onBack }: VisualMenuScreenProps) {
+export default function VisualMenuScreen({ onStartBuilder, onBack }: VisualMenuScreenProps) {
     return (
-        <div className="flex-1 flex flex-col items-center justify-center p-6 bg-slate-50">
-            <div className="text-center mb-10">
-                <h1 className="text-4xl font-extrabold text-slate-900 mb-3">Tantangan Visual</h1>
-                <p className="text-lg text-slate-600">Pilih topik dan susun diagram berdasarkan skenario nyata.</p>
+        <div id="screen-visual-menu" className="app-screen active">
+            <div className="hub-header" style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                <h1 className="hub-title" style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--primary)', marginBottom: '0.5rem' }}>
+                    Tantangan Visual
+                </h1>
+                <p className="hub-subtitle" style={{ fontSize: '1.1rem', color: 'var(--secondary)' }}>
+                    Pilih topik dan susun diagram berdasarkan skenario nyata.
+                </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl w-full">
-                {/* Card 1 */}
-                <div
-                    onClick={() => onSelect('gofood')}
-                    className="bg-white p-8 rounded-3xl border-2 border-transparent shadow-xl hover:border-indigo-600 hover:scale-105 cursor-pointer transition-all group"
-                >
-                    <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300 inline-block">🍔</div>
-                    <h3 className="text-2xl font-bold text-slate-800 mb-2">Go-Food Flow</h3>
-                    <p className="text-slate-500 mb-6">Simulasi lengkap proses pesan makanan online dari pelanggan hingga driver.</p>
-                    <div className="w-full py-3 bg-indigo-50 text-indigo-700 font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                        <PlayCircle size={20} />
-                        Mulai Misi
-                    </div>
+            <div className="menu-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+                {/* GO FOOD */}
+                <div className="menu-card" style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: 'var(--shadow)', border: '1px solid var(--border)', textAlign: 'center', cursor: 'pointer', transition: 'transform 0.2s' }} onClick={() => onStartBuilder('gofood')}>
+                    <span className="menu-icon" style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>🍔</span>
+                    <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem', fontWeight: 'bold' }}>Go-Food Flow</h3>
+                    <p style={{ color: 'var(--secondary)', marginBottom: '1.5rem' }}>Simulasi pesan makanan online.</p>
+                    <button className="btn btn-primary" style={{ width: '100%' }}>Mulai Misi</button>
                 </div>
 
-                {/* Card 2 */}
-                <div
-                    onClick={() => onSelect('atm')}
-                    className="bg-white p-8 rounded-3xl border-2 border-transparent shadow-xl hover:border-indigo-600 hover:scale-105 cursor-pointer transition-all group"
-                >
-                    <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300 inline-block">🏧</div>
-                    <h3 className="text-2xl font-bold text-slate-800 mb-2">ATM System</h3>
-                    <p className="text-slate-500 mb-6">Simulasi ragam transaksi perbankan tarik tunai dan cek saldo.</p>
-                    <div className="w-full py-3 bg-indigo-50 text-indigo-700 font-bold rounded-xl flex items-center justify-center gap-2 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                        <PlayCircle size={20} />
-                        Mulai Misi
-                    </div>
+                {/* ATM SYSTEM */}
+                <div className="menu-card" style={{ background: 'white', padding: '2rem', borderRadius: '16px', boxShadow: 'var(--shadow)', border: '1px solid var(--border)', textAlign: 'center', cursor: 'pointer', transition: 'transform 0.2s' }} onClick={() => onStartBuilder('atm')}>
+                    <span className="menu-icon" style={{ fontSize: '3rem', display: 'block', marginBottom: '1rem' }}>🏧</span>
+                    <h3 style={{ marginBottom: '0.5rem', fontSize: '1.25rem', fontWeight: 'bold' }}>ATM System</h3>
+                    <p style={{ color: 'var(--secondary)', marginBottom: '1.5rem' }}>Simulasi tarik tunai & cek saldo.</p>
+                    <button className="btn btn-primary" style={{ width: '100%' }}>Mulai Misi</button>
                 </div>
             </div>
 
-            <button
-                onClick={onBack}
-                className="mt-12 flex items-center gap-2 text-slate-500 font-semibold hover:text-indigo-600 transition-colors"
-            >
-                <ArrowLeft size={20} />
-                Kembali ke Knowledge Hub
-            </button>
+            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+                <button className="btn btn-ghost" onClick={onBack}>
+                    ← Kembali ke Knowledge Hub
+                </button>
+            </div>
         </div>
     );
 }

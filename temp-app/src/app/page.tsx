@@ -34,20 +34,20 @@ export default function Home() {
         {screen === 'welcome' && <WelcomeScreen onStart={() => handleNavigate('learning')} />}
 
         {screen === 'learning' && (
-          <LearningScreen onFinish={() => handleNavigate('quiz')} />
+          <LearningScreen onComplete={() => handleNavigate('quiz')} />
         )}
 
         {screen === 'quiz' && (
-          <QuizScreen onFinish={() => handleNavigate('knowledge')} />
+          <QuizScreen onComplete={() => handleNavigate('knowledge')} />
         )}
 
         {screen === 'knowledge' && (
-          <KnowledgeScreen onNext={() => handleNavigate('visual-menu')} />
+          <KnowledgeScreen onNavigate={handleNavigate} />
         )}
 
         {screen === 'visual-menu' && (
           <VisualMenuScreen
-            onSelect={handleStartBuilder}
+            onStartBuilder={handleStartBuilder}
             onBack={() => handleNavigate('knowledge')}
           />
         )}
